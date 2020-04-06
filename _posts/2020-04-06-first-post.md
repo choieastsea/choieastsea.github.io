@@ -24,9 +24,7 @@ YFM에서 정의한 제목을 이중 괄호 구문으로 본문에 추가할 수
 # TIP
 ```<{{ site.url }}{{ site.baseurl }}/blog/start-blog/>```
 로 링크 지정해줄 수 있다. 나중에 baseurl 변경할때 용이함.
-```tzinfo error```: config.yml에서 timezone을 설정했더니 생긴 의존성 오류
-
-https://github.com/aron-bordin/neo-hpstr-jekyll-theme/issues/40
+```tzinfo error```: config.yml에서 timezone을 설정했더니 생긴 :[의존성 오류해결하는 법](https://github.com/aron-bordin/neo-hpstr-jekyll-theme/issues/40)
 
 ## reference site
 
