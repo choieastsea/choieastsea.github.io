@@ -94,9 +94,9 @@ analytics:
 # Site Author
 author:
   name             : "콩고남"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "이것은 자기소개인가?"
-  location         : "North Korea"
+  avatar           : "/assets/img/profile.jpg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  bio              : "아직 블로그 테스트 중입니다."
+  location         : "South Korea"
   email            :
   links:
     - label: "Email"
