@@ -1,6 +1,6 @@
 ---
 title:  "Parcel을 활용한 react setup"
-excerpt: "GitHub Blog 서비스인 github.io 블로그 시작하기로 했다."
+excerpt: "작은 프로젝트의 경우 webpack으로 하는 복잡한 설정보단 parcerl을 활용해보자."
 
 categories:
   - Blog
