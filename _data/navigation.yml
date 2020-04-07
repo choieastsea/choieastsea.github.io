@@ -13,3 +13,11 @@ main:
   - title: "Home"
     url: https://choieastsea.github.io/
   
+  - title: "About"
+    url : /about/
+
+  - title: "Categories"
+    url : /categories/
+
+  - title: "Tags"
+    url : /tags/
