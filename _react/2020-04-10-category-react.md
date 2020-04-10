@@ -1,12 +1,12 @@
 ---
 title:  "처음 시작해보는 react"
 excerpt: "복잡한 세팅없이 시작해보는 react.js"
-
 tags:
   - React
   - Javascript
   - Web
   - Front
+
 ---
 
 
@@ -21,7 +21,7 @@ $ npx create-react-app my_app_2020
 
 를 통하여 git에 올라와 있는 create-react-app(CRA)를 받아올 수 있다.(name_app은 프로젝트 명으로 하면 될 듯)
 
-![image-20200406174034656](2020-04-06-react-start_img/image-20200406174034656.png)
+![image-20200406174034656](C:/Users/choieastsea/Documents/GitHub/choieastsea.github.io/_posts/2020-04-06-react-start_img/image-20200406174034656.png)
 
 `package.json`파일에서 scripts를 다음과 같이 수정한다.
 

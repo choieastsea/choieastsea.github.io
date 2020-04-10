@@ -1,6 +1,6 @@
 ---
 title: "Posts by Category"
 layout: categories
-permalink: /categories/
+permalink: /react/
 author_profile: true
 ---

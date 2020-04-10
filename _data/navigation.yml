@@ -21,3 +21,6 @@ main:
 
   - title: "Tags"
     url : /tags/
+
+  - title: "Collections"
+    url : /react/
