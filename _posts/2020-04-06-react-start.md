@@ -2,12 +2,17 @@
 title:  "처음 시작해보는 react"
 excerpt: "복잡한 세팅없이 시작해보는 react.js"
 
+categories:
+  - IT
 tags:
   - React
   - Javascript
   - Web
   - Front
+last_modified_at: 2020-04-06
 ---
+
+
 
 
 
