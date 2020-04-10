@@ -282,3 +282,25 @@ defaults:
       comments: true
       share: true
       related: true
+# _pages
+  - scope:
+      path: "_pages"
+      type: pages
+    values:
+      layout: single
+      author_profile: true      
+# _react
+  - scope:
+      path: "_react"
+      type: react
+    values:
+      layout: single
+      author_profile: true
+      share: true
+
+      
+#0410 added about collections
+collections:
+  react:
+    output: true
+    permalink: /:collection/:path/

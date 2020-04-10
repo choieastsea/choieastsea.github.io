@@ -8,6 +8,7 @@ tags:
   - Blog
   - Tag
   - Test
+collection: react
 ---
 
 
