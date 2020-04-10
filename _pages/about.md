@@ -6,4 +6,5 @@ permalink: /about/
 
 # choieastsea의 블로그
 
-아직은 jekyll blog가 어색하다 씨이이
+아직은 blog가 정리가 안되었다.
+나만 이해할 수 있다!
