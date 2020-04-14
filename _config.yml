@@ -268,6 +268,16 @@ compress_html:
   ignore:
     envs: development
 
+#0410 added about collections
+#시리즈로 엮어서 볼만 한 것들을 collection에다가 놓는 것이 좋을 것 같다. 나머지는 tag, category를 기반으로 보게.
+collections:
+  bootstrap:
+    output: true
+    permalink: /bootstrap/:path/
+  react:
+    output: true
+    permalink: /react/:path/
+
 
 # Defaults
 defaults:
@@ -288,19 +298,24 @@ defaults:
       type: pages
     values:
       layout: single
-      author_profile: true      
-# _react
+      author_profile: true   
+# bootstrap collection
   - scope:
-      path: "_react"
+      path: ""
+      type: bootstrap
+    values:
+      layout: single
+      author_profile: true
+      share: true
+         
+# react collection
+  - scope:
+      path: ""
       type: react
     values:
       layout: single
       author_profile: true
       share: true
 
-      
-#0410 added about collections
-collections:
-  react:
-    output: true
-    permalink: /:collection/:path/
+
+  
