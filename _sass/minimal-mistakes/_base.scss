@@ -132,7 +132,7 @@ a {
   }
 
   &:visited {
-    color: $link-color-visited;
+    color: mix(#03a9f4, $link-color, 50%);
   }
 
   &:hover {
