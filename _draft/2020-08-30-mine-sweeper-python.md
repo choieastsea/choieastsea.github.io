@@ -36,7 +36,7 @@ toc_icon: "file-alt"
 
 구글에 mine sweeper라고 검색하면 나오는 웹 게임도 있고, 예전에는 windows에도 지뢰찾기가 있었던 걸로 기억한다.(지금은 못찾겠다) 아래는 웹에서 검색한 게임의 예시이다.
 
-![image-20200830131059280](/assets/img/2020-08-30-mine-sweeper-python/image-20200830131059280.png)
+![image-20200830131059280](../assets/img/2020-08-30-mine-sweeper-python/image-20200830131059280.png)
 
 
 
