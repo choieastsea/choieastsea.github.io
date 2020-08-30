@@ -14,7 +14,8 @@ toc: true
 toc_sticky: true
 toc_label: "index"
 toc_icon: "file-alt"
-typora-copy-images-to: ..\assets\img\2020-08-30-mine-sweeper-python
+typora-root-url: ../
+typora-copy-images-to: ..\assets\img\${filename}
 ---
 
 ## 시작하기
