@@ -21,3 +21,6 @@ package-lock.json
 
 # For mac
 .DS_Store
+
+# For obsidian
+.obsidian
