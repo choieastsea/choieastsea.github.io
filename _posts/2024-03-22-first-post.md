@@ -1,8 +1,8 @@
 ---
 title: 블로그를 리뉴얼하였습니다
 date: 2023-03-22 17:00:00+0900
-categories: [Blog]
-tags: [Blog, Chirpy]
+categories: [blog]
+tags: [blog, chirpy]
 render_with_liquid: false
 ---
 
