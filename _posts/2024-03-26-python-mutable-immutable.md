@@ -1,5 +1,5 @@
 ---
-title: python mutable/immuatble과 pass by sharing
+title: (Python) mutable/immuatble과 pass by sharing
 date: 2023-03-26 22:00:00+0900
 categories: [python, basic]
 tags: [python, object, mutable, immutable, argument, pass by sharing]

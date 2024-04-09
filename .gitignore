@@ -24,3 +24,8 @@ package-lock.json
 
 # For obsidian
 .obsidian
+
+# only for local
+_drafts/
+_test_codes/
+Excalidraw/

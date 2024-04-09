@@ -1,5 +1,5 @@
 ---
-title: python namespace와 scope (lexical scope), nonlocal/global 키워드
+title: (Python) namespace와 scope (lexical scope), nonlocal/global 키워드
 date: 2023-04-08 00:00:00+0900
 categories: [python, basic]
 tags: [python, function, namespace, scope, lexical scope, nonlocal, local, gloabl]

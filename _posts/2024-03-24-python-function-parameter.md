@@ -1,5 +1,5 @@
 ---
-title: python function parameter과 관련한 특징들(전달방법 / packing & unpacking / *과 ** /  키워드 강제하기)
+title: (Python) function parameter과 관련한 특징들(전달방법 / packing & unpacking / *과 ** /  키워드 강제하기)
 date: 2023-03-24 22:00:00+0900
 categories: [python, basic]
 tags: [python, parameter, argument, packing, unpacking, keyword argument, positional argument]
