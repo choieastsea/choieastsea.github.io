@@ -168,7 +168,7 @@ print(calc.multiply(4))
 
 위의 예시는 자주 활용되지는 않는 것 같습니다. 다만, 중첩함수(`nested function`)와 이를 이용한 `decorator`는 파이썬에서 굉장히 자주 사용됩니다!
 
-예를 들어, 어떤 상태(state)가 변하고, 그 상태에 따라 함수가 실행되거나 실행되지 않도록 하는 decorator를 만들어봅시다.
+예를 들어, 어떤 상태(state)가 변하고, 그 상태에 따라 함수가 실행되거나 실행되지 않도록 하는 decorator를 만들어봅시다. (데코레이터는 쉽게 말해 함수를 인자로 받는 함수입니다!)
 ```python
 def execute_if_state(state):
 	def decorator(func):
