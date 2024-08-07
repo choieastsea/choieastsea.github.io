@@ -11,7 +11,7 @@ googleAnalytics = "G-xxxxxxxxx"
 
 [params]
 # Meta description
-description = "A Tech Blog"
+description = "choieastsea"
 
 # Appearance settings
 theme = 'auto'
@@ -20,7 +20,7 @@ hideHeader = false
 
 # Intro on main page, content is markdown
 homeIntroTitle = 'Hi!'
-homeIntroContent = """Hello world"""
+homeIntroContent = """글 글 글!"""
 
 # Collection to display on home
 homeCollectionTitle = 'Posts'
@@ -50,12 +50,17 @@ name = "home"
 url = "/"
 
 [[params.menu]]
+name = "about"
+url = "/about"
+
+[[params.menu]]
 name = "posts"
 url = "/posts"
 
 [[params.menu]]
-name = "about"
-url = "/about"
+name = "tags"
+url = "/tags"
+
 
 # Syntax highligth on code blocks
 [markup]
@@ -64,10 +69,8 @@ style = 'algol'
 
 # Giscus comments
 [params.giscus]
-enable = false
-repo = "user/repo"
-repoid = "repoId"
-category = "General"
-categoryid = "categoryId"
+enable = true
+repo = "choieastsea/choieastsea.github.io"
+repoid = "R_kgDOMgbvhw"
 mapping = "pathname"
 theme = "preferred_color_scheme"
