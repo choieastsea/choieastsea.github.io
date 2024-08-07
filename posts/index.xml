@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on choieastsea.github.io</title>
+    <link>https://choieastsea.github.io/posts/</link>
+    <description>Recent content in Posts on choieastsea.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Sun, 24 Mar 2024 22:00:00 +0900</lastBuildDate>
+    <atom:link href="https://choieastsea.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>(python) function parameter과 관련한 특징들</title>
+      <link>https://choieastsea.github.io/posts/1/</link>
+      <pubDate>Sun, 24 Mar 2024 22:00:00 +0900</pubDate>
+      <guid>https://choieastsea.github.io/posts/1/</guid>
+      <description>오늘은 파이썬 함수에서 인자를 선언하는 몇가지 방법에 대해 알아보겠습니다.&#xA;또한, 자유도가 높은 파이썬에서 좋은 convention이 있을지 생각해봅시다.&#xA;parameter &amp;amp; argument 간단하게, 선언할 때의 변수는 parameter, 호출할 때는 argument라고 생각할 수 있습니다!&#xA;parameter는 함수를 호출하며 전달한 argument를 받기 위해 선언한 변수입니다. python에서는 parameter를 선언하는 방법과 argument를 전달하는 방법이 몇가지가 있습니다.&#xA;기본적인 사용법&#xA;보통 parameter와 argument는 다음처럼 사용합니다.&#xA;def sum(a, b): # a,b 는 parameter return a + b result = sum(1, 2) # 1,2는 argument print(result) #3 default parameters</description>
+    </item>
+  </channel>
+</rss>
