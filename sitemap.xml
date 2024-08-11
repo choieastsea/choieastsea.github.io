@@ -2,10 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://choieastsea.github.io/g-162999436/</loc>
+    <loc>https://choieastsea.github.io/posts/1/</loc>
+    <lastmod>2024-05-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://choieastsea.github.io/tags/blog/</loc>
+    <lastmod>2024-05-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/</loc>
+    <lastmod>2024-05-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://choieastsea.github.io/tags/hugo/</loc>
+    <lastmod>2024-05-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://choieastsea.github.io/posts/</loc>
+    <lastmod>2024-05-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://choieastsea.github.io/tags/submodule/</loc>
+    <lastmod>2024-05-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/</loc>
+    <lastmod>2024-05-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://choieastsea.github.io/g-162999436/</loc>
   </url>
 </urlset>
