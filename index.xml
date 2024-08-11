@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on choieastsea.github.io</title>
+    <link>https://choieastsea.github.io/</link>
+    <description>Recent content in Home on choieastsea.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <atom:link href="https://choieastsea.github.io/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>
