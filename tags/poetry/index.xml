@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Home on choieastsea.github.io</title>
-    <link>https://choieastsea.github.io/</link>
-    <description>Recent content in Home on choieastsea.github.io</description>
+    <title>Poetry on choieastsea.github.io</title>
+    <link>https://choieastsea.github.io/tags/poetry/</link>
+    <description>Recent content in Poetry on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
     <lastBuildDate>Mon, 12 Aug 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://choieastsea.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://choieastsea.github.io/tags/poetry/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>(python) poetry 설명과 간단한 사용법</title>
       <link>https://choieastsea.github.io/posts/2/</link>
       <pubDate>Mon, 12 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/posts/2/</guid>
       <description>종속성 관리의 필요성 / poetry의 등장 / 블로그 초기화 과정</description>
-    </item>
-    <item>
-      <title>(blog) hugo와 git submodule을 이용한 깃허브 블로그 구축기</title>
-      <link>https://choieastsea.github.io/posts/1/</link>
-      <pubDate>Sun, 11 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/1/</guid>
-      <description>hugo? / github pages / 블로그 초기화 과정</description>
     </item>
   </channel>
 </rss>
