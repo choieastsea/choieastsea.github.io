@@ -6,14 +6,21 @@
     <description>Recent content in Home on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Mon, 12 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Aug 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>(python) poetry 설명과 간단한 사용법</title>
+      <title>(python) poetry 입문과 사용법 (2)</title>
+      <link>https://choieastsea.github.io/posts/3/</link>
+      <pubDate>Tue, 13 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/3/</guid>
+      <description>pyenv와 조합 /poetry 기반 프로젝트 개발하기 / dependency-group</description>
+    </item>
+    <item>
+      <title>(python) poetry 입문과 사용법 (1)</title>
       <link>https://choieastsea.github.io/posts/2/</link>
       <pubDate>Mon, 12 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/posts/2/</guid>
-      <description>종속성 관리의 필요성 / poetry의 등장 / 블로그 초기화 과정</description>
+      <description>종속성 관리의 필요성 / poetry의 등장 / 주요 명령어 정리 / lock 파일</description>
     </item>
     <item>
       <title>(blog) hugo와 git submodule을 이용한 깃허브 블로그 구축기</title>
