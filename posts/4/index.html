@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko-kr"
+  dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="" />
+
+<title>
+    
+    어플리케이션이 웹 어플리케이션이 되는 방법(feat. cgi) | choieastsea.github.io
+    
+</title>
+
+<link rel="canonical" href="https://choieastsea.github.io/posts/4/" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
+
+
+  
+
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">choieastsea.github.io</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/tags">
+                /tags
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/posts/4/">어플리케이션이 웹 어플리케이션이 되는 방법(feat. cgi)</a>
+</div>
+
+
+<div  class="autonumber" >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">어플리케이션이 웹 어플리케이션이 되는 방법(feat. cgi)</h1>
+    
+    <p class="single-summary">우리가 작성한 어플리케이션(혹은 code/script)은 어떻게 HTTP 요청에 응답할 수 있을까?</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2024-08-14T00:00:00&#43;00:00">August 14, 2024</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      3 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/web-server/">#Web Server</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/server/">#Server</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/python/">#Python</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/cgi/">#Cgi</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#웹-서버">웹 서버</a></li>
+    <li><a href="#동적인-서버">동적인 서버</a></li>
+    <li><a href="#cgi-1997">CGI (1997)</a>
+      <ul>
+        <li><a href="#cgi-environment-variables">CGI Environment variables</a></li>
+        <li><a href="#cgi의-문제">CGI의 문제</a></li>
+      </ul>
+    </li>
+    <li><a href="#정리">정리</a></li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <p>우리가 작성한 어플리케이션(혹은 code/script)은 어떻게 HTTP 요청에 응답할 수 있을까?</p>
+<p>오늘은 웹 서버와 웹 어플리케이션을 구분짓고, 그 과정을 알아보려고 한다.</p>
+<h2 id="웹-서버">웹 서버</h2>
+<p>클라이언트의 요청에 대하여 적절한 응답을 하는 소프트웨어라고 볼 수 있다.</p>
+<p>예를 들어, 마트에서 전단지 비용이 아까워 웹으로 전단지를 볼 수 있게 해놨다고 가정해보자. 그 경우, 웹서버는 요청시 정적인(static) 파일들을 내려주면 될 것이다.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="sales" src=" sales.png">
+    </div>
+
+    
+</figure></p>
+<p>사용자는 <code>index.html</code>을 적절히 해석해서 보여줄 수 있는 <code>웹 브라우저</code>로 해당 파일을 읽을 수 있게 된다.</p>
+<p>이러한 요청은 HTTP 기반으로 이루어지므로, 웹서버는 <!-- raw HTML omitted -->HTTP 요청을 받아 HTTP 응답을 해주는 소프트웨어<!-- raw HTML omitted -->라고 생각해볼 수 있겠다.</p>
+<p>그리고 위의 예시에서는 요청에 대해 특정 위치의 파일만 제공하였으므로 <code>static web server</code>라고 한다.</p>
+<h2 id="동적인-서버">동적인 서버</h2>
+<p>세일 정보가 매일 바뀐다고 해보자. 사장은 서버 컴퓨터에 접근해서 매일 index.html 파일을 수정하도록 할 수 있다. 귀찮더라도 여기까지는 가능하다.</p>
+<p>근데 사장은 갑자기 <em>회원 등급에 따라 다른 세일 정보를 보여주고 싶어졌다</em>. <!-- raw HTML omitted -->사용자마다 요청에 대해 다른 응답이 필요<!-- raw HTML omitted -->해지는 것이다. 기존 방식으로는 해결하기 어려워졌고, <strong>동적인 서버가 등장</strong>하게 된다. (여기서부터가 백엔드 개발자의 본격적인 영역이라고 생각한다)</p>
+<p>파이썬 스크립트로는 해당 비즈니스 로직을 해결할 무언가가 준비 되어있다고 가정하자. 아래처럼!</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#888;font-style:italic"># main.py</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">import</span> <span style="color:#666;font-weight:bold;font-style:italic">sys</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">get_index</span>(user):
+</span></span><span style="display:flex;"><span>  user_info = get_user_info(user)
+</span></span><span style="display:flex;"><span>  sales_info = get_sales_info(user_info.class)
+</span></span><span style="display:flex;"><span>  html = create_html(sales_info)
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">return</span> html
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">if</span> __name__ == <span style="color:#666;font-style:italic">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>  get_index(sys.argv[0])
+</span></span></code></pre></div><p>해당 코드는 요청이 들어올 때,<code> python main {회원정보}</code>로 실행할 수 있을 것이다.</p>
+<p>그럼 동적인 웹서버는 다음과 같이 동작해야 할 것이다.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="dynamic_ws" src=" dynamic_ws.png">
+    </div>
+
+    
+</figure></p>
+<p>웹서버는 <code>xx마트.com</code>으로 들어온 요청에 대해 현재 디렉토리에 위치한 <code>main.py</code>를 인자를 넘겨주며 실행하면 된다. 이렇게 회원별로 다른 페이지를 보여줄 수 있을 것이다.</p>
+<h2 id="cgi-1997">CGI (1997)</h2>
+<p>이렇게 어찌저찌 해결은 된 것 같은데, <strong>웹 서버가 특정 코드(여기서는 파이썬)에 종속된다는 문제점</strong>이 생긴다. 이말은 즉, 언어가 달라지거나 전달 내용(사용자 정보에 추가로 뭘 준다던지)이 달라질 때마다 <strong>웹 서버를 뜯어 고쳐야한다는 점</strong>이다.</p>
+<p>이에 <strong>언어에 독립적인 웹 서버와 어플리케이션 간 규약</strong>이 만들어질 필요가 있었고, <code>CGI</code>(Common Gateway Interface)가 정의되었다.</p>
+<p>이제 요청이 들어왔을 때, 웹 서버는 CGI 형식을 만족하는 프로그램을 실행하면 되고 이는 <em>인터페이스에 의존해야한다는 OOP 설계 원칙에도 부합</em>해보인다.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="cgi" src=" cgi.png">
+    </div>
+
+    
+</figure></p>
+<p>웹서버 입장에서 다음과 같은 일들이 일어난다.</p>
+<ol>
+<li>
+<p>HTTP 요청 수신</p>
+</li>
+<li>
+<p>CGI 스크립트 요청 확인</p>
+<p>동적인 컨텐츠가 아니라면 그냥 정적인 컨텐츠를 제공한다.</p>
+</li>
+<li>
+<p>프로세스 생성 (fork)</p>
+<p>CGI스크립트를 실행하기 위해 웹서버는 <strong>새로운 프로세스를 생성</strong>한다.</p>
+</li>
+<li>
+<p>환경변수 설정</p>
+<p>CGI 스크립트에 전달되어야 할 환경변수(url, http method, 쿼리, header 등)를 해당 프로세스의 환경변수로 설정한다.</p>
+</li>
+<li>
+<p>CGI 스크립트 실행 &amp; 결과 응답</p>
+<p>포크된 프로세스에서 스크립트를 실행하고, 웹서버에서 이의 결과를 HTTP 형식으로 응답한다.</p>
+</li>
+</ol>
+<p>참고로 위의 그림 예시에서 표현한 것과는 달리, 최초의 CGI는 html form의 action을 처리하기위해 사용되었다고 한다. (최근에는 form 말고도 많은 http 요청이 오고간다)</p>
+<h3 id="cgi-environment-variables">CGI Environment variables</h3>
+<p><a href="https://www6.uniovi.es/~antonio/ncsa_httpd/cgi/env.html">해당 사이트</a>에는 웹서버가 CGI 스크립트에 전달할 수 있는 환경변수가 정의되어 있으니 참고한다.</p>
+<h3 id="cgi의-문제">CGI의 문제</h3>
+<p>CGI에는 항상 새로운 프로세스를 생성해서 스크립트를 실행해야 한다는 문제점이 있다. 웹서버는 요청시마다 <code>fork()</code> 시스템 콜로 요청을 처리하는데 이 시간은 불필요하다. 이에 prefork해놓거나, 한 프로세스에서 처리할 수 있는 방법들이 고안되었다. (fastcgi 등)</p>
+<h2 id="정리">정리</h2>
+<p>요약하면, <strong>웹 서버는 요청에 대한 동적인 응답을 하기 위해 CGI와 같은 인터페이스를 정의하였고, 각 언어는 그 인터페이스 기반의 웹 프레임워크를 만들었다</strong>고 볼 수 있다.</p>
+<p>하지만, CGI는 웹서버가 요청에 대해 프로세스를 생성하는 방식으로 인하여 현재 사용하지는 않고 각 진영에서 별도의 인터페이스를 정의하여 사용하고 있다.</p>
+<p>다음 시간에는 각 진영별로 사용하는 인터페이스와 그 구현체에 대해 공부해보자.</p>
+
+    
+<script src="https://giscus.app/client.js"
+        data-repo="choieastsea/choieastsea.github.io"
+        data-repo-id="R_kgDOMgbvhw"
+        data-category=""
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+        </script>
+
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/3/">
+                        (python) poetry 입문과 사용법 (2)
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>

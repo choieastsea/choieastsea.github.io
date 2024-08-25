@@ -6,8 +6,36 @@
     <description>Recent content in Tags on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 13 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Aug 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cgi</title>
+      <link>https://choieastsea.github.io/tags/cgi/</link>
+      <pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/cgi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>https://choieastsea.github.io/tags/python/</link>
+      <pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Server</title>
+      <link>https://choieastsea.github.io/tags/server/</link>
+      <pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/server/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web Server</title>
+      <link>https://choieastsea.github.io/tags/web-server/</link>
+      <pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/web-server/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Package Manager</title>
       <link>https://choieastsea.github.io/tags/package-manager/</link>
@@ -27,13 +55,6 @@
       <link>https://choieastsea.github.io/tags/pyproject/</link>
       <pubDate>Tue, 13 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/tags/pyproject/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Python</title>
-      <link>https://choieastsea.github.io/tags/python/</link>
-      <pubDate>Tue, 13 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/tags/python/</guid>
       <description></description>
     </item>
     <item>
