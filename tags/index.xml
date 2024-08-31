@@ -6,34 +6,62 @@
     <description>Recent content in Tags on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Wed, 14 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 25 Aug 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cgi</title>
       <link>https://choieastsea.github.io/tags/cgi/</link>
-      <pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/tags/cgi/</guid>
       <description></description>
     </item>
     <item>
-      <title>Python</title>
-      <link>https://choieastsea.github.io/tags/python/</link>
-      <pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/tags/python/</guid>
+      <title>Gunicorn</title>
+      <link>https://choieastsea.github.io/tags/gunicorn/</link>
+      <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/gunicorn/</guid>
       <description></description>
     </item>
     <item>
       <title>Server</title>
       <link>https://choieastsea.github.io/tags/server/</link>
-      <pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/tags/server/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Uwsgi</title>
+      <link>https://choieastsea.github.io/tags/uwsgi/</link>
+      <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/uwsgi/</guid>
       <description></description>
     </item>
     <item>
       <title>Web Server</title>
       <link>https://choieastsea.github.io/tags/web-server/</link>
-      <pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/tags/web-server/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wsgi</title>
+      <link>https://choieastsea.github.io/tags/wsgi/</link>
+      <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/wsgi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>https://choieastsea.github.io/tags/python/</link>
+      <pubDate>Sun, 18 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Servlet</title>
+      <link>https://choieastsea.github.io/tags/servlet/</link>
+      <pubDate>Sun, 18 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/servlet/</guid>
       <description></description>
     </item>
     <item>

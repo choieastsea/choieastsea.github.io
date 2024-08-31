@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Cgi on choieastsea.github.io</title>
-    <link>https://choieastsea.github.io/tags/cgi/</link>
-    <description>Recent content in Cgi on choieastsea.github.io</description>
+    <title>Wsgi on choieastsea.github.io</title>
+    <link>https://choieastsea.github.io/tags/wsgi/</link>
+    <description>Recent content in Wsgi on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
     <lastBuildDate>Sun, 25 Aug 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://choieastsea.github.io/tags/cgi/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://choieastsea.github.io/tags/wsgi/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>(python) wsgi 웹 서버 직접 만들어보기</title>
       <link>https://choieastsea.github.io/posts/5/</link>
