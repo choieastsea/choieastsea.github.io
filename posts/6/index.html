@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko-kr"
+  dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="" />
+
+<title>
+    
+    (WEB) SPA에 대하여 (장단점, routing, 개선방법) | choieastsea.github.io
+    
+</title>
+
+<link rel="canonical" href="https://choieastsea.github.io/posts/6/" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
+
+
+  
+
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">choieastsea.github.io</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/tags">
+                /tags
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/posts/6/">(WEB) SPA에 대하여 (장단점, routing, 개선방법)</a>
+</div>
+
+
+<div >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">(WEB) SPA에 대하여 (장단점, routing, 개선방법)</h1>
+    
+    <p class="single-summary">SPA란 / SPA의 단점을 개선하는 방법 / 정리</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2024-09-01T00:00:00&#43;00:00">September 1, 2024</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      9 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/web/">#Web</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/spa/">#Spa</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/csr/">#Csr</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/ssr/">#Ssr</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#history-api-와-client-side-routing">history api 와 client side routing</a>
+      <ul>
+        <li><a href="#이로-인하여-발생할-수-있는-문제-feat-정적-파일-배포">이로 인하여 발생할 수 있는 문제 (feat. 정적 파일 배포)</a></li>
+      </ul>
+    </li>
+    <li><a href="#csrclient-side-rendering">CSR(Client Side Rendering)</a></li>
+    <li><a href="#장단점">장단점</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#code-splitting">code splitting</a></li>
+    <li><a href="#pre-renderingssr--ssg">Pre-Rendering(SSR + SSG)</a>
+      <ul>
+        <li><a href="#server-side-rendering">Server Side Rendering</a></li>
+        <li><a href="#hydration">Hydration!</a></li>
+        <li><a href="#static-site-generation">Static Site Generation</a></li>
+      </ul>
+    </li>
+    <li><a href="#seo-최적화">SEO 최적화</a>
+      <ul>
+        <li><a href="#robotstxt">robots.txt</a></li>
+        <li><a href="#sitemapxml">sitemap.xml</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#참고">참고</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <p>리액트js를 사용한 경험에 대해 이야기를 나누다가 SPA의 장단점에 대한 이야기가 나왔는데, 다시 한번 공부해보며 개념을 정리하고자 한다.</p>
+<h1 id="spa란">SPA란</h1>
+<p>우선, <code>SPA</code>는 Single Page Application의 줄임말로, 웹 서비스에서 하나의 페이지로 서비스를 제공하는 형태의 어플리케이션이다.</p>
+<p>많은 웹사이트들이 SPA 기반으로 만들어져있다고는 하지만, url이 바뀌는 것으로 보아 페이지가 하나만 존재하지는 않은 것 같다. 하지만, 이는 브라우저(client)에서 주소를 처리하는 <code>history api</code>를 이용하기에 그렇다.</p>
+<h2 id="history-api-와-client-side-routing">history api 와 client side routing</h2>
+<p>기본적으로 browser url 탭에 주소를 입력하면, 해당 url에 매칭되는 물리 서버로 요청을 보낸다. 이는 외부 어딘가에 존재하는 서버에게서 데이터를 받아오게 된다.</p>
+<p>하지만, SPA framework에서는 <em>서버로 요청을 보내지 않고 routing을 클라이언트에서 처리</em>하는데 이를 <code>client side routing</code>이라고 한다. url이 바뀌어 브라우저가 서버로 요청을 보내는 것이 아닌, <code>history api</code>를 이용하여 <strong>주소만 바꾸고 이에 맞게 컨텐츠를 재구성하는 것</strong>이다!</p>
+<p>간단하게 history api에 대하여 알아보자. <code>window.history</code>로 접근할 수 있는 History객체는</p>
+<p><code>pushState</code>함수를 이용하여 현재 브라우저 탭의 url을 바꿀 수 있다. 또한, 이는 페이지가 이동한 것처럼 뒤로가기에 기존 페이지를 넣을 것이다. (stack과 유사한 구조)</p>
+<p><code>history.pushState({data : 'data'}, null, '/login')</code>를 통하여 url을 /login으로 바꾸고, 해당 페이지로 data 객체를 넣어줄 수 있다. 두번째 인자는 page title을 의미한다.</p>
+<p>이 외에도 <code>history.replaceState()</code>와 같이 기존 history stack을 지우고, 현재 인자의 값으로 대체하는 함수가 있다.</p>
+<p><a href="https://developer.mozilla.org/ko/docs/Web/API/History_API">history api MDN</a></p>
+<p>react에서는 <code>react router dom</code>과 같은 라이브러리에서 이를 기반으로 <strong>server가 아닌 client side에서 url을 바꿔주어 UI를 변경하도록 한다</strong>. 또한, 이에 대한 핸들러를 도입하여 각 url마다 다른 UI를 보여주도록 구현되어있을 것이다. 이에 웹서버로 해당 페이지에 대한 리소스를 요청하지 않아도 되니, <strong>끊김없는 페이지 이동</strong>을 경험할 수 있다. 우리가 react에서 routing을 할 때, <code>a tag</code>가 아닌 <code>Link</code>와 같은 컴포넌트를 사용하는 이유도 history api 기반으로 사용하기에 그렇다는 것을 유추해볼 수 있다!</p>
+<p>웹서버는 라우팅에 대한 처리를 하지 않고, 단순히 build된 정적인 파일을 제공해주기만 하면 될 것이다.</p>
+<p>웹 서버를 위한 express.js의 예시 코드이다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> express = require(<span style="color:#666;font-style:italic">&#39;express&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> path = require(<span style="color:#666;font-style:italic">&#39;path&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> app = express();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic">// 정적 파일 서빙
+</span></span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"></span>app.use(express.<span style="font-weight:bold;text-decoration:underline">static</span>(path.join(__dirname, <span style="color:#666;font-style:italic">&#39;build&#39;</span>)));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic">// 요청에 대하여 index.html을 리턴
+</span></span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"></span>app.get(<span style="color:#666;font-style:italic">&#39;/&#39;</span>, (req, res) =&gt; {
+</span></span><span style="display:flex;"><span>  res.sendFile(path.join(__dirname, <span style="color:#666;font-style:italic">&#39;build&#39;</span>, <span style="color:#666;font-style:italic">&#39;index.html&#39;</span>));
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>app.listen(3000, () =&gt; {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#666;font-style:italic">&#39;server start&#39;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p><code>{base url}:3000/</code>로 url 요청이 왔을 때, <code>index.html</code>을 리턴하면 될 것이다. 하지만 이렇게 한다면 아래의 문제가 발생한다.</p>
+<h3 id="이로-인하여-발생할-수-있는-문제-feat-정적-파일-배포">이로 인하여 발생할 수 있는 문제 (feat. 정적 파일 배포)</h3>
+<p>예를 들어, SPA로 구현된 <code>example.com</code>이 인덱스로 존재하는 웹 사이트에서 로그인을 하기 위해 <code>example.com/login</code>으로 접속한다고 가정해보자. 만약 <strong>새로고침을 하거나, 해당 페이지로 바로 url 접근을 한다면 404 오류</strong> 등이 발생할 수 있다! (실제 서비스에는 이에 대한 처리가 다 되어있다)</p>
+<p>웹서버는 정해진 url 요청에 대하여 정해진 응답을 하도록 설계되어 있다. 하지만 위에서는 <code>/</code>에 대한 요청만 처리하고 나머지 요청은 처리하지 않으므로 그렇다. 브라우저에 url을 입력하거나, 새로고침을 한다면 기본적으로 해당 server에 요청을 하므로 서버에서는 <code>/login</code>에 대한 요청을 처리하지 않았으니, 오류가 발생한다.</p>
+<p>이에 web server에서는 다음과 같이 처리해줄 필요가 있다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> express = require(<span style="color:#666;font-style:italic">&#39;express&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> path = require(<span style="color:#666;font-style:italic">&#39;path&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> app = express();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic">// 정적 파일 서빙
+</span></span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"></span>app.use(express.<span style="font-weight:bold;text-decoration:underline">static</span>(path.join(__dirname, <span style="color:#666;font-style:italic">&#39;build&#39;</span>)));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic">// 모든 요청에 대하여 index.html을 리턴. routing은 클라이언트에서 처리할 것
+</span></span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"></span>app.get(<span style="color:#666;font-style:italic">&#39;*&#39;</span>, (req, res) =&gt; {
+</span></span><span style="display:flex;"><span>  res.sendFile(path.join(__dirname, <span style="color:#666;font-style:italic">&#39;build&#39;</span>, <span style="color:#666;font-style:italic">&#39;index.html&#39;</span>));
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>app.listen(3000, () =&gt; {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#666;font-style:italic">&#39;server start&#39;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>이렇게 한다면 모든 url 요청에 대하여 index.html이 처리하도록 하고, index.html에 포함된 js파일에서 routing을 처리하여 그에 맞는 페이지를 보여줄 것이다.</p>
+<p>해당 이슈는 <code>AWS S3</code>에 리액트 빌드 파일을 업로드하고, url 접근시 build 폴더의 내용을 서빙할 때에도 발생한다. 따라서, 설정을 통하여 인덱스 뿐만 아니라 다른 url 요청에 대해서도(에러페이지 처리) index.html을 리턴하도록 해줘야한다.</p>
+<h2 id="csrclient-side-rendering">CSR(Client Side Rendering)</h2>
+<p>SPA는 기본적으로 <code>Client Side Rendering</code>으로 페이지가 보여지게 된다. 보통 index.html, css, js가 모든 페이지에 대한 처리를 담당하고, <!-- raw HTML omitted -->비어있거나 내용이 없는 index.html에서 javascript가 로직에 따라 페이지를 렌더링<!-- raw HTML omitted -->하게 된다.</p>
+<p>CSR은 보통 Client Side Routing을 포함하므로, <strong>서버에 대한 부하를 줄이고, (서버의 개입 없이) 페이지 간 이동을 즉각 처리할 수 있다는 장점</strong>이 있다. 그리고, 브라우저 캐시를 활용한다면 추가로 layout등에 대한 정보를 받을 필요가 없으므로 offline 환경에 대한 대응이 가능하다. 이는 PWA를 이용한 웹앱을 구축하는데에 도움이 된다.</p>
+<p><!-- raw HTML omitted -->하지만, 몇가지 단점이 존재한다.<!-- raw HTML omitted --></p>
+<p>CSR을 이용한 페이지는 <strong>처음에 js가 로드되어 렌더링될때까지 시간이 걸릴 수 있다</strong>. 사용자의 컴퓨터가 매우 느리거나(js 속도 느림) 네트워크 환경이 좋지 않다면(번들링된 큰 js파일을 받아오는 시간) 빈 화면을 오래 볼 가능성이 높아진다.</p>
+<p>또한, 페이지의 정보가 javascript에 의하여 동적으로 렌더링되므로 검색엔진에서 해당 페이지가 갖고 있는 컨텐츠에 대하여 파악하기 어려워진다. 이러한 문제는 <code>SEO</code>(Search Engine Optimization, 검색 엔진 최적화)를 수행하는데 치명적이다.</p>
+<p>정리하자면, 컨텐츠를 하나의 큰 JS파일로만 렌더링하므로 컨텐츠를 미리 알기 어렵고, 첫 화면을 마주치기 까지의 시간이 <code>MPA</code>에 비하여 오래 걸린다고 볼 수 있다.</p>
+<h2 id="장단점">장단점</h2>
+<p>SPA는 기본적으로 CSR을 사용하므로 이에 대한 장단점을 포함한다.</p>
+<ul>
+<li>장점
+<ul>
+<li>페이지 이동시 렌더링 속도 감소 (smooth UX)</li>
+<li>서버 부하 감소</li>
+</ul>
+</li>
+<li>단점
+<ul>
+<li>첫 로딩 시간 지연</li>
+<li>SEO(검색 엔진 최적화) 문제</li>
+<li>클라이언트 로직이 공개되므로, DB를 직접 연결하는 등의 작업은 보안상 위험</li>
+</ul>
+</li>
+</ul>
+<p>기존에는 SPA와 반대되는 **MPA(multi page application)**를 주로 사용하였다.</p>
+<p><code>MPA</code>는 여러 html파일을 서버에서 만들고,(server side rendering) 각 페이지 별로 서버에서 리턴하는 방식으로 SPA의 장단점과 상충된다.</p>
+<p>그렇다면 SPA를 개선할 수 있는 방법에 대하여 알아보자! MPA에서 사용하는 기법들을 일부 차용할 수 있을 것이다.</p>
+<h1 id="spa의-단점을-개선하는-방법">SPA의 단점을 개선하는 방법</h1>
+<p>SPA의 단점을 보완할 수 있는 몇가지 방법이 있다. <code>react.js</code>를 기준으로 간단하게 알아보자.</p>
+<h2 id="code-splitting">code splitting</h2>
+<p><!-- raw HTML omitted -->로딩 시간 지연<!-- raw HTML omitted -->을 해결하기 위한 가장 간단한 방법이다. 이는 첫 진입 시점에 모든 코드를 받아오는 것이 아니라, 필요 시점에 lazy하게 코드를 받아오는 것이라고 생각하면 된다. 이를 위한 몇가지 방법에 대하여 간단하게 알아보자.</p>
+<ol>
+<li>
+<p>dynamic import</p>
+<p>보통 import를 통하여 함수 또는 컴포넌트를 가져오는데, 이를 동적으로 가져오는 방법이 있다. 보통 import를 맨 위에 사용하지만, 이를 비동기 함수처럼 사용할 수 있다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">import</span>(<span style="color:#666;font-style:italic">&#39;./sum&#39;</span>).then((sum) =&gt; console.log(sum(1+1)));
+</span></span></code></pre></div><p>heavy한 모듈의 경우, 필요한 시점에 import되도록 하면 그 시점에 서버에서 가져올 수 있다! 리액트 컴포넌트를 동적으로 불러올 때에는 아래의 방법을 도입해볼 수 있다.</p>
+</li>
+<li>
+<p>react lazy &amp; Suspense</p>
+<blockquote>
+<p><code>lazy</code> lets you defer loading component’s code until it is rendered for the first time.</p>
+<ul>
+<li>공식문서</li>
+</ul>
+</blockquote>
+<p><code>lazy</code>함수는 React에서 동적으로 컴포넌트를 로드해올 때 사용하는 함수이다. <code>Suspense</code> 컴포넌트는 로딩에 대한 UI을 <code>fallback</code>으로 분리시킨 컴포넌트로 리액트 18버전부터 정식 제공된다.</p>
+<p>바로 공식문서의 예제를 보며 이해해보자.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">import</span> { useState, Suspense, lazy } from <span style="color:#666;font-style:italic">&#39;react&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">import</span> Loading from <span style="color:#666;font-style:italic">&#39;./Loading.js&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">const</span> MarkdownPreview = lazy(() =&gt; delayForDemo(<span style="font-weight:bold;text-decoration:underline">import</span>(<span style="color:#666;font-style:italic">&#39;./MarkdownPreview.js&#39;</span>)));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">export</span> <span style="font-weight:bold;text-decoration:underline">default</span> <span style="font-weight:bold;font-style:italic;text-decoration:underline">function</span> MarkdownEditor() {
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> [showPreview, setShowPreview] = useState(<span style="font-weight:bold;text-decoration:underline">false</span>);
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">const</span> [markdown, setMarkdown] = useState(<span style="color:#666;font-style:italic">&#39;Hello, **world**!&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;&gt;
+</span></span><span style="display:flex;"><span>      &lt;textarea value={markdown} onChange={e =&gt; setMarkdown(e.target.value)} /&gt;
+</span></span><span style="display:flex;"><span>      &lt;label&gt;
+</span></span><span style="display:flex;"><span>        &lt;input type=<span style="color:#666;font-style:italic">&#34;checkbox&#34;</span> checked={showPreview} onChange={e =&gt; setShowPreview(e.target.checked)} /&gt;
+</span></span><span style="display:flex;"><span>        Show preview
+</span></span><span style="display:flex;"><span>      &lt;<span style="">/label&gt;</span>
+</span></span><span style="display:flex;"><span>      &lt;hr /&gt;
+</span></span><span style="display:flex;"><span>      {showPreview &amp;&amp; (
+</span></span><span style="display:flex;"><span>        &lt;Suspense fallback={&lt;Loading /&gt;}&gt;
+</span></span><span style="display:flex;"><span>          &lt;h2&gt;Preview&lt;<span style="">/h2&gt;</span>
+</span></span><span style="display:flex;"><span>          &lt;MarkdownPreview markdown={markdown} /&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="">/Suspense&gt;</span>
+</span></span><span style="display:flex;"><span>      )}
+</span></span><span style="display:flex;"><span>    &lt;<span style="">/&gt;</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic">// Add a fixed delay so you can see the loading state
+</span></span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"></span><span style="font-weight:bold;font-style:italic;text-decoration:underline">function</span> delayForDemo(promise) {
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold;text-decoration:underline">return</span> <span style="font-weight:bold;text-decoration:underline">new</span> <span style="font-weight:bold;font-style:italic">Promise</span>(resolve =&gt; {
+</span></span><span style="display:flex;"><span>    setTimeout(resolve, 2000);
+</span></span><span style="display:flex;"><span>  }).then(() =&gt; promise);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>MarkdownPreview 컴포넌트는 고의적으로 2초이후에 import 될 것이다. 그동안, <code>fallback</code>으로 지정된 Loading 컴포넌트가 보여진다. (Suspense는 로딩 UI를 분리하여 관심있는 데이터만 관리할 수 있다는 장점이 있음)</p>
+<p>여기서, MarkdownPreview 컴포넌트는 <strong>lazy 로딩 되므로 최초의 필요 시점에 따로 번들링되어 로드될 것</strong>이다. 이를 통해 routing이 일어나는 시점 이외에도 용량이 큰 코드 데이터를 불러오는 시점을 지정할 수 있을 것이다.! 이는 <!-- raw HTML omitted -->라우팅 컴포넌트에서 사용되면 매우 좋을 것이다<!-- raw HTML omitted -->. 물론 약간의 로딩은 걸리겠지만, 기존 CSR방식처럼 처음의 빈 화면이 나오는 시간을 줄일 수 있을 것이다.</p>
+<p>Suspense와 lazy를 이용하면 <code>HTTP stream</code>을 이용하여 데이터를 동적으로 유연하게 가져온다고 하는데, 이에 대하여는 더 공부해볼 필요가 있을 것 같다.</p>
+<p><a href="https://react.dev/reference/react/lazy">공식문서-lazy</a></p>
+</li>
+<li>
+<p>code splitting with webpack</p>
+<p>우리가 사용하는 js 프레임워크는 보통 <code>webpack</code>이라는 번들러를 통하여 수많은 js파일을 합쳐 빌드되도록 최적화되어있다.</p>
+<p>webpack 설정을 통하여 code splitting을 구현할 수 있다고 하니 참고하자.</p>
+<p><a href="https://webpack.js.org/guides/code-splitting/">공식문서</a></p>
+</li>
+</ol>
+<p>하지만 모든 파일을 split하여 전송한다면 그것 역시 좋지는 않을 것이, <strong>번들러의 이유가 사라진다</strong>. 따라서, <!-- raw HTML omitted -->라우팅 컴포넌트에만 우선 적용을 하고, 상황에 맞게 도입하는 것이 권장<!-- raw HTML omitted -->된다.</p>
+<h2 id="pre-renderingssr--ssg">Pre-Rendering(SSR + SSG)</h2>
+<h3 id="server-side-rendering">Server Side Rendering</h3>
+<p>다음에는 Client Side Rendering과 대척점인 Server Side Rendering에 대하여 알아보자. 이는 클라이언트에서 렌더링하지 않고, <strong>서버에서 미리 렌더링하여 완성된 html파일을 클라이언트에게 보내는 것</strong>이다. 서버속도와 네트워크 속도가 빠르다면, 컴퓨팅 성능이 좋지 않아도 바로 페이지의 컨텐츠를 확인할 수 있으며, 검색엔진 최적화에도 좋다.</p>
+<p>이러한 pre rendering logic은 <a href="https://react.dev/reference/react-dom/server">server-side react api</a>를 참고한다.</p>
+<p><code>react-dom</code> 패키지의 <code>renderToString()</code>을 통하여 리액트 코드를 완성된 html 문자열로 만들 수 있다. 만약 wait해야할 데이터가 있어 Suspense 컴포넌트가 존재한다면, <code>renderToPipeableStream()</code> 함수를 이용하여 필요한 시점에 HTTP stream을 통하여 코드를 나눠 보낼 수 있다고 한다. 이를 통하여 서버에서 요청 시점에 html파일을 만들어 처리하면 <code>SEO</code>문제를 해결할 수 있고, 네트워크 속도만 빠르다면 즉시 화면을 볼 수 있다는 장점 또한 있을 것이다.</p>
+<p>하지만, 이는 서버가 매 요청 시점마다 html파일을 만들어줘야 하므로 서버의 부하가 커질 수 있다. 또한, <!-- raw HTML omitted -->모든 페이지 이동에 대하여 SSR을 수행하도록 하면 결국 MPA랑 같아지므로 이의 단점을 모두 수용하게 된다<!-- raw HTML omitted -->. 이에 개선안이 제안된다.</p>
+<h3 id="hydration">Hydration!</h3>
+<blockquote>
+<p>미리 도착한 정적인 DOM에 물을 부어 동적인 웹사이트를 만들자!</p>
+</blockquote>
+<p><strong>서버에서 렌더링한 html로 초기 페이지를 보여주고, 이후 로드된 js파일로 앞으로의 렌더링을 책임진다</strong>. 사용자는 빈 화면을 볼 시간이 더 줄어들고, 이후 페이지 이동은 CSR처럼 부드러울 것이다!</p>
+<p>간단한 SSR과 hydration의 과정을 살펴보자. 페이지에 최초 접속하는 상황을 가정하자.</p>
+<ol>
+<li>서버에서 SSR된 html 파일이 클라이언트에게 전송되고, <strong>브라우저에서 바로 정적인 첫 화면을 볼 수 있</strong>다.</li>
+<li>하지만, 아직 html뿐이므로 interactive한 일(event 등)은 처리되지 않고, <strong>화면이 동작하는 것처럼만</strong> 보인다. (이 시간을 uncanny valley,불쾌한 골짜기 라고도 함)</li>
+<li>이후 <strong>도착한 번들링된 js파일을 통하여 동적 요소를 초기화</strong>한다. 이때, event listener나 state 등이 초기화되고, <strong>동적인 interaction이 가능</strong>해진다.</li>
+<li>앞으로의 동작들은 <strong>SPA와 같이 동작</strong>한다.</li>
+</ol>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="img" src=" https://blog.saeloun.com/images/useId/server_side_rendering.png">
+    </div>
+
+    
+</figure></p>
+<p>이를 통해 빈 화면을 보는 시간이 줄어들게 될 것이다! 이를 위해 <code>ReactDOM</code>라이브러리에서는 <code>hydrate()</code>함수를 제공한다.</p>
+<p>하지만, html이 모두 렌더링되고 js가 로드되고, 그 이후에 hydrate을 수행하므로 <em>실제 동적인 페이지가 되기까지의 시간은 오래걸릴 수</em> 있다는 지적이 있다.</p>
+<p>이를 해결하기 위해, 위에서 언급한 <code>Suspense</code>와, Web Server에서 <code>renderToPipeableStream</code>으로 데이터를 전송하는 방식이 제안된다!</p>
+<p>예를 들어, 다음과 같은 구조의 컴포넌트가 있다고 하자.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;Layout&gt;
+</span></span><span style="display:flex;"><span>  &lt;NavBar /&gt;
+</span></span><span style="display:flex;"><span>  &lt;Sidebar /&gt;
+</span></span><span style="display:flex;"><span>  &lt;RightPane&gt;
+</span></span><span style="display:flex;"><span>    &lt;Post /&gt;
+</span></span><span style="display:flex;"><span>    &lt;Comments /&gt;
+</span></span><span style="display:flex;"><span>  &lt;/RightPane&gt;
+</span></span><span style="display:flex;"><span>&lt;/Layout&gt;
+</span></span></code></pre></div><p>여기서, Comments 컴포넌트에는 많은 js 로직과 오래걸리는 api 요청이 포함되어있다고 가정하자. 그렇다면, <em>최초 렌더링 이후 js가 실행되면서 오랜 시간이 걸려 그동안 사용자는 상호작용하지 못한다.</em></p>
+<p>우선, 웹서버는 <code>renderToString</code>이 아닌 <code>renderToPipeableStream</code>으로 html을 렌더링하여 보내도록 한다. 이는 웹서버에서 컴포넌트를 렌더링하면서 <strong>스트리밍의 형태로 조각조각 보내게 되어 모든 로드를 기다리지 않고 hydration을 수행</strong>할 것이다. 또한 Comments와 같은 <strong>값비싼 컴포넌트를 Suspense로 감싸서 SSR단계에서는 fallback 컴포넌트만 렌더링하여 보내도록 한다</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;Layout&gt;
+</span></span><span style="display:flex;"><span>  &lt;NavBar /&gt;
+</span></span><span style="display:flex;"><span>  &lt;Sidebar /&gt;
+</span></span><span style="display:flex;"><span>  &lt;RightPane&gt;
+</span></span><span style="display:flex;"><span>    &lt;Post /&gt;
+</span></span><span style="display:flex;"><span>    &lt;Suspense fallback={&lt;Spinner /&gt;}&gt;
+</span></span><span style="display:flex;"><span>      &lt;Comments /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/Suspense&gt;
+</span></span><span style="display:flex;"><span>  &lt;/RightPane&gt;
+</span></span><span style="display:flex;"><span>&lt;/Layout&gt;
+</span></span></code></pre></div><p>Comments는 Spinner(로딩) 컴포넌트로 대체되어 streaming의 형태로 SSR되어 보내지고, Comments는 hydration 단계에서 비동기적으로 업데이트 될 것이다. 또한 해당 컴포넌트를 lazy하게 splitting하여 가져올 수도 있다.!</p>
+<p>이 정도의 개념만 알아도 SSR 과 hydration에 대한 간단한 개념은 이해된 것 같다.</p>
+<h3 id="static-site-generation">Static Site Generation</h3>
+<p>또한, 서버의 부하를 줄이기 위해 초기에 동적인 데이터가 없는 경우, 빌드 단계에서 페이지를 구성하여 서버에서는 정적자원만 리턴해주는 <code>static site generation</code>이라는 방법도 존재한다. 이 경우, build 시점에 고정된 html 파일이 나오고, 요청시 html파일과 js파일을 넘겨주기만 하면 된다. (서버는 static server 역할만 수행) 이후, 클라이언트는 바로 초기 페이지를 마주칠 수 있고, js파일을 통하여 hydration하여 이후 페이지 이동에 있어서 CSR의 장점을 가져갈 수 있다.</p>
+<p>또한, <strong>CDN(Content Delivery Network)서버를 이용하여 빌드 파일을 캐싱해놓는다면 비용 측면에서도 매우 효율적</strong>일 수 있다. SSG + hydration의 조합이 좋아보이지만, 이는 페이지가 바뀔때마다 빌드를 해줘야하는 불편함이 있을 수 있다.</p>
+<h2 id="seo-최적화">SEO 최적화</h2>
+<p>위의 내용은 비교적 구현하기 어려운 부분이 있다. 만약, 이미 CSR 기반의 react로 빌드를 해놓은 상태이고, 무언가를 도입하기 어려운 시점이라면 최소한 이것들은 해주면 좋을 것이다.</p>
+<h3 id="robotstxt">robots.txt</h3>
+<p>검색엔진은 어떤 주소에 접근할 때, <code>test.com/robots.txt</code>로 해당 주소의 robots.txt파일을 읽어와 간단한 정보를 파악한다. 예를 들어, 내 블로그의 주소인 <code>choieastsea.github.io/robots.txt</code>에 접근하면 다음과 같은 결과가 나온다.</p>
+<pre tabindex="0"><code>User-agent: *
+Sitemap: https://choieastsea.github.io/sitemap/sitemap-index.xml
+Host: https://choieastsea.github.io
+</code></pre><p>이는 검색엔진에게 허용하거나 허용하지 않는 부분에 대하여 명시한다. 또한,  <code>sitemap.xml</code>파일의 위치에 대하여 알려준다.</p>
+<h3 id="sitemapxml">sitemap.xml</h3>
+<p>이는 검색엔진이 사이트의 컨텐츠를 파악하기 위한 index라고 생각하면 편하다. 내 블로그에서도 이를 제공하는데, <code>https://choieastsea.github.io/sitemap/sitemap-index.xml</code>로 접속하면 아래와 같은 목록들이 나온다.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="sitemap" src=" sitemap.png">
+    </div>
+
+    
+</figure></p>
+<p>이는 검색엔진이 사이트의 컨텐츠 정보와 주소를 파악하기 쉽게 해준다. 나는 build와 deploy과정에서 이를 만들어주는 자동화 툴이 포함된 블로그 테마를 이용중이기에 이렇게 깔끔하게 나오지만, 그것이 아니라면 관례를 따라 적어주는 것이 SEO에 좋을 것이다.</p>
+<h1 id="정리">정리</h1>
+<p>오늘 많은 내용에 대하여 공부해보았는데,,, 그럼 SPA와 MPA 사이에 정답은 있을까?</p>
+<p>절대적인 정답은 없고, <strong>상황에 맞게 장점을 차용하는 식으로 구현하는 것이 현명한 선택</strong>일 것이다. 실제 서비스 중에서도 SPA로만 구현된 것은 없을 것이고, 그렇다고 모두 같은 방식으로 구현되어 있지 않을 것이다.</p>
+<p>또한 Next JS와 같은 웹 프레임워크는 frontend server를 위하여 react.js를 기반으로 UI를 구성하고 상황에 맞게 server side rendering이나 static generation을 도입하도록 지원하므로, 이러한 프레임워크의 도움을 받을 수도 있을 것이다.</p>
+<p>결론적으로, 기술적 기반을 이해하고 장단점을 설명할 수 있다면, 상황에 맞는 방법을 선택할 수 있다고 생각하므로 꼭 익혀두자.</p>
+<h3 id="참고">참고</h3>
+<p><a href="https://www.zerocho.com/category/HTML&amp;DOM/post/599d2fb635814200189fe1a7">History Api 사용 예제</a></p>
+<p><a href="https://www.youtube.com/watch?v=JU6sl_yyZqs">React Lazy Loading 관련 영상</a></p>
+<p><a href="https://www.youtube.com/watch?v=kZG3izJu7qE">Hydration 관련 영상</a></p>
+<p><a href="https://blog.saeloun.com/2022/01/20/new-suspense-ssr-architecture-in-react-18/">SSR + Suspense</a></p>
+
+    
+<script src="https://giscus.app/client.js"
+        data-repo="choieastsea/choieastsea.github.io"
+        data-repo-id="R_kgDOMgbvhw"
+        data-category=""
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+        </script>
+
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/5/">
+                        (python) wsgi 웹 서버 직접 만들어보기
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>
