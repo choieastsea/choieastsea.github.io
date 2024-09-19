@@ -6,8 +6,50 @@
     <description>Recent content in Tags on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 01 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mac</title>
+      <link>https://choieastsea.github.io/tags/mac/</link>
+      <pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/mac/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Oh-My-Zsh</title>
+      <link>https://choieastsea.github.io/tags/oh-my-zsh/</link>
+      <pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/oh-my-zsh/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Powerlevel10k</title>
+      <link>https://choieastsea.github.io/tags/powerlevel10k/</link>
+      <pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/powerlevel10k/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pyenv</title>
+      <link>https://choieastsea.github.io/tags/pyenv/</link>
+      <pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/pyenv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>https://choieastsea.github.io/tags/python/</link>
+      <pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Zsh</title>
+      <link>https://choieastsea.github.io/tags/zsh/</link>
+      <pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/zsh/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Csr</title>
       <link>https://choieastsea.github.io/tags/csr/</link>
@@ -76,13 +118,6 @@
       <link>https://choieastsea.github.io/tags/wsgi/</link>
       <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/tags/wsgi/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Python</title>
-      <link>https://choieastsea.github.io/tags/python/</link>
-      <pubDate>Sun, 18 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/tags/python/</guid>
       <description></description>
     </item>
     <item>

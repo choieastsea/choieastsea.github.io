@@ -6,8 +6,15 @@
     <description>Recent content in Posts on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 01 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>(mac) 맥북 초기 설정 기록하기 (homebrew, zsh, powerlevel10k, python)</title>
+      <link>https://choieastsea.github.io/posts/7/</link>
+      <pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/7/</guid>
+      <description>homebrew / 터미널 관련 / 간단한 개발환경 세팅 /기타 맥북 설정</description>
+    </item>
     <item>
       <title>(web) SPA에 대하여 (장단점, routing, 개선방법)</title>
       <link>https://choieastsea.github.io/posts/6/</link>

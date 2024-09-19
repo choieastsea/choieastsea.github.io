@@ -30,9 +30,6 @@
 
 
 
-  
-
-
 
 
   </head>
@@ -359,28 +356,28 @@
 <p>구현하는 application 분야 역시 웹 서버에 적합한 프레임워크가 출연하였다. <code>web framework</code>는 주로 routing, DB, HTTP 요청 등 서버가 제공해야하는 기능을 <!-- raw HTML omitted -->추상화하여 제공<!-- raw HTML omitted -->한다. 보통의 서버 개발자는 이러한(spring, django, nest) web framework 위에서 동작하는 코드를 개발한다.</p>
 <p>아래의 표를 작성해보았는데 (명확하게 구분되지는 않지만) 큰 틀에서 생각해보면 좋을 것이다.</p>
 <table>
-<thead>
-<tr>
-<th></th>
-<th>standard interface</th>
-<th>interface의 구현체(web container)</th>
-<th>웹 프레임워크</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>python</td>
-<td>wsgi / asgi</td>
-<td>gunicorn, uwsgi</td>
-<td>django, flask</td>
-</tr>
-<tr>
-<td>java</td>
-<td>servlet</td>
-<td>tomcat, jetty</td>
-<td>spring</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left">standard interface</th>
+          <th style="text-align: left">interface의 구현체(web container)</th>
+          <th style="text-align: left">웹 프레임워크</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">python</td>
+          <td style="text-align: left">wsgi / asgi</td>
+          <td style="text-align: left">gunicorn, uwsgi</td>
+          <td style="text-align: left">django, flask</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">java</td>
+          <td style="text-align: left">servlet</td>
+          <td style="text-align: left">tomcat, jetty</td>
+          <td style="text-align: left">spring</td>
+      </tr>
+  </tbody>
 </table>
 <p>web container라는 표현은 자바 진영에서 사용하는 말이고, 의미상으로는 <strong>정의한 인터페이스를 구현한 서버</strong>라고 보면 된다.</p>
 <p>python의 <code>gunicorn</code>, spring의 <code>tomcat</code>은 <!-- raw HTML omitted -->standalone server로 존재할 수 있지만<!-- raw HTML omitted -->, 일반적으로 apache나 nginx에 연결하여 사용한다. 이에 웹 서버를 두개라고 볼 수 있지만, <strong>일반적으로 gunicorn, tomcat 등을 WAS(Web Application Server)라고 표현</strong>한다.</p>
