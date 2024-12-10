@@ -9,7 +9,7 @@
     <lastBuildDate>Tue, 10 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Python DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient)</title>
+      <title>(python) DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient)</title>
       <link>https://choieastsea.github.io/posts/8/</link>
       <pubDate>Tue, 10 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/posts/8/</guid>
