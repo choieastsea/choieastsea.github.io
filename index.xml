@@ -6,8 +6,15 @@
     <description>Recent content in Home on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 19 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient)</title>
+      <link>https://choieastsea.github.io/posts/8/</link>
+      <pubDate>Tue, 10 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/8/</guid>
+      <description>DB API (PEP 249) / 주요 구현체 (Drivers)</description>
+    </item>
     <item>
       <title>(setting) 맥북 초기 설정 기록하기 (homebrew, zsh, powerlevel10k, python)</title>
       <link>https://choieastsea.github.io/posts/7/</link>

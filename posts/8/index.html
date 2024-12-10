@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ko-kr"
+  dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="" />
+
+<title>
+    
+    Python DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient) | choieastsea.github.io
+    
+</title>
+
+<link rel="canonical" href="https://choieastsea.github.io/posts/8/" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
+
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">choieastsea.github.io</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/tags">
+                /tags
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/posts/8/">Python DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient)</a>
+</div>
+
+
+<div >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">Python DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient)</h1>
+    
+    <p class="single-summary">DB API (PEP 249) / 주요 구현체 (Drivers) </p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2024-12-10T00:00:00&#43;00:00">December 10, 2024</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      5 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#orm과의-차이점">ORM과의 차이점</a></li>
+    <li><a href="#주요-객체">주요 객체</a>
+      <ul>
+        <li><a href="#connection">connection</a></li>
+        <li><a href="#cursor">cursor</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#sqlite3">SQLite3</a>
+      <ul>
+        <li><a href="#트랜잭션-다루기">트랜잭션 다루기</a></li>
+        <li><a href="#데이터-가져오기">데이터 가져오기</a></li>
+      </ul>
+    </li>
+    <li><a href="#pymysql">pymysql</a></li>
+    <li><a href="#mysqlclient">mysqlclient</a>
+      <ul>
+        <li><a href="#sqlalchemy와의-차이점">SQLAlchemy와의 차이점</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <p>지난번에는 HTTP 통신으로 파이썬 app을 실행하기 위한 인터페이스인 wsgi(<code>web server gateway interface</code>)에 대해 알아보았고, 오늘은 DBMS를 python app으로 다루기 위한 표준 인터페이스인 Python DB API에 대해 알아보자.</p>
+<h1 id="db-api-pep-249">DB API (PEP 249)</h1>
+<p><a href="https://peps.python.org/pep-0249/">PEP249</a>에서는 Python에서 database에 접근하기 위한 인터페이스인 DB API 2.0을 제안하였다.</p>
+<p>DB 서버(혹은 sqlite와 같은 DB file)가 있다고 했을 때, <em>클라이언트 어플리케이션으로서 Python 기반의 드라이버</em>를 사용하는데, 해당 드라이버가 지켜야하는 스펙이다. 우리는 인터페이스를 준수하는 드라이버(예를 들면 sqlite3, pymysql)를 사용함으로써 DBMS마다 다른 연결 및 쿼리 실행을 일관적인 인터페이스를 통해 사용할 수 있게 되었다.</p>
+<p>다른 언어로 예시를 들면, Java의 <code>JDBC</code>(Java DataBase Connectivity)와 비슷한 역할을 하는 표준 API라고 보면 될 것 같다.!</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="dbapi" src=" dbapi.png">
+    </div>
+
+    
+</figure></p>
+<h2 id="orm과의-차이점">ORM과의 차이점</h2>
+<p>python DB API에는 <strong>DBMS에 접근</strong>하고, <strong>SQL을 실행</strong>하는 등의 기본적인 인터페이스가 정의되어있다. 주의할 점은 DBMS마다 다른 SQL의 실행과 결과를 Object로 추상화한 것은 ORM library의 영역이고, DB API에서는 더 기본적인 동작을 제안한다는 것이다.</p>
+<p><code>PEP 249</code>에서 제안하고 있는 DB API에는 크게 connection과 cursor 객체로 구성되어 있는데 간단히 알아보자.</p>
+<h2 id="주요-객체">주요 객체</h2>
+<h3 id="connection">connection</h3>
+<p>SQL을 실행하기 위해 DBMS와 연결되어 있어야하는데, 이러한 <strong>연결과 트랜잭션을 추상화</strong>한 객체이다.</p>
+<ul>
+<li>connect : 연결하기 위한 메서드</li>
+<li>close : 연결을 종료하기 위한 메서드. 이후에는 쿼리 실행이 불가하다</li>
+<li>commit : 현재 트랜잭션을 커밋하기 위한 메서드</li>
+<li>rollback : 트랜잭션을 롤백하기 위한 메서드</li>
+<li>cursor : 연결에 해당하는 새로운 <code>Cursor</code> 객체를 반환하는 팩토리 메서드</li>
+</ul>
+<p>커넥션 객체가 생성되었다고 해서, <em>물리적인 TCP Connection이 생겼다고는 말할 수 없을 것</em> 같다. sqlite와 같은 file 혹은 memory DB의 경우가 있으므로, <strong>Connection 객체는 단순히 DB와 python을 이어주는 객체</strong>라고 생각하는 게 더 낫다.</p>
+<h4 id="connection-pooling">connection pooling</h4>
+<p>참고로, <code>connection pooling</code>은 DB API의 스펙은 아니고, DB driver 혹은 그 상위 레이어(application)에서 이를 제공하는 것으로 이해하면 될 것 같다.</p>
+<h3 id="cursor">cursor</h3>
+<p>쿼리의 실행 결과를 담을 수 있는 객체이다. <strong>DB 서버 내에서 쿼리 실행 결과를 저장해놓는 공간을 cursor로 추상화</strong>하였다고 보면 될 것 같다.</p>
+<ul>
+<li>close : cursor를 종료하는 메서드</li>
+<li>execute : query를 <strong>실행하는 메서드</strong>. 파라미터 기반 실행으로 SQL injection을 방지할 수 있다.</li>
+<li>executemany : INSERT와 같이 여러 번의 실행을 한번에 보내는 메서드.</li>
+<li>fetchone : SELECT등의 쿼리 결과에서 한 행만 <strong>DBMS로부터 가져오는 메서드</strong></li>
+<li>fetchmany : n개의 행을 가져오는 메서드</li>
+<li>fetchall : 쿼리 결과의 모든 행을 가져오는 메서드</li>
+</ul>
+<p>일반적으로 <code>execute</code>가 호출되는 시점에 쿼리가 실행되고, 쿼리의 결과는 <code>fetch</code> 이전에는 DBMS의 버퍼 등에 저장되어 있다.  따라서, <em>fetch를 수행해야 결과를 memory로 가져올 수 있다</em>.</p>
+<h1 id="주요-구현체-drivers">주요 구현체 (Drivers)</h1>
+<p>DB와 app을 server - client로 연결할 수 있게 도와주는 라이브러리/모듈을 보통 <code>DB Driver</code> 혹은 <code>connector</code> 라고 부른다. 개중에 우리가 사용하는 라이브러리들은 보통 <code>Python DB API 2.0</code>를 준수하도록 설계되어있다. (NoSQL 드라이버는 보통 준수하지 않음)</p>
+<p>또한 라이브러리들은 python interface를 제공하지만 python으로 항상 구현되어 있지 않다는 점을 알고 있으면 좋을 것 같다. 대표적인 라이브러리들을 알아보자.</p>
+<h2 id="sqlite3">SQLite3</h2>
+<p><a href="https://docs.python.org/3/library/sqlite3.html">https://docs.python.org/3/library/sqlite3.html</a></p>
+<p><code>sqlite</code> DB를 위한 <code>DB API 2.0</code>을 준수하는 db 드라이버이다. 내장 라이브러리이므로, 별도의 설치 없이 간편하게 실행해볼 수 있다.</p>
+<p>REPL에서 실행해보자.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="">❯</span> python
+</span></span><span style="display:flex;"><span>Python 3.11.4 (main, Sep 15 2024, 01:34:24) [Clang 15.0.0 (clang-1500.3.9.4)] on darwin
+</span></span><span style="display:flex;"><span>Type <span style="color:#666;font-style:italic">&#34;help&#34;</span>, <span style="color:#666;font-style:italic">&#34;copyright&#34;</span>, <span style="color:#666;font-style:italic">&#34;credits&#34;</span> <span style="font-weight:bold">or</span> <span style="color:#666;font-style:italic">&#34;license&#34;</span> <span style="font-weight:bold;text-decoration:underline">for</span> more information.
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="font-weight:bold;text-decoration:underline">import</span> <span style="color:#666;font-weight:bold;font-style:italic">sqlite3</span>
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; conn = sqlite3.connect(<span style="color:#666;font-style:italic">&#34;test.db&#34;</span>) <span style="color:#888;font-style:italic"># file DB &amp; connection 객체 생성됨</span>
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; conn.set_trace_callback(<span style="font-weight:bold;font-style:italic">print</span>) <span style="color:#888;font-style:italic"># query 디버깅을 위해 출력</span>
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; cursor = conn.cursor() <span style="color:#888;font-style:italic"># cursor 객체 생성</span>
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; cursor.execute(<span style="color:#666;font-style:italic">&#39;CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)&#39;</span>) <span style="color:#888;font-style:italic"># DB에 테이블 생성됨</span>
+</span></span></code></pre></div><p>connect를 통해 connection 객체를 만들어주고, connection 객체로부터 cursor를 만들어준다.</p>
+<p>cursor 객체를 통해  query 문을 실행할 수 있는데, DDL의 경우 트랜잭션과는 독립적으로 바로 DB에 반영됨을 확인할 수 있다.</p>
+<h3 id="트랜잭션-다루기">트랜잭션 다루기</h3>
+<p>DML을 실행해보며 트랜잭션을 다뤄보자.</p>
+<p>connection이 트랜잭션의 단위임을 확인하기 위해 connection 객체를 2개 만들고, 각각 커서 객체를 2개씩 만들어 보았다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#666;font-weight:bold;font-style:italic">conn1</span> = sqlite3.connect(<span style="color:#666;font-style:italic">&#34;test.db&#34;</span>)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#666;font-weight:bold;font-style:italic">conn2</span> = sqlite3.connect(<span style="color:#666;font-style:italic">&#34;test.db&#34;</span>)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#666;font-weight:bold;font-style:italic">cur1_1</span> = conn1.cursor()
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#666;font-weight:bold;font-style:italic">cur1_2</span> = conn1.cursor()
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#666;font-weight:bold;font-style:italic">cur2_1</span> = conn1.cursor()
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#666;font-weight:bold;font-style:italic">cur2_1</span> = conn2.cursor()
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#666;font-weight:bold;font-style:italic">cur2_2</span> = conn2.cursor()
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; conn1.set_trace_callback(print)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; conn2.set_trace_callback(print)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; cur1_1.execute(insert_query, <span style="color:#666;font-style:italic">&#39;bada1_1&#39;</span>)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; <span style="color:#666;font-weight:bold;font-style:italic">insert_query</span> = <span style="color:#666;font-style:italic">&#39;INSERT INTO users (name) VALUES (?)&#39;</span>
+</span></span></code></pre></div><p>이제 insert_query를 실행해보자.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt;&gt;&gt; cur1_1.execute(insert_query, (<span style="color:#666;font-style:italic">&#39;bada1_1&#39;</span>,)) <span style="color:#888;font-style:italic"># --- 1</span>
+</span></span><span style="display:flex;"><span>BEGIN 
+</span></span><span style="display:flex;"><span>INSERT INTO users (name) VALUES (<span style="color:#666;font-style:italic">&#39;bada1_1&#39;</span>)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; cur1_2.execute(insert_query, (<span style="color:#666;font-style:italic">&#39;bada1_2&#39;</span>,)) <span style="color:#888;font-style:italic"># --- 2</span>
+</span></span><span style="display:flex;"><span>INSERT INTO users (name) VALUES (<span style="color:#666;font-style:italic">&#39;bada1_2&#39;</span>)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; cur2_1.execute(insert_query, (<span style="color:#666;font-style:italic">&#39;bada2_1&#39;</span>,)) <span style="color:#888;font-style:italic"># --- 3</span>
+</span></span><span style="display:flex;"><span>BEGIN 
+</span></span><span style="display:flex;"><span>INSERT INTO users (name) VALUES (<span style="color:#666;font-style:italic">&#39;bada2_1&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Traceback (most recent call last):
+</span></span><span style="display:flex;"><span>  File <span style="color:#666;font-style:italic">&#34;&lt;stdin&gt;&#34;</span>, line 1, in &lt;module&gt;
+</span></span><span style="display:flex;"><span>sqlite3.OperationalError: database is locked
+</span></span></code></pre></div><ol>
+<li>
+<p>1번 실행시, transaction이 열리고 (BEGIN) 쿼리가 실행된 것을 확인할 수 있다.</p>
+<p>하지만 아직 DB에 반영되지 않고, <code>test.db-journal</code>이라는 sqlite에서 트랜잭션을 위한 파일이 생긴다.</p>
+</li>
+<li>
+<p>2번까지 실행했을 때에도 아직 DB에 반영되지 않은 상태이다.</p>
+</li>
+<li>
+<p>다른 커넥션에서 생성한 cursor에서 쿼리를 실행시, 오류가 발생한다. 이는 <em>SQLite에서 다른 트랜잭션이 닫히지 않았는데 쓰기 작업 시도시 발생</em>한다.</p>
+</li>
+</ol>
+<p>이로써 <strong>트랜잭션의 단위는 cursor가 아닌 connection</strong>임을 확인할 수 있다!</p>
+<h3 id="데이터-가져오기">데이터 가져오기</h3>
+<p>이제 커밋도 하고, 데이터를 가져와보자.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt;&gt;&gt; conn1.commit() <span style="color:#888;font-style:italic"># --- 1</span>
+</span></span><span style="display:flex;"><span>COMMIT
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; cur2_1.execute(<span style="color:#666;font-style:italic">&#34;SELECT * FROM users&#34;</span>) <span style="color:#888;font-style:italic"># --- 2</span>
+</span></span><span style="display:flex;"><span>SELECT * FROM users
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; cur2_1.fetchall() <span style="color:#888;font-style:italic"># --- 3</span>
+</span></span><span style="display:flex;"><span>[(1, <span style="color:#666;font-style:italic">&#39;bada1_1&#39;</span>), (2, <span style="color:#666;font-style:italic">&#39;bada1_2&#39;</span>)]
+</span></span></code></pre></div><ol>
+<li>commit을 하면 <code>test.db-journal</code>이라는 파일이 사라지고, file DB에 반영됨을 확인할 수 있다.</li>
+<li>2번 실행시, select query가 나간다. (타 DBMS에서는 쿼리만 실행되고 python app에서는 데이터가 없는 상태일 것이다)</li>
+<li>3번 실행시 cursor 객체를 통해 쿼리 결과를 튜플로 가져올 수 있다.</li>
+</ol>
+<p>표준 라이브러리를 통해 DB API에서 정의한 connection과 cursor 객체를 어느정도 이해할 수 있었다. 다른 DBMS를 연결하기 위한 라이브러리도 간단하게 알아보자.</p>
+<h2 id="pymysql">pymysql</h2>
+<p>MySQL과 python을 연결해주는 <code>pymysql</code>이 있다. <a href="https://github.com/PyMySQL/PyMySQL">github</a></p>
+<p>python 100%로 구현되어 있고, DB API를 준수하였음을 볼 수 있다.</p>
+<h2 id="mysqlclient">mysqlclient</h2>
+<p>또 다른 MySQL connector(driver)로 <code>mysqlclient</code>가 있다. <a href="https://github.com/PyMySQL/mysqlclient">github</a> (보니까 pymysql과 같은 organization이다?!)</p>
+<p>구 <code>mysql-connector-python</code>의 python3 호환 버전이라고 한다.</p>
+<p>c 기반의 라이브러리라서 성능은 pymysql보다 빠르지만, 시스템에 추가적인 의존성이 필요한 경우가 있다. 나도 mysqlclient는 가끔 동작하지 않는 경우 클린 재설치를 해주고 stackoverflow의 도움을 받은 경험이 많다;</p>
+<p>따라서 로컬에서는 pymysql로 개발하고, 프로덕션 환경에서는 mysqlclient를 사용하는 것도 방법일 수 있겠다.</p>
+<h3 id="sqlalchemy와의-차이점">SQLAlchemy와의 차이점</h3>
+<p>추가적으로, <code>SQLAlchemy</code>에 대해 헷갈릴 수 있어서 짚고 넘어가자. SQLAlchemy는 공식 설명에도 나와있듯, python을 위한 database toolkit이다. 주의할 점은 python db api의 구현체는 아니라는 점이다!</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="sqlalchemy architecture" src=" https://docs.sqlalchemy.org/en/20/_images/sqla_arch_small.png">
+    </div>
+
+    
+</figure></p>
+<p>SQLAlchemy는 core와 ORM layer로 구성되어 있고, core의 engine은 DB API의 구현체인 드라이버들을 사용하여 DB와 연결하고 질의하도록 되어있다. SQLAlchemy를 사용하더라도 pymysql, mysqlclient와 같은 DB API 준수 driver를 추가로 설치해야하는 이유를 이제 설명할 수 있을 것이다.!</p>
+<p>화이팅~</p>
+
+    
+<script src="https://giscus.app/client.js"
+        data-repo="choieastsea/choieastsea.github.io"
+        data-repo-id="R_kgDOMgbvhw"
+        data-category=""
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+        </script>
+
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/7/">
+                        (setting) 맥북 초기 설정 기록하기 (homebrew, zsh, powerlevel10k, python)
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>
