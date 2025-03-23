@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko-kr"
+  dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"><meta name="description" content="" />
+
+<title>
+    
+    (python) SQLAlchemy 알아보기 (1) Dialect &amp; Pool (connection pooling) | choieastsea.github.io
+    
+</title>
+
+<link rel="canonical" href="https://choieastsea.github.io/posts/9/" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+
+
+
+
+
+
+  </head>
+
+  
+
+  
+  
+  
+
+  <body class="auto">
+
+    <div class="content">
+      <header>
+        
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">choieastsea.github.io</h1>
+
+    <div class="flex">
+        
+
+        
+        
+        <p class="small ">
+            <a href="/">
+                /home
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/about">
+                /about
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/posts">
+                /posts
+            </a>
+        </p>
+        
+        <p class="small ">
+            <a href="/tags">
+                /tags
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+      </header>
+
+      <main class="main">
+        
+
+
+
+
+<div class="breadcrumbs">
+    
+    <a href="/">Home</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a href="/posts/">Posts</a>
+    <span class="breadcrumbs-separator"> > </span>
+    
+    <a class="breadcrumbs-current" href="/posts/9/">(python) SQLAlchemy 알아보기 (1) Dialect &amp; Pool (connection pooling)</a>
+</div>
+
+
+<div >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">(python) SQLAlchemy 알아보기 (1) Dialect &amp; Pool (connection pooling)</h1>
+    
+    <p class="single-summary">overview / core / dialect / connection pooling</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2025-03-18T00:00:00&#43;00:00">March 18, 2025</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      4 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/python/">#Python</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/sqlalchemy/">#Sqlalchemy</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/core/">#Core</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#connect">connect()</a></li>
+    <li><a href="#queuepool-생성하기">QueuePool 생성하기</a>
+      <ul>
+        <li><a href="#recycle">recycle</a></li>
+        <li><a href="#pre_ping">pre_ping</a></li>
+        <li><a href="#reset_on_return">reset_on_return</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <p>Python에서 DB를 본격적으로 다루고 싶다면 DB API만으로는 한계가 있는데, 이에 Python DB tool 중 독자적인 <code>SQLAlchemy</code>에 대해 알아보도록 하자. python DB API에 대해서는 <a href="https://choieastsea.github.io/posts/8/">이전 글을 참고</a>한다.</p>
+<h1 id="overview">Overview</h1>
+<p><a href="https://docs.sqlalchemy.org/en/20/intro.html">SQLAlchemy 문서</a>에서는 스스로를 <code>The Database Toolkit for Python</code> 라고 소개하고 있다.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div>
+        <img loading="lazy" alt="architecture" src=" https://docs.sqlalchemy.org/en/20/_images/sqla_arch_small.png">
+    </div>
+
+    
+</figure></p>
+<p>여러 DBMS에서 쿼리를 파이썬 함수로서 실행할 수 있게 해주며, orm도 다룰 수 있도록 지원하는 라이브러리라고 보면 될 것이다.</p>
+<h1 id="core">Core</h1>
+<p>비교적 저수준의 레이어로, 여러 DBMS에 호환되도록 하는 <!-- raw HTML omitted -->쿼리 생성 및 실행, 트랜잭션 및 커넥션<!-- raw HTML omitted -->에 책임을 갖는 레이어로 이해하면 될 것 같다. 그림에 나와있다시피 core 레이어에는 dialect, connection pooling, engine 등이 존재한다. 오늘은 connection pooling까지 알아보자.</p>
+<h1 id="dialect">Dialect</h1>
+<p>DBMS마다 실행을 위한 DB API(예: <code>pymysql</code>, <code>sqlite3</code>)가 다르다. SQLAlchemy는 이러한 DB API 위에서 추상화 계층을 제공하는 Dialect(방언, 사투리) 모듈을 제공한다. 이를 통해 우리는 <strong>SQLAlchemy + DB 드라이버 조합</strong>을 사용하여 DBMS가 변경되더라도 큰 코드 수정 없이 유지할 수 있다.</p>
+<p><code>Dialect</code>는 데이터 타입 변환, 트랜잭션 처리 등 <em>DBMS별 차이를 보완하는 역할</em>을 수행하여 sqlalchemy가 특정 DBMS와 소통할 수 있도록 도와준다고 볼 수 있다.</p>
+<p>다음은 SQLAlchemy가 기본적으로 지원하는 Dialect와 드라이버의 조합을 표현한 예시이다.</p>
+<ul>
+<li>SQLite (<code>sqlite://</code>)</li>
+<li>PostgreSQL (<code>postgresql+psycopg2://</code>)</li>
+<li>MySQL / MariaDB (<code>mysql+pymysql://</code>)</li>
+<li>Oracle (<code>oracle+cx_oracle://</code>)</li>
+<li>Microsoft SQL Server (<code>mssql+pyodbc://</code>)</li>
+</ul>
+<p>또한, community에서 추가적인 Dialect를 제공하는 경우도 있으니, 위에 해당하지 않는 DBMS의 경우 찾아보도록 하자.</p>
+<h1 id="connection-pooling">Connection Pooling</h1>
+<p>connection pooling은 DB api의 스펙이 아니므로 파이썬 db driver가 제공하는 기능은 아니고, <em>sqlalchemy에서 제공하는 기능</em>이다.</p>
+<p>connection pool(연결 풀)은 application에서 쿼리 실행마다 DB와의 connection(아마 TCP connection)을 맺고 끊는데 드는 비용을 아끼기 위해 커넥션을 일정 갯수만큼 갖고 있는 기법이다. DB 실행을 위해서는 커넥션이 필요할텐데 connection pool에 우선 접근하고, (없다면 새로운 connection 할당) 연결을 종료한다면 connection pool에 반납될 것이다.</p>
+<p>SQLAlchemy는 이를 pool 모듈에서 제공하며 connect 함수가 connection pooling 기법을 이용한다. 보통은 뒤에 나올 <strong>engine 객체를 초기화할 때 파라미터를 통해 QueuePool을 컨트롤</strong> 할 수 있고 pool 모듈을 직접 다루진 않을 것이다.</p>
+<h2 id="connect">connect()</h2>
+<p>Pool 모듈에도 <code>conect()</code> 메서드가 제공되는데, 이는 <a href="https://peps.python.org/pep-0249/#connect">connection 객체를 리턴하는 DB API의 connect</a>와 다르니 짚고 넘어가자.</p>
+<ol>
+<li>
+<p>풀 정책 확인 후 커넥션 반환</p>
+<ul>
+<li>사용하지 않는 커넥션이 있다면 반환한다</li>
+</ul>
+</li>
+<li>
+<p>반환 불가하다면 새로운 커넥션 생성</p>
+<ul>
+<li>새로운 커넥션 생성이 불가능한 경우 예외 발생</li>
+</ul>
+</li>
+<li>
+<p>connection 객체 리턴</p>
+<ul>
+<li>사용하는 db driver의 connection 객체를 리턴 (이제ㅂ터 해당 커넥션은 사용중으로 간주)</li>
+</ul>
+</li>
+<li>
+<p>connection.close() 호출시, 풀에 커넥션 반환</p>
+<ul>
+<li>해당 커넥션은 <strong>종료되지 않고 풀에 반환</strong>된다!!</li>
+</ul>
+</li>
+</ol>
+<p>이제 위에서 생성한 QueuePool로 connection pooling을 다뤄보자.</p>
+<h2 id="queuepool-생성하기">QueuePool 생성하기</h2>
+<p>한번 pymysql 드라이버를 통해 <code>QueuePool</code> 기능을 활용해보자. (queuepool은 알케미의 기본 풀 정책이다. <code>async_engine</code>을 사용하는 경우에는 <code>AsyncAdaptedQueuePool</code>이라고..)</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">from</span> <span style="color:#666;font-weight:bold;font-style:italic">sqlalchemy.pool</span> <span style="font-weight:bold;text-decoration:underline">import</span> QueuePool
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">import</span> <span style="color:#666;font-weight:bold;font-style:italic">pymysql</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"># SA QueuePool 생성</span>
+</span></span><span style="display:flex;"><span>pool = QueuePool(
+</span></span><span style="display:flex;"><span>    creator=<span style="font-weight:bold;text-decoration:underline">lambda</span>: pymysql.connect(
+</span></span><span style="display:flex;"><span>        host=<span style="color:#666;font-style:italic">&#34;localhost&#34;</span>,
+</span></span><span style="display:flex;"><span>        user=<span style="color:#666;font-style:italic">&#34;root&#34;</span>,
+</span></span><span style="display:flex;"><span>        password=<span style="color:#666;font-style:italic">&#34;yourpw&#34;</span>,
+</span></span><span style="display:flex;"><span>        database=<span style="color:#666;font-style:italic">&#34;test_db&#34;</span>,
+</span></span><span style="display:flex;"><span>        port=3306,
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    pool_size=5,
+</span></span><span style="display:flex;"><span>    max_overflow=10,
+</span></span><span style="display:flex;"><span>    timeout=30,
+</span></span><span style="display:flex;"><span>    recycle=1800,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>QueuePool 생성자의 파라미터들이 의미하는 것은 다음과 같다.</p>
+<ul>
+<li>creator : DB API에서 connection 객체를 반환하는 함수</li>
+<li>pool_size : 해당 풀에 담는 connection의 최대 개수 (default 5)</li>
+<li>max_overflow : pool_size를 넘었을 때, 추가 허용 connection 개수 (default 10)</li>
+<li>timeout : pool.connect()가 실행되었지만 pool에 남은 connection이 없을 때, 최대 기다릴 시간 (default 30)</li>
+<li>recycle : connect시, 장기 미사용 connection을 폐기하는 정책의 시간 기준 (default -1)</li>
+<li>use_lifo : FIFO(First In First Out) 대신 LIFO(Last In First Out) 전략으로 connection들을 관리할 지 여부</li>
+</ul>
+<p>한번 생각해보자. 위에서 생성한 pool의 경우, 최대 connection은 몇개까지 가능할까?</p>
+<p>15(5+10)개이다. 16번째 connectoin은 생성되지 않고 기존 connection이 close되길 기다릴 것이다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>connections = []
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"># Pool 크기를 초과하는 연결 시도</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">for</span> i <span style="font-weight:bold">in</span> <span style="font-weight:bold;font-style:italic">range</span>(15):
+</span></span><span style="display:flex;"><span>    conn = pool.connect()
+</span></span><span style="display:flex;"><span>    connections.append(conn)
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;font-style:italic">print</span>(<span style="color:#666;font-style:italic">f</span><span style="color:#666;font-style:italic">&#34;Connection </span><span style="color:#666;font-style:italic">{</span>i + 1<span style="color:#666;font-style:italic">}</span><span style="color:#666;font-style:italic"> opened.&#34;</span>)
+</span></span></code></pre></div><p>15개까지는 생성된다. 15 초과로 loop 횟수를 변경해보면 30초(<em>timeout</em>)간 기다린 후  <code>sqlalchemy.exc.TimeoutError: QueuePool limit of size 5 overflow 10 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)</code> 라는 오류 메시지와 함께 <code>TimeoutError</code>가 발생할 것이다.</p>
+<p>connect된 connection은 pool 입장에서는 사용중이므로 다음과 같이 close해줘야 한다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#888;font-style:italic"># 연결 반납</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">for</span> conn <span style="font-weight:bold">in</span> connections:
+</span></span><span style="display:flex;"><span>    conn.close()
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;font-style:italic">print</span>(<span style="color:#666;font-style:italic">&#34;Connection closed.&#34;</span>)
+</span></span></code></pre></div><p>15개의 커넥션이 종료되었다. (하지만 pool에 반납된 것이다) 이제 pool.connect()를 실행하면 다시 동작할 것이다.</p>
+<p>필자의 경우에도, 연결을 제대로 반납하지 않아 TimeoutError를 마주한 적이 있었다. sqlalchemy engine에서 <strong>connect메서드를 통해 connection을 가져간다면, 항상 사용 후에 해당 connection을 close해주어 connection pool에 반납을 해주도록 하자</strong>!</p>
+<p>추가로 커넥션 풀을 관리하며 알아두면 좋을 인자 몇개들을 알아보자.</p>
+<h3 id="recycle">recycle</h3>
+<p><code>pool.connect()</code> 로 connection pool로부터 유휴 커넥션을 가져올 때, 해당 connection이 사용하지 않은지 <strong>recycle초 이상되었다면 해당 연결을 닫고, 새로운 connection을 가져온다.</strong></p>
+<p>이는 application server 입장에서의 connection이 있더라도, DBMS단에서 connection을 닫아버렸을 수도 있기 때문이다. MySQL로 예시를 들면, <code>wait_timeout</code>이라는 변수가 있는데 유휴시간이 wait_timeout 이상이라면 MySQL입장에서 커넥션을 닫아버리는 경우가 있다. <a href="https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_wait_timeout">참고</a></p>
+<p>이외에도 여러가지 이유로 오랫동안 사용하지 않은 connection은 <em>server~client 모두가 서로 연결되었다고 확신할 수 없기 때문</em>에 recycle 필요하다. 위의 사례에서 보았듯,  <strong>MySQL의 wait_timeout은 pool의 recycle보다 크도록 설정해야 할 것</strong>이다. 그래야 만료된 connection으로 요청하지 않을 수 있다.</p>
+<h3 id="pre_ping">pre_ping</h3>
+<p>connection recycle을 하더라도 모종의 이유로 connection이 끊길 수 있다. 따라서, <code>connect()</code>시 <code>select 1;</code> 쿼리를 날려서 해당 커넥션이 유효한지 확인하고 유효하지 않다면 새로운 커넥션을 생성하는 <code>pre_ping</code> 옵션을 줄 수 있다. 가장 확실하지만 매 connection마다 추가로 쿼리를 날려야한다는 점에서 부담이 될 수 있다.</p>
+<p>그치만 DBMS 자체가 다운된 경우에는 pre ping을 날려도 소용없고 오류가 발생할 것이다.</p>
+<h3 id="reset_on_return">reset_on_return</h3>
+<p>커넥션이 풀로 반환될 때,(<code>conn.close()</code>) 수행할 동작을 지정하는 인자이다.</p>
+<ul>
+<li>rollback : default. 해당 커넥션을 초기상태로 되돌린다.</li>
+<li>commit : 해당 connection에 커밋을 날린다. 만약 트랜잭션에 남아있는게 있고 autocommit = False인 경우, 커넥션이 종료되면서 커밋이 되는 건 일반적인 상황은 아닐 것 같다.</li>
+<li>None : 아무것도 하지 않는다. autocommit=True인 경우 해당 설정 통해 효율을 높일 수 있을 것 같긴 하다.</li>
+</ul>
+<p>sqlalchemy에서는 pool 모듈을 직접 활용하는 경우는 적지만, 다음에 알아볼 engine 객체에서 <code>pool</code> prefix를 통해 설정이 가능하므로 주요 속성들을 알아두는 것이 좋다.</p>
+<p>다음에는 core의 핵심인 engine 객체에 대해 알아보도록 하겠다.</p>
+<p>화이팅 ~!</p>
+
+    
+<script src="https://giscus.app/client.js"
+        data-repo="choieastsea/choieastsea.github.io"
+        data-repo-id="R_kgDOMgbvhw"
+        data-category=""
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+        </script>
+
+  </div>
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flex">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/8/">
+                        (python) DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient)
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+      </main>
+    </div>
+
+    <footer>
+      <p>Powered by
+    <a href="https://gohugo.io/">Hugo</a>
+    and
+    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+</p>
+
+
+    </footer>
+
+  </body>
+
+  <script>
+
+  function isAuto() {
+    return document.body.classList.contains("auto");
+  }
+
+  function setTheme() {
+    if (!isAuto()) {
+      return
+    }
+
+    document.body.classList.remove("auto");
+    let cls = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      cls = "dark";
+    }
+
+    document.body.classList.add(cls);
+  }
+
+  function invertBody() {
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+  }
+
+  if (isAuto()) {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
+  }
+
+  setTheme();
+
+</script>
+
+</html>
