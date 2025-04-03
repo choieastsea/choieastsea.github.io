@@ -6,8 +6,15 @@
     <description>Recent content in Core on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 18 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Apr 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/tags/core/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>(python) SQLAlchemy 알아보기 (2) Engine</title>
+      <link>https://choieastsea.github.io/posts/10/</link>
+      <pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/10/</guid>
+      <description>engine / 생성(create_engine) / 주요 파라미터 / connect() / begin() / dispose()</description>
+    </item>
     <item>
       <title>(python) SQLAlchemy 알아보기 (1) Dialect &amp; Pool (connection pooling)</title>
       <link>https://choieastsea.github.io/posts/9/</link>
