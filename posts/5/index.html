@@ -2,9 +2,33 @@
 <html lang="ko-kr"
   dir="ltr">
 
-  <head>
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width"><meta name="description" content="" />
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="https://choieastsea.github.io//favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://choieastsea.github.io//favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://choieastsea.github.io//favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://choieastsea.github.io//android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://choieastsea.github.io//apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
 
 <title>
     
@@ -12,7 +36,23 @@
     
 </title>
 
-<link rel="canonical" href="https://choieastsea.github.io/posts/5/" />
+<link rel="canonical" href="https://choieastsea.github.io/posts/5/"/>
+
+<meta property="og:url" content="https://choieastsea.github.io/posts/5/">
+  <meta property="og:site_name" content="choieastsea.github.io">
+  <meta property="og:title" content="(python) wsgi 웹 서버 직접 만들어보기">
+  <meta property="og:description" content="CGI를 pythonic하게 해석한 wsgi 인터페이스를 알아보고 wsgi 기반의 웹 어플리케이션과 서버를 구현해보자.">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-08-25T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-08-25T00:00:00+00:00">
+    <meta property="article:tag" content="Web Server">
+    <meta property="article:tag" content="Server">
+    <meta property="article:tag" content="Cgi">
+    <meta property="article:tag" content="Wsgi">
+    <meta property="article:tag" content="Gunicorn">
+    <meta property="article:tag" content="Uwsgi">
 
 
 
@@ -25,58 +65,78 @@
 
 
 
-<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+<link rel="stylesheet" href="/assets/combined.min.3f9d86403a52fd4680e96b46e5cc687811b3dce2009c2e43d25b266187171957.css" media="all">
 
 
 
 
 
 
-  </head>
 
-  
 
-  
-  
-  
 
-  <body class="auto">
 
-    <div class="content">
-      <header>
-        
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
 
 <div class="header">
 
     
 
-    <h1 class="header-title">choieastsea.github.io</h1>
+    <h1 class="header-title">
+        <a href="https://choieastsea.github.io/">choieastsea.github.io</a>
+    </h1>
 
     <div class="flex">
         
 
         
         
+      
         <p class="small ">
-            <a href="/">
+            <a href="/" >
                 /home
             </a>
         </p>
         
+      
         <p class="small ">
-            <a href="/about">
+            <a href="/about" >
                 /about
             </a>
         </p>
         
+      
         <p class="small ">
-            <a href="/posts">
+            <a href="/posts" >
                 /posts
             </a>
         </p>
         
+      
         <p class="small ">
-            <a href="/tags">
+            <a href="/tags" >
                 /tags
             </a>
         </p>
@@ -87,24 +147,17 @@
     
 
 </div>
-      </header>
 
-      <main class="main">
-        
+    </header>
+
+    <main class="main">
+      
 
 
 
 
-<div class="breadcrumbs">
-    
-    <a href="/">Home</a>
-    <span class="breadcrumbs-separator"> > </span>
-    
-    <a href="/posts/">Posts</a>
-    <span class="breadcrumbs-separator"> > </span>
-    
-    <a class="breadcrumbs-current" href="/posts/5/">(python) wsgi 웹 서버 직접 만들어보기</a>
-</div>
+<div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/posts/">Posts</a><span class="breadcrumbs-separator">/</span>
+        <a href="/posts/5/">(python) wsgi 웹 서버 직접 만들어보기</a></div>
 
 
 <div >
@@ -212,12 +265,21 @@
 
   <div class="single-content">
     <p><a href="https://choieastsea.github.io/posts/4">이전 글</a>에는 웹서버와 어플리케이션을 구분하고, 이를 연결해주는 인터페이스/표준에 대해 알아보았다. 오늘은 그중 파이썬 진영의 표준인 <code>WSGI</code>에 대해 알아보자.</p>
-<h1 id="pep3333">PEP333(3)</h1>
+<h1 class="heading" id="pep3333">
+  PEP333(3)
+  <a class="anchor" href="#pep3333">#</a>
+</h1>
 <p><a href="https://peps.python.org/pep-0333/">PEP333</a>에서는 파이썬을 위한 Web Server Gate Interface, 즉 WSGI를 제안하였고, <a href="https://peps.python.org/pep-3333">PEP3333</a>에서는 python3 호환 WSGI를 제안하였다. 오늘은 3333를 읽어보자.</p>
-<h2 id="pep333의-목표">PEP333의 목표</h2>
+<h2 class="heading" id="pep333의-목표">
+  PEP333의 목표
+  <a class="anchor" href="#pep333%ec%9d%98-%eb%aa%a9%ed%91%9c">#</a>
+</h2>
 <p>PEP333의 서문에서는 Java에서 servlet api를 지원하는 웹 어플리케이션을 만들면, servlet 호환 가능한 여러 종류의 web server로 실행이 가능하다는 것을 예시로 시작한다. 이처럼 파이썬에도 간단한 웹 인터페이스의 표준을 제안하였는데, 그것이 바로 WSGI이다.</p>
 <p><code>WSGI</code>는 부가적인 기능을 정의하지는 않는데, 이는 기존 프레임워크와의 호환성이 더 중요하기 때문이라고 한다. 이로써 알 수 있는 것은 웹 프레임워크와 웹 서버는 이미 존재하며, <em>그 둘을 잇는 표준을 만드는 것이 목표에 가까움</em>을 알 수 있다.</p>
-<h2 id="핵심-개념">핵심 개념</h2>
+<h2 class="heading" id="핵심-개념">
+  핵심 개념
+  <a class="anchor" href="#%ed%95%b5%ec%8b%ac-%ea%b0%9c%eb%85%90">#</a>
+</h2>
 <p>WSGI 인터페이스를 인지하고 준수해야 하는 곳은 2군데가 있다.</p>
 <ol>
 <li>
@@ -229,7 +291,10 @@
 <p>HTTP 클라이언트로부터 요청이 오면 위에서 만든 callable WSGI app을 호출한다.</p>
 </li>
 </ol>
-<h3 id="middleware">middleware</h3>
+<h3 class="heading" id="middleware">
+  middleware
+  <a class="anchor" href="#middleware">#</a>
+</h3>
 <p>2개의 주요 컴포넌트 외에 추가로, <code>middleware</code>라는 개념이 있다. WSGI app을 감싸서 리턴하는 형태로 구현되어(재귀적으로 존재 가능) WSGI 앱과 서버 사이를 연결해준다. 앱을 감싸서 기능을 추가하여 또 다른 앱을 리턴해준다고 생각해도 좋다!</p>
 <p>일반적으로 사용되는 곳으로는 요청과 응답을 로깅하거나, 인증, 쿠키를 확인하는 등에도 사용할 수 있다. application과는 독립적이면서도 횡단의 관심사를 수행하도록 설계하기도 한다. <strong>decorator 패턴과 유사</strong>하다.</p>
 <p><code>middleware</code>를 포함한 일반적인 python web service의 구성도는 다음과 같다.</p>
@@ -244,14 +309,16 @@
 
 
 
+
 <figure class="">
 
-    <div>
-        <img loading="lazy" alt="middleware" src=" middleware.png">
+    <div class="img-container" style="--w: 1762; --h: 738;">
+        <img loading="lazy" alt="middleware" src="/posts/5/middleware.png" width="1762" height="738">
     </div>
 
     
-</figure></p>
+</figure>
+</p>
 <ol>
 <li>
 <p><code>nginx</code>웹서버가 HTTP요청을 받아, <strong>WSGI 서버(gunicorn)를 HTTP 호출</strong>한다.</p>
@@ -267,9 +334,15 @@
 <p>응답한다.</p>
 </li>
 </ol>
-<h2 id="wsgi-서버-구현해보기">WSGI 서버 구현해보기</h2>
+<h2 class="heading" id="wsgi-서버-구현해보기">
+  WSGI 서버 구현해보기
+  <a class="anchor" href="#wsgi-%ec%84%9c%eb%b2%84-%ea%b5%ac%ed%98%84%ed%95%b4%eb%b3%b4%ea%b8%b0">#</a>
+</h2>
 <p>이제 간단한 WSGI 서버를 만들며 사양을 익혀보자.</p>
-<h3 id="wsgi-호환-application-만들기">WSGI 호환 application 만들기</h3>
+<h3 class="heading" id="wsgi-호환-application-만들기">
+  WSGI 호환 application 만들기
+  <a class="anchor" href="#wsgi-%ed%98%b8%ed%99%98-application-%eb%a7%8c%eb%93%a4%ea%b8%b0">#</a>
+</h3>
 <p>위의 그림에서 web app에 해당하는 부분을 만들어보자.</p>
 <p>class 기반으로 만들수도 있지만, 간단하게 함수 기반 app을 만들어 보았다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#888;font-style:italic"># app.py</span>
@@ -286,7 +359,10 @@
 </ul>
 <p>HTTP content type에 맞게 결과를 알맞게 전송하면 된다.</p>
 <p>만약 WAS에서의 controller/router에 해당하는 역할이 필요하다면, app에서 처리할 수 있다. environ에서 넘어오는 path나 request body등의 정보를 통해 분기하여 응답하면 된다.</p>
-<h4 id="wsgi-app를-서버와-연결하기">WSGI app를 서버와 연결하기</h4>
+<h4 class="heading" id="wsgi-app를-서버와-연결하기">
+  WSGI app를 서버와 연결하기
+  <a class="anchor" href="#wsgi-app%eb%a5%bc-%ec%84%9c%eb%b2%84%ec%99%80-%ec%97%b0%ea%b2%b0%ed%95%98%ea%b8%b0">#</a>
+</h4>
 <p>WSGI 웹 서버중 하나인 <code>gunicorn</code>을 이용하여 위의 my_app를 서버로 사용해보자. 우선 <code>pip install gunicorn</code> 등으로 gunicorn을 설치한 환경에서, 아래 명령어를 실행한다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt; gunicorn app:my_app
 </span></span><span style="display:flex;"><span>[2024-08-25 10:55:31 +0900] [14954] [INFO] Starting gunicorn 21.2.0
@@ -305,16 +381,21 @@
 
 
 
+
 <figure class="">
 
-    <div>
-        <img loading="lazy" alt="wsgi_app" src=" wsgi_app.png">
+    <div class="img-container" style="--w: 684; --h: 144;">
+        <img loading="lazy" alt="wsgi_app" src="/posts/5/wsgi_app.png" width="684" height="144">
     </div>
 
     
-</figure></p>
+</figure>
+</p>
 <p>이렇듯 <code>WSGI</code>를 준수하여 어플리케이션을 구현하면 별도의 종속성 없이 웹 서비스를 서빙할 수 있다.</p>
-<h3 id="wsgi-server-만들기">WSGI server 만들기</h3>
+<h3 class="heading" id="wsgi-server-만들기">
+  WSGI server 만들기
+  <a class="anchor" href="#wsgi-server-%eb%a7%8c%eb%93%a4%ea%b8%b0">#</a>
+</h3>
 <p><code>gunicorn</code>을 이용하지 않고, wsgi web server를 직접 만드는 것도 가능하다. 특정 포트에 소켓을 열고, 응답하면 된다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#888;font-style:italic"># main.py</span>
 </span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">run_wsgi_server</span>(application, host=<span style="color:#666;font-style:italic">&#34;127.0.0.1&#34;</span>, port=8000):
@@ -371,11 +452,17 @@
 </span></span><span style="display:flex;"><span>Serving on http://127.0.0.1:8000 ...
 </span></span><span style="display:flex;"><span>request from (<span style="color:#666;font-style:italic">&#39;127.0.0.1&#39;</span>, 51012) <span style="color:#888;font-style:italic"># 요청 로그</span>
 </span></span></code></pre></div><p>요청~응답이 잘 동작하는 것을 확인할 수 있다.</p>
-<h4 id="multi-threadprocess-server">multi thread/process server</h4>
+<h4 class="heading" id="multi-threadprocess-server">
+  multi thread/process server
+  <a class="anchor" href="#multi-threadprocess-server">#</a>
+</h4>
 <p>보통 서버에 요청이 들어오면, 한 요청을 처리하는 하나의 스레드를 두어 처리하고는 한다. 방금 우리가 알아본 구조에서는 어떤 곳에서 이를 처리할까?</p>
 <p>일반적으로는 <strong>WSGI server에서 처리</strong>하도록 한다. 요청이 들어오기 전에 스레드 풀을 만들거나, 멀티 프로세스로 WSGI 서버와 앱을 메모리에 올려놓고, 여러 요청이 들어왔을 때 담당 스레드/프로세스에서 요청을 처리하도록 한다. wsgi app을 미리 실행해놓는 이유는 요청이 들어온 시점에 disk에 저장된 코드를 실행하면 시간이 오래 걸리기 때문이다.</p>
 <p>하지만 python은 <code>GIL</code>의 존재하여 <code>CPU bound</code>한 작업은 multi-thread server로 구성하지 않고 multi-process server로 구성하는 것이 동시성 성능에 좋은 것으로 알려져 있다. (물론 IO bound의 경우에는 multi thread의 효과를 볼 수 있다) 이러한 이슈는 GIL를 interpreter당 가져가도록 개선될 예정이라고 했던 것 같으니 참고만 하자..</p>
-<h3 id="middleware-1">middleware</h3>
+<h3 class="heading" id="middleware-1">
+  middleware
+  <a class="anchor" href="#middleware-1">#</a>
+</h3>
 <p>간단한 로깅을 위한 미들웨어도 만들어보자.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">create_app</span>(app):
 </span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">middleware</span>(environ, start_response):
@@ -398,7 +485,10 @@
 </span></span><span style="display:flex;"><span>&lt;Request URI&gt;: /	<span style="color:#888;font-style:italic"># middleware 출력</span>
 </span></span><span style="display:flex;"><span>&lt;Response data&gt;: [b<span style="color:#666;font-style:italic">&#39;Hello, WSGI World!&#39;</span>] <span style="color:#888;font-style:italic"># middleware 출력</span>
 </span></span></code></pre></div><p>순수 파이썬으로 서버를 만들어버린 것이다 ~!</p>
-<h2 id="정리">정리</h2>
+<h2 class="heading" id="정리">
+  정리
+  <a class="anchor" href="#%ec%a0%95%eb%a6%ac">#</a>
+</h2>
 <p>WSGI 인터페이스를 준수하는 웹 서버를 만들어 보았고 각각의 역할은 다음과 같다.</p>
 <ul>
 <li>WSGI app : 라우팅, 어플리케이션 로직 담당</li>
@@ -407,17 +497,24 @@
 </ul>
 <p>보통 python 웹 생태계는 WSGI app과 middleware 역할을 하는 부분이 <code>django</code>, <code>fastapi</code>와 같은 웹 프레임워크로 추상화되어있다. WSGI server는 복잡한 비즈니스 로직보다는 stability과 scalability에 신경을 쓰므로 <code>gunicorn</code>, <code>uwsgi</code>와 같은 안정적인 라이브러리를 사용한다.</p>
 <p>파이썬 웹 개발을 한다면, <code>웹 프레임워크 선택(+ orm 라이브러리 선택) → WSGI 웹 서버 선택 → 범용 웹 서버 선택</code>의 과정에서 각 요소들을 독립적으로 선택할 수 있듯, 상당히 <code>loosely coopled</code> 되도록 설계되어있다는 사실을 엿볼 수 있다.</p>
-<h3 id="비동기-서버-interface-asgi">비동기 서버 interface (ASGI)</h3>
+<h3 class="heading" id="비동기-서버-interface-asgi">
+  비동기 서버 interface (ASGI)
+  <a class="anchor" href="#%eb%b9%84%eb%8f%99%ea%b8%b0-%ec%84%9c%eb%b2%84-interface-asgi">#</a>
+</h3>
 <p>IO bound한 요청이 많은 현대의 웹 서비스에서 multi-thread로 요청을 처리하는 것은 동시성 성능이 떨어진다. 이에 이벤트 루프를 사용하여 싱글 스레드 환경에서 비동기적으로 요청을 처리하는 비동기 서버가 나오게 되었다. 파이썬에서도 이를 지원하기 위해 WSGI의 확장판인 <a href="https://asgi.readthedocs.io/en/latest/">ASGI</a>, (Asynchronous Server Gateway Interface)가 존재한다.</p>
 <p>ASGI 서버는 언젠가 시간이 되면 만들어보도록 하자 !</p>
 <p>화이팅 ~</p>
-<h3 id="참고">참고</h3>
+<h3 class="heading" id="참고">
+  참고
+  <a class="anchor" href="#%ec%b0%b8%ea%b3%a0">#</a>
+</h3>
 <p><a href="https://www.youtube.com/watch?v=WqrCnVAkLIo">https://www.youtube.com/watch?v=WqrCnVAkLIo</a></p>
 <p><a href="https://peps.python.org/pep-3333">https://peps.python.org/pep-3333</a></p>
 <p><a href="https://peps.python.org/pep-0333">https://peps.python.org/pep-0333</a></p>
 
     
-<script src="https://giscus.app/client.js"
+    
+    <script src="https://giscus.app/client.js"
         data-repo="choieastsea/choieastsea.github.io"
         data-repo-id="R_kgDOMgbvhw"
         data-category=""
@@ -432,9 +529,13 @@
         data-loading="lazy"
         crossorigin="anonymous"
         async>
-        </script>
+</script>
 
+    
+    
   </div>
+
+  
 
   
 
@@ -444,7 +545,7 @@
 <div class="single-pagination">
     <hr />
 
-    <div class="flex">
+    <div class="flexnowrap">
 
         <div class="single-pagination-prev">
             
@@ -494,52 +595,52 @@
 </div>
 
 
-      </main>
-    </div>
+    </main>
+  </div>
 
-    <footer>
-      <p>Powered by
-    <a href="https://gohugo.io/">Hugo</a>
-    and
-    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
-</p>
+  
+  
 
 
-    </footer>
 
-  </body>
 
-  <script>
 
-  function isAuto() {
-    return document.body.classList.contains("auto");
-  }
+    
 
-  function setTheme() {
-    if (!isAuto()) {
-      return
-    }
 
-    document.body.classList.remove("auto");
-    let cls = "light";
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      cls = "dark";
-    }
 
-    document.body.classList.add(cls);
-  }
 
-  function invertBody() {
-    document.body.classList.toggle("dark");
-    document.body.classList.toggle("light");
-  }
+  <footer>
+    
 
-  if (isAuto()) {
-    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
-  }
+    
+    
 
-  setTheme();
 
-</script>
 
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script src="/js/theme-switch.js"></script>
+<script defer src="/js/copy-code.js"></script>
 </html>

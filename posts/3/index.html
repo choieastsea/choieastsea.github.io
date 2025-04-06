@@ -2,9 +2,33 @@
 <html lang="ko-kr"
   dir="ltr">
 
-  <head>
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width"><meta name="description" content="" />
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="https://choieastsea.github.io//favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://choieastsea.github.io//favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://choieastsea.github.io//favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://choieastsea.github.io//android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://choieastsea.github.io//apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
 
 <title>
     
@@ -12,7 +36,23 @@
     
 </title>
 
-<link rel="canonical" href="https://choieastsea.github.io/posts/3/" />
+<link rel="canonical" href="https://choieastsea.github.io/posts/3/"/>
+
+<meta property="og:url" content="https://choieastsea.github.io/posts/3/">
+  <meta property="og:site_name" content="choieastsea.github.io">
+  <meta property="og:title" content="(python) poetry 입문과 사용법 (2)">
+  <meta property="og:description" content="pyenv와 조합 /poetry 기반 프로젝트 개발하기 / dependency-group">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-08-13T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-08-13T00:00:00+00:00">
+    <meta property="article:tag" content="Python">
+    <meta property="article:tag" content="Poetry">
+    <meta property="article:tag" content="Package Manager">
+    <meta property="article:tag" content="Pyproject">
+    <meta property="article:tag" content="Toml">
+    <meta property="article:tag" content="Venv">
 
 
 
@@ -25,58 +65,78 @@
 
 
 
-<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+<link rel="stylesheet" href="/assets/combined.min.3f9d86403a52fd4680e96b46e5cc687811b3dce2009c2e43d25b266187171957.css" media="all">
 
 
 
 
 
 
-  </head>
 
-  
 
-  
-  
-  
 
-  <body class="auto">
 
-    <div class="content">
-      <header>
-        
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
 
 <div class="header">
 
     
 
-    <h1 class="header-title">choieastsea.github.io</h1>
+    <h1 class="header-title">
+        <a href="https://choieastsea.github.io/">choieastsea.github.io</a>
+    </h1>
 
     <div class="flex">
         
 
         
         
+      
         <p class="small ">
-            <a href="/">
+            <a href="/" >
                 /home
             </a>
         </p>
         
+      
         <p class="small ">
-            <a href="/about">
+            <a href="/about" >
                 /about
             </a>
         </p>
         
+      
         <p class="small ">
-            <a href="/posts">
+            <a href="/posts" >
                 /posts
             </a>
         </p>
         
+      
         <p class="small ">
-            <a href="/tags">
+            <a href="/tags" >
                 /tags
             </a>
         </p>
@@ -87,24 +147,17 @@
     
 
 </div>
-      </header>
 
-      <main class="main">
-        
+    </header>
+
+    <main class="main">
+      
 
 
 
 
-<div class="breadcrumbs">
-    
-    <a href="/">Home</a>
-    <span class="breadcrumbs-separator"> > </span>
-    
-    <a href="/posts/">Posts</a>
-    <span class="breadcrumbs-separator"> > </span>
-    
-    <a class="breadcrumbs-current" href="/posts/3/">(python) poetry 입문과 사용법 (2)</a>
-</div>
+<div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/posts/">Posts</a><span class="breadcrumbs-separator">/</span>
+        <a href="/posts/3/">(python) poetry 입문과 사용법 (2)</a></div>
 
 
 <div >
@@ -202,9 +255,15 @@
 
   <div class="single-content">
     <p>지난번에는 <code>poetry</code>를 이용하여 프로젝트를 시작하고 라이브러리를 추가하는 방법에 대하여 알아보았다. 오늘은 응용할 수 있는 부분들을 정리해보려고 한다.</p>
-<h2 id="pyenv--poetry-조합">pyenv + poetry 조합</h2>
+<h2 class="heading" id="pyenv--poetry-조합">
+  pyenv + poetry 조합
+  <a class="anchor" href="#pyenv--poetry-%ec%a1%b0%ed%95%a9">#</a>
+</h2>
 <p><code>pyproject.toml</code>을 보면 python의 버전 제약도 명시되어 있는데, 프로젝트마다 독립적인 파이썬 버전을 갖게 하고 싶을 수 있다. 이때 활용할 수 있는 것이 <a href="https://github.com/pyenv/pyenv">pyenv</a>이다. node의 <code>nvm</code>과 유사하게 필요한 버전을 골라서 사용할 수 있다.</p>
-<h3 id="pyenv-훑어보기">pyenv 훑어보기</h3>
+<h3 class="heading" id="pyenv-훑어보기">
+  pyenv 훑어보기
+  <a class="anchor" href="#pyenv-%ed%9b%91%ec%96%b4%eb%b3%b4%ea%b8%b0">#</a>
+</h3>
 <p>pyenv는 python을 실행할 때 환경변수 <code>PATH</code>에 <!-- raw HTML omitted -->python 실행 파일이 아닌 shim 파일<!-- raw HTML omitted -->(일종의 스크립트 파일인듯 함)위치를 기록하고, shim파일은 <!-- raw HTML omitted -->특정 버전의 python으로 연결<!-- raw HTML omitted --> 하여 다양한 버전을 사용할 수 있게 해준다고 한다.</p>
 <p>아래와 같이 나온다면 정상 설치&amp;설정된 것이다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt; which python
@@ -232,16 +291,25 @@
 </span></span><span style="display:flex;"><span>&gt; pyenv global
 </span></span><span style="display:flex;"><span>3.10.14 <span style="color:#888;font-style:italic"># local만 바뀜</span>
 </span></span></code></pre></div><p>local 버전을 설정하면 <code>.python-version</code>이라는 파이썬 버전이 들어간 파일을 만들어준다.</p>
-<h3 id="pyenv의-python으로-poetry-가상환경-만들기">pyenv의 python으로 poetry 가상환경 만들기</h3>
+<h3 class="heading" id="pyenv의-python으로-poetry-가상환경-만들기">
+  pyenv의 python으로 poetry 가상환경 만들기
+  <a class="anchor" href="#pyenv%ec%9d%98-python%ec%9c%bc%eb%a1%9c-poetry-%ea%b0%80%ec%83%81%ed%99%98%ea%b2%bd-%eb%a7%8c%eb%93%a4%ea%b8%b0">#</a>
+</h3>
 <p>poetry를 이용해 특정 파이썬을 이용해 가상환경을 만들기 위해서는 <code>poetry env use /full/path/to/python</code>를 입력해주면 된다. <code>pyenv which python</code>의 결과를 이용할 수 있겠다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt; poetry env use <span style="font-weight:bold;text-decoration:underline">$(</span>pyenv which python<span style="font-weight:bold;text-decoration:underline">)</span>
 </span></span></code></pre></div><p>가상환경(poetry) + 버전 격리(pyenv)의 조합으로 자유롭게 프로젝트를 향유할 수 있게 되었다!</p>
-<h2 id="poetry-install로-설치하기">poetry install로 설치하기</h2>
+<h2 class="heading" id="poetry-install로-설치하기">
+  poetry install로 설치하기
+  <a class="anchor" href="#poetry-install%eb%a1%9c-%ec%84%a4%ec%b9%98%ed%95%98%ea%b8%b0">#</a>
+</h2>
 <p>poetry 프로젝트를 git 등을 통해 가져왔다고 가정하자. 실행하기 위해 프로젝트에 알맞는 버전의 파이썬 가상환경까지 만들었다면, 이제 종속성 라이브러리를 설치할 차례이다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt; poetry install
 </span></span></code></pre></div><p>간단한 명령어로 <code>pyproject.toml</code> 혹은 <code>poetry.lock</code>에 있는 종속성 라이브러리들을 설치해줄 거이다.</p>
 <p>만약 <!-- raw HTML omitted -->lock 파일이 없다면<!-- raw HTML omitted --> toml파일을 기반으로 라이브러리 버전들을 resolve하여 <!-- raw HTML omitted -->lock 파일을 만들고 가상환경에 설치<!-- raw HTML omitted -->해줄 것이다. (다만 이는 프로젝트 배포자와 다른 환경으로 구축될 확률이 있다) toml파일로부터 lock파일만 만들고 싶다면 <code>poetry lock</code> 명령어를 수행하자.</p>
-<h2 id="dependency-group">dependency group</h2>
+<h2 class="heading" id="dependency-group">
+  dependency group
+  <a class="anchor" href="#dependency-group">#</a>
+</h2>
 <p>poetry는 기본적으로 한 프로젝트에 하나의 <code>pyproject.toml</code>파일을 추구한다. 하지만 환경에 따라 다른 라이브러리를 설치하고 싶은 경우에는 어떻게 할까?</p>
 <p>예컨대, fastapi 기반의 웹서비스를 가정해보자. 용량이 적은 배포환경을 위해 <code>pytest</code>, <code>pytest-asyncio</code>, <code>aiosqlite</code> 같은 테스트를 위한 라이브러리들은 빼고 싶을 수 있다. 아니면 테스트 파이프라인을 컨테이너에서 실행할 때, 굳이 문서 배포에서만 필요한 <code>sphinx-autodoc</code>은 원하지 않을 수 있다.</p>
 <p>기존에는 <code>requirements.txt</code>, <code>requirements-test.txt</code> 처럼 여러 종속성 파일들을 만들 수 있었지만, poetry에서는 dependency-group를 활용할 수 있다. group명으로는 test, dev 등이 있을 수 있다.</p>
@@ -271,13 +339,17 @@ pytest = &#34;^8.3.2&#34;
 </li>
 </ol>
 <p>그 외에도 이런 저런 기능들도 가능하다고 합니다&hellip;</p>
-<h2 id="대안은-없는가">대안은 없는가</h2>
+<h2 class="heading" id="대안은-없는가">
+  대안은 없는가
+  <a class="anchor" href="#%eb%8c%80%ec%95%88%ec%9d%80-%ec%97%86%eb%8a%94%ea%b0%80">#</a>
+</h2>
 <p>찾아보니 <a href="https://hatch.pypa.io/latest/">hatch</a>, <a href="https://rye.astral.sh">Rye</a>라는 패키지 관리자가 있다. 제공하는 기능은 크게 다르지 않겠지만, poetry가 가장 레퍼런스가 많고 문서화가 잘 되어 있다. (그게 가장 좋다는 의미는 아니다)</p>
 <p>앞으로 python 기반의 프로젝트를 시작할 때는 <code>poetry</code>를 사용해보자 !</p>
 <p>화이팅</p>
 
     
-<script src="https://giscus.app/client.js"
+    
+    <script src="https://giscus.app/client.js"
         data-repo="choieastsea/choieastsea.github.io"
         data-repo-id="R_kgDOMgbvhw"
         data-category=""
@@ -292,9 +364,13 @@ pytest = &#34;^8.3.2&#34;
         data-loading="lazy"
         crossorigin="anonymous"
         async>
-        </script>
+</script>
 
+    
+    
   </div>
+
+  
 
   
 
@@ -304,7 +380,7 @@ pytest = &#34;^8.3.2&#34;
 <div class="single-pagination">
     <hr />
 
-    <div class="flex">
+    <div class="flexnowrap">
 
         <div class="single-pagination-prev">
             
@@ -354,52 +430,52 @@ pytest = &#34;^8.3.2&#34;
 </div>
 
 
-      </main>
-    </div>
+    </main>
+  </div>
 
-    <footer>
-      <p>Powered by
-    <a href="https://gohugo.io/">Hugo</a>
-    and
-    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
-</p>
+  
+  
 
 
-    </footer>
 
-  </body>
 
-  <script>
 
-  function isAuto() {
-    return document.body.classList.contains("auto");
-  }
+    
 
-  function setTheme() {
-    if (!isAuto()) {
-      return
-    }
 
-    document.body.classList.remove("auto");
-    let cls = "light";
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      cls = "dark";
-    }
 
-    document.body.classList.add(cls);
-  }
 
-  function invertBody() {
-    document.body.classList.toggle("dark");
-    document.body.classList.toggle("light");
-  }
+  <footer>
+    
 
-  if (isAuto()) {
-    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
-  }
+    
+    
 
-  setTheme();
 
-</script>
 
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script src="/js/theme-switch.js"></script>
+<script defer src="/js/copy-code.js"></script>
 </html>

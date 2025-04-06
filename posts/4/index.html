@@ -2,9 +2,33 @@
 <html lang="ko-kr"
   dir="ltr">
 
-  <head>
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width"><meta name="description" content="" />
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="https://choieastsea.github.io//favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://choieastsea.github.io//favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://choieastsea.github.io//favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://choieastsea.github.io//android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://choieastsea.github.io//apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
 
 <title>
     
@@ -12,7 +36,23 @@
     
 </title>
 
-<link rel="canonical" href="https://choieastsea.github.io/posts/4/" />
+<link rel="canonical" href="https://choieastsea.github.io/posts/4/"/>
+
+<meta property="og:url" content="https://choieastsea.github.io/posts/4/">
+  <meta property="og:site_name" content="choieastsea.github.io">
+  <meta property="og:title" content="어플리케이션이 웹 어플리케이션이 되는 방법(feat. cgi, wsgi, servlet)">
+  <meta property="og:description" content="우리가 작성한 어플리케이션(혹은 code/script)은 어떻게 HTTP 요청에 응답할 수 있을까?">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-08-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-08-18T00:00:00+00:00">
+    <meta property="article:tag" content="Web Server">
+    <meta property="article:tag" content="Server">
+    <meta property="article:tag" content="Python">
+    <meta property="article:tag" content="Cgi">
+    <meta property="article:tag" content="Wsgi">
+    <meta property="article:tag" content="Servlet">
 
 
 
@@ -25,58 +65,78 @@
 
 
 
-<link rel="stylesheet" href="/assets/combined.min.a6824bbee0d90d5af09fed9b70395ce7076b615e315037455d903314e96ef91b.css" media="all">
+<link rel="stylesheet" href="/assets/combined.min.3f9d86403a52fd4680e96b46e5cc687811b3dce2009c2e43d25b266187171957.css" media="all">
 
 
 
 
 
 
-  </head>
 
-  
 
-  
-  
-  
 
-  <body class="auto">
 
-    <div class="content">
-      <header>
-        
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
 
 <div class="header">
 
     
 
-    <h1 class="header-title">choieastsea.github.io</h1>
+    <h1 class="header-title">
+        <a href="https://choieastsea.github.io/">choieastsea.github.io</a>
+    </h1>
 
     <div class="flex">
         
 
         
         
+      
         <p class="small ">
-            <a href="/">
+            <a href="/" >
                 /home
             </a>
         </p>
         
+      
         <p class="small ">
-            <a href="/about">
+            <a href="/about" >
                 /about
             </a>
         </p>
         
+      
         <p class="small ">
-            <a href="/posts">
+            <a href="/posts" >
                 /posts
             </a>
         </p>
         
+      
         <p class="small ">
-            <a href="/tags">
+            <a href="/tags" >
                 /tags
             </a>
         </p>
@@ -87,24 +147,17 @@
     
 
 </div>
-      </header>
 
-      <main class="main">
-        
+    </header>
+
+    <main class="main">
+      
 
 
 
 
-<div class="breadcrumbs">
-    
-    <a href="/">Home</a>
-    <span class="breadcrumbs-separator"> > </span>
-    
-    <a href="/posts/">Posts</a>
-    <span class="breadcrumbs-separator"> > </span>
-    
-    <a class="breadcrumbs-current" href="/posts/4/">어플리케이션이 웹 어플리케이션이 되는 방법(feat. cgi, wsgi, servlet)</a>
-</div>
+<div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/posts/">Posts</a><span class="breadcrumbs-separator">/</span>
+        <a href="/posts/4/">어플리케이션이 웹 어플리케이션이 되는 방법(feat. cgi, wsgi, servlet)</a></div>
 
 
 <div >
@@ -211,7 +264,10 @@
   <div class="single-content">
     <p>우리가 작성한 어플리케이션(혹은 code/script)은 어떻게 HTTP 요청에 응답할 수 있을까?</p>
 <p>오늘은 웹 서버와 웹 어플리케이션을 구분짓고, 그 과정을 알아보려고 한다.</p>
-<h1 id="web-server">web server</h1>
+<h1 class="heading" id="web-server">
+  web server
+  <a class="anchor" href="#web-server">#</a>
+</h1>
 <p>클라이언트의 요청에 대하여 적절한 응답을 하는 소프트웨어라고 볼 수 있다.</p>
 <p>예를 들어, 마트에서 전단지 비용이 아까워 웹으로 전단지를 볼 수 있게 해놨다고 가정해보자. 그 경우, 웹서버는 요청시 정적인(static) 파일들을 내려주면 될 것이다.</p>
 <p>
@@ -225,18 +281,23 @@
 
 
 
+
 <figure class="">
 
-    <div>
-        <img loading="lazy" alt="sales" src=" sales.png">
+    <div class="img-container" style="--w: 1465; --h: 738;">
+        <img loading="lazy" alt="sales" src="/posts/4/sales.png" width="1465" height="738">
     </div>
 
     
-</figure></p>
+</figure>
+</p>
 <p>사용자는 <code>index.html</code>을 적절히 해석해서 보여줄 수 있는 <code>웹 브라우저</code>로 해당 파일을 읽을 수 있게 된다.</p>
 <p>이러한 요청은 HTTP 기반으로 이루어지므로, 웹서버는 <!-- raw HTML omitted -->HTTP 요청을 받아 HTTP 응답을 해주는 소프트웨어<!-- raw HTML omitted -->라고 생각해볼 수 있겠다.</p>
 <p>그리고 위의 예시에서는 요청에 대해 특정 위치의 파일만 제공하였으므로 <code>static web server</code>라고 한다.</p>
-<h2 id="동적인-서버">동적인 서버</h2>
+<h2 class="heading" id="동적인-서버">
+  동적인 서버
+  <a class="anchor" href="#%eb%8f%99%ec%a0%81%ec%9d%b8-%ec%84%9c%eb%b2%84">#</a>
+</h2>
 <p>세일 정보가 매일 바뀐다고 해보자. 사장은 서버 컴퓨터에 접근해서 매일 index.html 파일을 수정하도록 할 수 있다. 귀찮더라도 여기까지는 가능하다.</p>
 <p>근데 사장은 갑자기 <em>회원 등급에 따라 다른 세일 정보를 보여주고 싶어졌다</em>.</p>
 <p><!-- raw HTML omitted -->사용자마다 요청에 대해 다른 응답이 필요<!-- raw HTML omitted -->해지는 것이다. 기존 방식으로는 해결하기 어려워졌고, <strong>동적인 서버(dynamic web server)가 등장</strong>하게 된다. (여기서부터가 백엔드 개발자의 본격적인 영역이라고 생각한다)</p>
@@ -265,16 +326,21 @@
 
 
 
+
 <figure class="">
 
-    <div>
-        <img loading="lazy" alt="dynamic_ws" src=" dynamic_ws.png">
+    <div class="img-container" style="--w: 1760; --h: 738;">
+        <img loading="lazy" alt="dynamic_ws" src="/posts/4/dynamic_ws.png" width="1760" height="738">
     </div>
 
     
-</figure></p>
+</figure>
+</p>
 <p>웹서버는 <code>xx마트.com</code>으로 들어온 요청에 대해 현재 디렉토리에 위치한 <code>main.py</code>를 인자를 넘겨주며 실행하면 된다. 이렇게 회원별로 다른 페이지를 보여줄 수 있을 것이다.</p>
-<h2 id="cgi-1997-">CGI (1997 ~)</h2>
+<h2 class="heading" id="cgi-1997-">
+  CGI (1997 ~)
+  <a class="anchor" href="#cgi-1997-">#</a>
+</h2>
 <p>이렇게 어찌저찌 해결은 된 것 같은데, <strong>웹 서버가 특정 코드(여기서는 파이썬)에 종속된다는 문제점</strong>이 생긴다. 이말은 즉, 언어가 달라지거나 전달 내용(사용자 정보에 추가로 뭘 준다던지)이 달라질 때마다 <strong>웹 서버를 뜯어 고쳐야한다는 점</strong>이다.</p>
 <p>이에 <strong>언어에 독립적인 웹 서버와 어플리케이션 간 규약</strong>이 만들어질 필요가 있었고, <code>CGI</code>(Common Gateway Interface)가 정의되었다.</p>
 <p>이제 요청이 들어왔을 때, 웹 서버는 CGI 형식을 만족하는 프로그램을 실행하면 되고 이는 <em>인터페이스에 의존해야한다는 OOP 설계 원칙에도 부합</em>해보인다.</p>
@@ -289,14 +355,16 @@
 
 
 
+
 <figure class="">
 
-    <div>
-        <img loading="lazy" alt="cgi" src=" cgi.png">
+    <div class="img-container" style="--w: 1762; --h: 738;">
+        <img loading="lazy" alt="cgi" src="/posts/4/cgi.png" width="1762" height="738">
     </div>
 
     
-</figure></p>
+</figure>
+</p>
 <p>웹서버 입장에서 다음과 같은 일들이 일어난다.</p>
 <ol>
 <li>
@@ -320,11 +388,20 @@
 </li>
 </ol>
 <p>참고로 위의 그림 예시에서 표현한 것과는 달리, 최초의 CGI는 html form의 action을 처리하기위해 사용되었다고 한다. (최근에는 form 말고도 많은 http 요청이 오고간다)</p>
-<h3 id="cgi-environment-variables">CGI Environment variables</h3>
+<h3 class="heading" id="cgi-environment-variables">
+  CGI Environment variables
+  <a class="anchor" href="#cgi-environment-variables">#</a>
+</h3>
 <p><a href="https://www6.uniovi.es/~antonio/ncsa_httpd/cgi/env.html">해당 사이트</a>에는 웹서버가 CGI 스크립트에 전달할 수 있는 환경변수가 정의되어 있으니 참고한다. <strong>핵심은 CGI 형식에 맞춰 구현하면, HTTP 요청을 적절하게 파싱하여 프로세스 내 환경변수로 전달하여 스크립트 실행으로 응답을 해준다</strong>는 점이다.</p>
-<h3 id="cgi의-문제">CGI의 문제</h3>
+<h3 class="heading" id="cgi의-문제">
+  CGI의 문제
+  <a class="anchor" href="#cgi%ec%9d%98-%eb%ac%b8%ec%a0%9c">#</a>
+</h3>
 <p>CGI에는 항상 새로운 프로세스를 생성해서 스크립트를 실행해야 한다는 문제점이 있다. 웹서버는 요청시마다 <code>fork()</code> 시스템 콜로 요청을 처리하는데 이 시간은 불필요하다. 이에 서버 idle 타임에 프로세스들을 <code>prefork</code> 해놓거나, 한 프로세스에서 처리할 수 있는 방법들이 고안되었다. (fastcgi 등)</p>
-<h2 id="각-언어별-interface">각 언어별 interface</h2>
+<h2 class="heading" id="각-언어별-interface">
+  각 언어별 interface
+  <a class="anchor" href="#%ea%b0%81-%ec%96%b8%ec%96%b4%eb%b3%84-interface">#</a>
+</h2>
 <p>CGI는 너무 많은 일반화가 담겨있는 것 같다. 이에 각 언어마다 웹 서버와 소통하기 위한 표준 인터페이스를 논의하였다.</p>
 <p>
 
@@ -337,14 +414,16 @@
 
 
 
+
 <figure class="">
 
-    <div>
-        <img loading="lazy" alt="standard_interface" src=" standard_interface.png">
+    <div class="img-container" style="--w: 1762; --h: 738;">
+        <img loading="lazy" alt="standard_interface" src="/posts/4/standard_interface.png" width="1762" height="738">
     </div>
 
     
-</figure></p>
+</figure>
+</p>
 <p>이러한 인터페이스의 등장으로 web server와 application를 de-coupling 할 수 있다. 각 컴포넌트의 역할은 다음과 같다.</p>
 <ul>
 <li>web server: CGI, 혹은 언어별 interface에 맞게 요청을 <strong>어플리케이션에 전달 및 응답</strong>하도록 구현한다.</li>
@@ -352,7 +431,10 @@
 </ul>
 <p>똑똑한 선인분들 덕분에 우리는 <code>apache + tomcat + spring boot</code>, <code>nginx + gunicorn + django</code>와 같이 <strong>웹서버 + (웹 어플리케이션 서버) + 웹 프레임워크</strong>의 구성을 갖게 되었다.</p>
 <p>지원하는 기능에 따라 web server나 application을 갈아 끼울 수 있는 것이다.!</p>
-<h1 id="web-application">web application</h1>
+<h1 class="heading" id="web-application">
+  web application
+  <a class="anchor" href="#web-application">#</a>
+</h1>
 <p>구현하는 application 분야 역시 웹 서버에 적합한 프레임워크가 출연하였다. <code>web framework</code>는 주로 routing, DB, HTTP 요청 등 서버가 제공해야하는 기능을 <!-- raw HTML omitted -->추상화하여 제공<!-- raw HTML omitted -->한다. 보통의 서버 개발자는 이러한(spring, django, nest) web framework 위에서 동작하는 코드를 개발한다.</p>
 <p>아래의 표를 작성해보았는데 (명확하게 구분되지는 않지만) 큰 틀에서 생각해보면 좋을 것이다.</p>
 <table>
@@ -385,20 +467,27 @@
 <blockquote>
 <p>추가로 node js의 경우, 별도의 WSGI와 같은 표준 인터페이스가 존재하지 않는 것으로 보이는데 확인이 필요해 보인다.</p>
 </blockquote>
-<h3 id="web-service-architecture">Web Service Architecture</h3>
+<h3 class="heading" id="web-service-architecture">
+  Web Service Architecture
+  <a class="anchor" href="#web-service-architecture">#</a>
+</h3>
 <p>그래서 단일 구성 서버 컴퓨터는 일반적으로 다음과 같이 구성된다고 보면 된다.</p>
 <ol>
 <li>Web Server : HTTP 송/수신, SSL 인증서 처리, 정적 파일(html/css/js 등) 서빙, <em>또 다른 웹서버들</em> 호출</li>
 <li>Web Application Server(interface 구현체 + 웹 프레임워크/코드 ) : 요청을 받아 python/java 등 비즈니스 로직을 포함한 동적인 application code 실행하여 반환</li>
 <li>DB 서버 : 메모리 독립적인 저장 공간 제공하는 서버</li>
 </ol>
-<h2 id="정리">정리</h2>
+<h2 class="heading" id="정리">
+  정리
+  <a class="anchor" href="#%ec%a0%95%eb%a6%ac">#</a>
+</h2>
 <p>요약하면, <strong>웹 서버는 요청에 대한 동적인 응답을 하기 위해 CGI와 같은 인터페이스를 정의하였고, 각 언어는 그 인터페이스 기반의 웹 프레임워크를 만들었다</strong>고 볼 수 있다.</p>
 <p>하지만, CGI는 웹서버가 요청에 대해 프로세스를 생성하는 방식으로 인하여 현재 사용하지는 않고, 각 진영에서 알맞은 인터페이스(wsgi, servlet)를 정의하고 이를 구현한 웹 서버를 어플리케이션과 연결하여 사용하고 있다.</p>
 <p>화아팅!</p>
 
     
-<script src="https://giscus.app/client.js"
+    
+    <script src="https://giscus.app/client.js"
         data-repo="choieastsea/choieastsea.github.io"
         data-repo-id="R_kgDOMgbvhw"
         data-category=""
@@ -413,9 +502,13 @@
         data-loading="lazy"
         crossorigin="anonymous"
         async>
-        </script>
+</script>
 
+    
+    
   </div>
+
+  
 
   
 
@@ -425,7 +518,7 @@
 <div class="single-pagination">
     <hr />
 
-    <div class="flex">
+    <div class="flexnowrap">
 
         <div class="single-pagination-prev">
             
@@ -475,52 +568,52 @@
 </div>
 
 
-      </main>
-    </div>
+    </main>
+  </div>
 
-    <footer>
-      <p>Powered by
-    <a href="https://gohugo.io/">Hugo</a>
-    and
-    <a href="https://github.com/tomfran/typo">tomfran/typo</a>
-</p>
+  
+  
 
 
-    </footer>
 
-  </body>
 
-  <script>
 
-  function isAuto() {
-    return document.body.classList.contains("auto");
-  }
+    
 
-  function setTheme() {
-    if (!isAuto()) {
-      return
-    }
 
-    document.body.classList.remove("auto");
-    let cls = "light";
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      cls = "dark";
-    }
 
-    document.body.classList.add(cls);
-  }
 
-  function invertBody() {
-    document.body.classList.toggle("dark");
-    document.body.classList.toggle("light");
-  }
+  <footer>
+    
 
-  if (isAuto()) {
-    window.matchMedia('(prefers-color-scheme: dark)').addListener(invertBody);
-  }
+    
+    
 
-  setTheme();
 
-</script>
 
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script src="/js/theme-switch.js"></script>
+<script defer src="/js/copy-code.js"></script>
 </html>
