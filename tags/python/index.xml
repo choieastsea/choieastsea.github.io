@@ -6,8 +6,15 @@
     <description>Recent content in Python on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 03 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Apr 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>(python) SQLAlchemy 알아보기 (3) Connection과 Session</title>
+      <link>https://choieastsea.github.io/posts/11/</link>
+      <pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/11/</guid>
+      <description>&lt;p&gt;지금까지 sqlalchemy의 core layer에 대해 공부했고, 이제는 orm layer에 대해 알아보자. SQLAlchemy를 이용한 application을 다루게 된다면 가장 많이 접할 것이다.&lt;/p&gt;&#xA;&lt;h1 class=&#34;heading&#34; id=&#34;session&#34;&gt;&#xA;  Session&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#session&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;session은 sqlalchemy 객체로, DBMS와 ORM수준으로 &lt;strong&gt;상호작용하고 트랜잭션을 관리하기 위한 객체&lt;/strong&gt;이다.&lt;/p&gt;&#xA;&lt;p&gt;생성하는 방법으로는 두가지가 있는데, 모두 &lt;code&gt;Engine&lt;/code&gt; 인스턴스가 필요하다.&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;code&gt;Session(Engine)&lt;/code&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;code&gt;sessionmaker(bind=Engine)()&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;sessionmaker는 &lt;!-- raw HTML omitted --&gt;Session을 생성하기 위한 factory&lt;!-- raw HTML omitted --&gt;이며 호출시 session을 생성해준다. Engine처럼 보통 DB당 하나씩만 있으면 된다.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;주의할 점으로는 &lt;em&gt;Session 객체가 생성되었다고 해서 connection이 할당된 것은 아니라는 점&lt;/em&gt;이다. 다음 코드를 interactive mode로 실행해보자!&lt;/p&gt;</description>
+    </item>
     <item>
       <title>(python) SQLAlchemy 알아보기 (2) Engine</title>
       <link>https://choieastsea.github.io/posts/10/</link>

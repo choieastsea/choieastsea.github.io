@@ -62,7 +62,7 @@
 
 
 
-<link rel="stylesheet" href="/assets/combined.min.3f9d86403a52fd4680e96b46e5cc687811b3dce2009c2e43d25b266187171957.css" media="all">
+<link rel="stylesheet" href="/assets/combined.min.7b2a83aef4c2cb847a2aa473d3d144c9fc386f214891739e9e2a175b158be32d.css" media="all">
 
 
 
@@ -223,6 +223,7 @@
     <li><a href="#생성-create_engine">생성 (create_engine)</a>
       <ul>
         <li><a href="#생성--커넥션-생성">생성 != 커넥션 생성</a></li>
+        <li><a href="#enginepoolstatus">engine.pool.status()</a></li>
       </ul>
     </li>
     <li><a href="#주요-파라미터">주요 파라미터</a>
@@ -307,7 +308,14 @@
 </span></span><span style="display:flex;"><span>204	root	192.168.65.1:44481	test_db	Sleep	1		<span style="font-weight:bold;text-decoration:underline">NULL</span>
 </span></span><span style="display:flex;"><span>205	root	192.168.65.1:51309	test_db	Sleep	1		<span style="font-weight:bold;text-decoration:underline">NULL</span>
 </span></span></code></pre></div><p>물론 <code>engine.connect()</code>를 여러번 수행한다고 해서 항상 connection이 생성되는 것은 아니고, <em>connection pool 정책에 의해 생성될 것</em>이다.</p>
-<p>이제 create_engine의 주요 파라미터에 대해 알아보자.</p>
+<h3 class="heading" id="enginepoolstatus">
+  engine.pool.status()
+  <a class="anchor" href="#enginepoolstatus">#</a>
+</h3>
+<p>engine은 connection pool을 관리하는 pool 객체에 접근할 수 있고, <strong>status 메서드를 통해 현재 커넥션 풀의 상태를 확인</strong>할 수 있다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>&gt; engine.pool.status()
+</span></span><span style="display:flex;"><span>&gt; Pool size: 5  Connections <span style="font-weight:bold">in</span> pool: 0 Current Overflow: -5 Current Checked out connections: 0
+</span></span></code></pre></div><p>이제 create_engine의 주요 파라미터에 대해 알아보자.</p>
 <h2 class="heading" id="주요-파라미터">
   주요 파라미터
   <a class="anchor" href="#%ec%a3%bc%ec%9a%94-%ed%8c%8c%eb%9d%bc%eb%af%b8%ed%84%b0">#</a>
@@ -441,6 +449,15 @@
         </div>
 
         <div class="single-pagination-next">
+            
+            <div class="single-pagination-container-next">
+                <div class="single-pagination-text">
+                    <a href="/posts/11/">
+                        (python) SQLAlchemy 알아보기 (3) Connection과 Session
+                    </a>
+                </div>
+                <div class="single-pagination-text">→</div>
+            </div>
             
         </div>
 

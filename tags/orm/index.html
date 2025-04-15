@@ -26,22 +26,22 @@
 <link rel="icon" type="image/png" sizes="192x192" href="https://choieastsea.github.io//android-chrome-192x192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://choieastsea.github.io//apple-touch-icon.png">
 
-<link rel="alternate" type="application/rss+xml" href="https://choieastsea.github.io/tags/powerlevel10k/index.xml" title="choieastsea.github.io">
+<link rel="alternate" type="application/rss+xml" href="https://choieastsea.github.io/tags/orm/index.xml" title="choieastsea.github.io">
 <meta name="description" content=""/>
 
 
 
 <title>
     
-    Powerlevel10k | choieastsea.github.io
+    Orm | choieastsea.github.io
     
 </title>
 
-<link rel="canonical" href="https://choieastsea.github.io/tags/powerlevel10k/"/>
+<link rel="canonical" href="https://choieastsea.github.io/tags/orm/"/>
 
-<meta property="og:url" content="https://choieastsea.github.io/tags/powerlevel10k/">
+<meta property="og:url" content="https://choieastsea.github.io/tags/orm/">
   <meta property="og:site_name" content="choieastsea.github.io">
-  <meta property="og:title" content="Powerlevel10k">
+  <meta property="og:title" content="Orm">
   <meta property="og:description" content="choieastsea">
   <meta property="og:locale" content="ko_kr">
   <meta property="og:type" content="website">
@@ -148,9 +148,9 @@
 <div class="list-container">
 
     <div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/tags/">Tags</a><span class="breadcrumbs-separator">/</span>
-        <a href="/tags/powerlevel10k/">Powerlevel10k</a></div>
+        <a href="/tags/orm/">Orm</a></div>
 
-    <h1>Powerlevel10k</h1>
+    <h1>Orm</h1>
     
 
     
@@ -172,17 +172,33 @@
     
     
 
-    <p class="line-date">19 Sep 2024 </p>
+    <p class="line-date">15 Apr 2025 </p>
 
     <div>
         <p class="line-title">
-            <a href="/posts/7/">
-                (setting) 맥북 초기 설정 기록하기 (homebrew, zsh, powerlevel10k, python)
+            <a href="/posts/11/">
+                (python) SQLAlchemy 알아보기 (3) Connection과 Session
             </a>
         </p>
 
         
-        <p class="line-summary"> homebrew / 터미널 관련 / 간단한 개발환경 세팅 /기타 맥북 설정 </p>
+        <p class="line-summary"> <p>지금까지 sqlalchemy의 core layer에 대해 공부했고, 이제는 orm layer에 대해 알아보자. SQLAlchemy를 이용한 application을 다루게 된다면 가장 많이 접할 것이다.</p>
+<h1 class="heading" id="session">
+  Session
+  <a class="anchor" href="#session">#</a>
+</h1>
+<p>session은 sqlalchemy 객체로, DBMS와 ORM수준으로 <strong>상호작용하고 트랜잭션을 관리하기 위한 객체</strong>이다.</p>
+<p>생성하는 방법으로는 두가지가 있는데, 모두 <code>Engine</code> 인스턴스가 필요하다.</p>
+<ol>
+<li>
+<p><code>Session(Engine)</code></p>
+</li>
+<li>
+<p><code>sessionmaker(bind=Engine)()</code></p>
+<p>sessionmaker는 <!-- raw HTML omitted -->Session을 생성하기 위한 factory<!-- raw HTML omitted -->이며 호출시 session을 생성해준다. Engine처럼 보통 DB당 하나씩만 있으면 된다.</p>
+</li>
+</ol>
+<p>주의할 점으로는 <em>Session 객체가 생성되었다고 해서 connection이 할당된 것은 아니라는 점</em>이다. 다음 코드를 interactive mode로 실행해보자!</p> </p>
         
     </div>
 </div>

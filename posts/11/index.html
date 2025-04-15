@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko-kr"
+  dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="https://choieastsea.github.io//favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://choieastsea.github.io//favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://choieastsea.github.io//favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://choieastsea.github.io//android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://choieastsea.github.io//apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
+
+<title>
+    
+    (python) SQLAlchemy 알아보기 (3) Connection과 Session | choieastsea.github.io
+    
+</title>
+
+<link rel="canonical" href="https://choieastsea.github.io/posts/11/"/>
+
+<meta property="og:url" content="https://choieastsea.github.io/posts/11/">
+  <meta property="og:site_name" content="choieastsea.github.io">
+  <meta property="og:title" content="(python) SQLAlchemy 알아보기 (3) Connection과 Session">
+  <meta property="og:description" content="지금까지 sqlalchemy의 core layer에 대해 공부했고, 이제는 orm layer에 대해 알아보자. SQLAlchemy를 이용한 application을 다루게 된다면 가장 많이 접할 것이다.
+Session # session은 sqlalchemy 객체로, DBMS와 ORM수준으로 상호작용하고 트랜잭션을 관리하기 위한 객체이다.
+생성하는 방법으로는 두가지가 있는데, 모두 Engine 인스턴스가 필요하다.
+Session(Engine)
+sessionmaker(bind=Engine)()
+sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session을 생성해준다. Engine처럼 보통 DB당 하나씩만 있으면 된다.
+주의할 점으로는 Session 객체가 생성되었다고 해서 connection이 할당된 것은 아니라는 점이다. 다음 코드를 interactive mode로 실행해보자!">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-04-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-04-15T00:00:00+00:00">
+    <meta property="article:tag" content="Python">
+    <meta property="article:tag" content="Sqlalchemy">
+    <meta property="article:tag" content="Orm">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.7b2a83aef4c2cb847a2aa473d3d144c9fc386f214891739e9e2a175b158be32d.css" media="all">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">
+        <a href="https://choieastsea.github.io/">choieastsea.github.io</a>
+    </h1>
+
+    <div class="flex">
+        
+
+        
+        
+      
+        <p class="small ">
+            <a href="/" >
+                /home
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/about" >
+                /about
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/posts" >
+                /posts
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/tags" >
+                /tags
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+
+    </header>
+
+    <main class="main">
+      
+
+
+
+
+<div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/posts/">Posts</a><span class="breadcrumbs-separator">/</span>
+        <a href="/posts/11/">(python) SQLAlchemy 알아보기 (3) Connection과 Session</a></div>
+
+
+<div >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">(python) SQLAlchemy 알아보기 (3) Connection과 Session</h1>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2025-04-15T00:00:00&#43;00:00">April 15, 2025</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      3 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/python/">#Python</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/sqlalchemy/">#Sqlalchemy</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/orm/">#Orm</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#쿼리-실행--객체-매핑">쿼리 실행 &amp; 객체 매핑</a></li>
+    <li><a href="#트랜잭션-관리">트랜잭션 관리</a></li>
+    <li><a href="#orm과-트랜잭션의-관계--expire_on_commit">ORM과 트랜잭션의 관계 &amp; expire_on_commit</a></li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#정확한-관계-정리"><strong>정확한 관계 정리</strong>:</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#scoped-session-thread-safe">Scoped Session (Thread safe?!)</a></li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <p>지금까지 sqlalchemy의 core layer에 대해 공부했고, 이제는 orm layer에 대해 알아보자. SQLAlchemy를 이용한 application을 다루게 된다면 가장 많이 접할 것이다.</p>
+<h1 class="heading" id="session">
+  Session
+  <a class="anchor" href="#session">#</a>
+</h1>
+<p>session은 sqlalchemy 객체로, DBMS와 ORM수준으로 <strong>상호작용하고 트랜잭션을 관리하기 위한 객체</strong>이다.</p>
+<p>생성하는 방법으로는 두가지가 있는데, 모두 <code>Engine</code> 인스턴스가 필요하다.</p>
+<ol>
+<li>
+<p><code>Session(Engine)</code></p>
+</li>
+<li>
+<p><code>sessionmaker(bind=Engine)()</code></p>
+<p>sessionmaker는 <!-- raw HTML omitted -->Session을 생성하기 위한 factory<!-- raw HTML omitted -->이며 호출시 session을 생성해준다. Engine처럼 보통 DB당 하나씩만 있으면 된다.</p>
+</li>
+</ol>
+<p>주의할 점으로는 <em>Session 객체가 생성되었다고 해서 connection이 할당된 것은 아니라는 점</em>이다. 다음 코드를 interactive mode로 실행해보자!</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#888;font-style:italic"># test.py</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">from</span> <span style="color:#666;font-weight:bold;font-style:italic">sqlalchemy</span> <span style="font-weight:bold;text-decoration:underline">import</span> create_engine, text
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">from</span> <span style="color:#666;font-weight:bold;font-style:italic">sqlalchemy.orm</span> <span style="font-weight:bold;text-decoration:underline">import</span> sessionmaker
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>engine = create_engine(<span style="color:#666;font-style:italic">&#34;mysql+pymysql://root:password@localhost/test_db&#34;</span>, echo=<span style="font-weight:bold;text-decoration:underline">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sessionmaker = sessionmaker(bind=engine)
+</span></span><span style="display:flex;"><span>session = sessionmaker()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="">❯</span> python -i test.py
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; (아무것도 출력되지 않는다)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; session
+</span></span><span style="display:flex;"><span>&lt;sqlalchemy.orm.session.Session <span style="font-weight:bold;font-style:italic">object</span> at 0x106472710&gt;
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; engine.pool.status()
+</span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">&#39;Pool size: 5  Connections in pool: 0 Current Overflow: -5 Current Checked out connections: 0&#39;</span>
+</span></span></code></pre></div><p><strong>session이 생겼다고 해서 connection을 가져오지(<code>connect</code>) 않은</strong> 것을 확인할 수 있다. <em>실제 DB 실행시에 connection 객체를 가져올 것</em>이다.</p>
+<h2 class="heading" id="쿼리-실행--객체-매핑">
+  쿼리 실행 &amp; 객체 매핑
+  <a class="anchor" href="#%ec%bf%bc%eb%a6%ac-%ec%8b%a4%ed%96%89--%ea%b0%9d%ec%b2%b4-%eb%a7%a4%ed%95%91">#</a>
+</h2>
+<p>execute</p>
+<p>query</p>
+<p>scalars/scalar</p>
+<p>위 3개의 차이점 설명 필요</p>
+<p>add</p>
+<p>flush</p>
+<p>refresh</p>
+<p>delete</p>
+<p>위 메서드들은 session과 연결된 ORM 객체들을 관리하기 위해 사용한다.</p>
+<h2 class="heading" id="트랜잭션-관리">
+  트랜잭션 관리
+  <a class="anchor" href="#%ed%8a%b8%eb%9e%9c%ec%9e%ad%ec%85%98-%ea%b4%80%eb%a6%ac">#</a>
+</h2>
+<p>with으로 열 수도 있고, begin() ~ close()로 할 수도 있다. Engine과 거의 유사하며, ORM을 사용하기 위해 Session이 필요하다고 봐도 무방하다.</p>
+<p>추가로, rollback과 commit 메서드도 존재한다.</p>
+<p>begin()시에는 트랜잭션이 열리며, close()시에 rollback()/commit()이 실행된다.</p>
+<p><strong>begin() 역시 engine과 마찬가지로 쿼리가 나감(+connection을 가져옴)을 보장하지 않는다!</strong></p>
+<p>역으로, close() 메서드도 connection이 할당되지 않았다면 굳이 쿼리가 나가지 않을 것이다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="">❯</span> python -i test.py
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; session.begin()
+</span></span><span style="display:flex;"><span>&lt;sqlalchemy.orm.session.SessionTransaction <span style="font-weight:bold;font-style:italic">object</span> at 0x1046085f0&gt;
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; engine.pool.status()
+</span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">&#39;Pool size: 5  Connections in pool: 0 Current Overflow: -5 Current Checked out connections: 0&#39;</span>
+</span></span></code></pre></div><h2 class="heading" id="orm과-트랜잭션의-관계--expire_on_commit">
+  ORM과 트랜잭션의 관계 &amp; expire_on_commit
+  <a class="anchor" href="#orm%ea%b3%bc-%ed%8a%b8%eb%9e%9c%ec%9e%ad%ec%85%98%ec%9d%98-%ea%b4%80%ea%b3%84--expire_on_commit">#</a>
+</h2>
+<p>inspect(obj).expired를 통해 해당 orm 객체가 expire되었는지 확인할 수 있다.</p>
+<p>생성시에 줄 수 있는 옵션으로 expire_on_commit이 있는데, 이는 commit 시에 기존에 session에 묶여있던 ORM 객체들을</p>
+<h1 class="heading" id="engine-connection-session">
+  engine connection session
+  <a class="anchor" href="#engine-connection-session">#</a>
+</h1>
+<p>이제, engine, connection, session에 대해 알아봤는데, 차이점을 알 필요가 있다.</p>
+<p>connection은 DB API에 있는 connection을 래핑한 객체이다.</p>
+<p>engine은 connection들을 관리하기 위한 객체이다.</p>
+<p>session은 트랜잭션을 수행하고 ORM 객체와 매핑&amp;객체의 영속화를 수행하기 위한 객체이다. engine으로부터 만들어진다.</p>
+<h3 class="heading" id="정확한-관계-정리">
+  <strong>정확한 관계 정리</strong>:
+  <a class="anchor" href="#%ec%a0%95%ed%99%95%ed%95%9c-%ea%b4%80%ea%b3%84-%ec%a0%95%eb%a6%ac">#</a>
+</h3>
+<ol>
+<li>**<code>Connection</code>**과 **<code>Connection Pool</code>**은 SQLAlchemy가 사용하는 <strong>DBAPI 드라이버</strong>와 연관이 있습니다. <strong>DBAPI 드라이버</strong>는 데이터베이스와의 연결을 관리하며, 이는 <strong>PEP 249</strong>에 정의된 표준을 따릅니다.</li>
+<li>**<code>Session</code>**은 SQLAlchemy의 ORM 레이어에서 데이터베이스와 상호작용하는 객체로, 데이터베이스 연결을 직접 관리하지 않고 <strong>Connection Pool</strong>을 통해 필요할 때만 <strong>Connection</strong>을 가져와 사용합니다.</li>
+<li><strong>Connection</strong>은 데이터베이스와의 직접적인 연결을 나타내며, <strong>DBAPI 드라이버</strong>(예: <code>psycopg2</code>, <code>pymysql</code>)를 통해 데이터베이스와 연결됩니다.</li>
+<li><strong>Connection Pool</strong>은 SQLAlchemy가 여러 <strong>Connection</strong> 객체를 재사용하여 성능을 최적화하기 위한 연결 관리 메커니즘입니다.</li>
+</ol>
+<p>따라서 <strong>Connection과 Connection Pool은 DB 스펙</strong>이라고 보기보다는, <strong>DBAPI 드라이버와 SQLAlchemy의 연결 관리 메커니즘</strong>에 해당합니다. <strong>Session</strong>은 그 위에서 동작하는 <strong>SQLAlchemy ORM의 트랜잭션 관리 도구</strong>라고 할 수 있습니다.</p>
+<p><a href="https://cotak.tistory.com/310">https://cotak.tistory.com/310</a></p>
+<p>JPA의 OSIV : <a href="https://ykh6242.tistory.com/entry/JPA-OSIVOpen-Session-In-View%EC%99%80-%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94">https://ykh6242.tistory.com/entry/JPA-OSIVOpen-Session-In-View%EC%99%80-%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94</a></p>
+<h1 class="heading" id="암묵적-begin">
+  암묵적 begin
+  <a class="anchor" href="#%ec%95%94%eb%ac%b5%ec%a0%81-begin">#</a>
+</h1>
+<p>세션을 통한 쿼리 실행은 암묵적으로 트랜잭션을 열어준다.</p>
+<h1 class="heading" id="session은-스레드-세이프한가">
+  session은 스레드 세이프한가?
+  <a class="anchor" href="#session%ec%9d%80-%ec%8a%a4%eb%a0%88%eb%93%9c-%ec%84%b8%ec%9d%b4%ed%94%84%ed%95%9c%ea%b0%80">#</a>
+</h1>
+<p><a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#session-faq-threadsafe">https://docs.sqlalchemy.org/en/20/orm/session_basics.html#session-faq-threadsafe</a></p>
+<h2 class="heading" id="scoped-session-thread-safe">
+  Scoped Session (Thread safe?!)
+  <a class="anchor" href="#scoped-session-thread-safe">#</a>
+</h2>
+<p>하지만 session은 threadlocal하지 않음. 즉 여러 스레드가 동시에 접근시 문제가 생길 수 있음 (도대체 어떤 문제?!)</p>
+<p>이에 scoped_session이 나옴. scoped_session은 여러 세션을 key ~ value로 저장할 수 있도록 해주는 함수이다. 따라서 요청마다 고유한 값을 key로 하면 요청마다 session이 공유되게 할 수 있는 것이다!</p>
+<p>만약, async session의 경우에는 싱글스레드에서 돌아가므로 여러 스레드가 접근하지 않으므로 문제가 생기지 않는 것인가? 오류 전파 등의 이슈가 없는 건지..</p>
+<p><a href="https://jay-ji.tistory.com/115">https://jay-ji.tistory.com/115</a></p>
+<p>참고 : <a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#">https://docs.sqlalchemy.org/en/20/orm/session_basics.html#</a></p>
+
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="choieastsea/choieastsea.github.io"
+        data-repo-id="R_kgDOMgbvhw"
+        data-category=""
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+    
+  </div>
+
+  
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flexnowrap">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/10/">
+                        (python) SQLAlchemy 알아보기 (2) Engine
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+    </main>
+  </div>
+
+  
+  
+
+
+
+
+
+    
+
+
+
+
+  <footer>
+    
+
+    
+    
+
+
+
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script src="/js/theme-switch.js"></script>
+<script defer src="/js/copy-code.js"></script>
+</html>
