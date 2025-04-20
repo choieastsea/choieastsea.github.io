@@ -32,7 +32,7 @@
 
 <title>
     
-    (python) SQLAlchemy 알아보기 (3) Connection과 Session | choieastsea.github.io
+    (python) SQLAlchemy 알아보기 (3) Session | choieastsea.github.io
     
 </title>
 
@@ -40,14 +40,8 @@
 
 <meta property="og:url" content="https://choieastsea.github.io/posts/11/">
   <meta property="og:site_name" content="choieastsea.github.io">
-  <meta property="og:title" content="(python) SQLAlchemy 알아보기 (3) Connection과 Session">
-  <meta property="og:description" content="지금까지 sqlalchemy의 core layer에 대해 공부했고, 이제는 orm layer에 대해 알아보자. SQLAlchemy를 이용한 application을 다루게 된다면 가장 많이 접할 것이다.
-Session # session은 sqlalchemy 객체로, DBMS와 ORM수준으로 상호작용하고 트랜잭션을 관리하기 위한 객체이다.
-생성하는 방법으로는 두가지가 있는데, 모두 Engine 인스턴스가 필요하다.
-Session(Engine)
-sessionmaker(bind=Engine)()
-sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session을 생성해준다. Engine처럼 보통 DB당 하나씩만 있으면 된다.
-주의할 점으로는 Session 객체가 생성되었다고 해서 connection이 할당된 것은 아니라는 점이다. 다음 코드를 interactive mode로 실행해보자!">
+  <meta property="og:title" content="(python) SQLAlchemy 알아보기 (3) Session">
+  <meta property="og:description" content="session / 트랜잭션 관리 / orm 모델 정의 / 쿼리 실행 관련 메서드/ engine, connection, session 비교">
   <meta property="og:locale" content="ko_kr">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -56,6 +50,7 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
     <meta property="article:tag" content="Python">
     <meta property="article:tag" content="Sqlalchemy">
     <meta property="article:tag" content="Orm">
+    <meta property="article:tag" content="Session">
 
 
 
@@ -68,7 +63,7 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
 
 
 
-<link rel="stylesheet" href="/assets/combined.min.7b2a83aef4c2cb847a2aa473d3d144c9fc386f214891739e9e2a175b158be32d.css" media="all">
+<link rel="stylesheet" href="/assets/combined.min.0f4f5c64ee7100cff28e7c7366d922b5499829f72c91a53b9b17f236d85ad7e7.css" media="all">
 
 
 
@@ -160,7 +155,7 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
 
 
 <div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/posts/">Posts</a><span class="breadcrumbs-separator">/</span>
-        <a href="/posts/11/">(python) SQLAlchemy 알아보기 (3) Connection과 Session</a></div>
+        <a href="/posts/11/">(python) SQLAlchemy 알아보기 (3) Session</a></div>
 
 
 <div >
@@ -169,7 +164,9 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
 
     
 
-    <h1 class="single-title">(python) SQLAlchemy 알아보기 (3) Connection과 Session</h1>
+    <h1 class="single-title">(python) SQLAlchemy 알아보기 (3) Session</h1>
+    
+    <p class="single-summary">session / 트랜잭션 관리 / orm 모델 정의 / 쿼리 실행 관련 메서드/ engine, connection, session 비교</p>
     
 
     
@@ -183,7 +180,7 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
 
       
       &nbsp; · &nbsp;
-      3 min read
+      5 min read
       
     </p>
 
@@ -211,6 +208,11 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
     </span>
     
     
+    <span>
+      <a href="https://choieastsea.github.io/tags/session/">#Session</a>
+    </span>
+    
+    
   </div>
 
   
@@ -223,21 +225,9 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
     <p><strong>Table of contents</strong></p>
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#쿼리-실행--객체-매핑">쿼리 실행 &amp; 객체 매핑</a></li>
     <li><a href="#트랜잭션-관리">트랜잭션 관리</a></li>
-    <li><a href="#orm과-트랜잭션의-관계--expire_on_commit">ORM과 트랜잭션의 관계 &amp; expire_on_commit</a></li>
-  </ul>
-
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#정확한-관계-정리"><strong>정확한 관계 정리</strong>:</a></li>
-      </ul>
-    </li>
-  </ul>
-
-  <ul>
-    <li><a href="#scoped-session-thread-safe">Scoped Session (Thread safe?!)</a></li>
+    <li><a href="#orm-모델-정의">ORM 모델 정의</a></li>
+    <li><a href="#쿼리-실행-관련-메서드">쿼리 실행 관련 메서드</a></li>
   </ul>
 </nav>
   </aside>
@@ -252,17 +242,18 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
   <a class="anchor" href="#session">#</a>
 </h1>
 <p>session은 sqlalchemy 객체로, DBMS와 ORM수준으로 <strong>상호작용하고 트랜잭션을 관리하기 위한 객체</strong>이다.</p>
-<p>생성하는 방법으로는 두가지가 있는데, 모두 <code>Engine</code> 인스턴스가 필요하다.</p>
+<p>생성하는 방법으로는 몇가지가 있는데, 모두 <code>Engine</code> 인스턴스가 필요하다.</p>
 <ol>
 <li>
 <p><code>Session(Engine)</code></p>
 </li>
 <li>
-<p><code>sessionmaker(bind=Engine)()</code></p>
-<p>sessionmaker는 <!-- raw HTML omitted -->Session을 생성하기 위한 factory<!-- raw HTML omitted -->이며 호출시 session을 생성해준다. Engine처럼 보통 DB당 하나씩만 있으면 된다.</p>
+<p><code>sessionmaker(bind=Engine)</code>를 통한 생성</p>
+<p>sessionmaker는 <!-- raw HTML omitted -->Session을 생성하기 위한 factory<!-- raw HTML omitted -->이며 호출시 session을 생성해준다. sessionmaker 역시 Engine처럼 보통 DB당 하나씩만 있으면 된다.</p>
 </li>
 </ol>
-<p>주의할 점으로는 <em>Session 객체가 생성되었다고 해서 connection이 할당된 것은 아니라는 점</em>이다. 다음 코드를 interactive mode로 실행해보자!</p>
+<p>Session 객체는 context manager로도 가능하다. <a href="https://github.com/zzzeek/sqlalchemy/blob/main/lib/sqlalchemy/orm/session.py#L1798-L1802">https://github.com/zzzeek/sqlalchemy/blob/main/lib/sqlalchemy/orm/session.py#L1798-L1802</a> 해당 코드를 보면, context manager가 닫힐 때(<code>__exit__</code>), connection이 존재한다면 반환하는 <code>close()</code>메서드가 실행됨을 알 수 있다.</p>
+<p>주의할 점으로는 <em>Session 객체가 생성되었다고 해서 connection이 할당된 것은 아니라는 점</em>이다. 다음 코드를 interactive mode로 실행해보면 알 수 있다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#888;font-style:italic"># test.py</span>
 </span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">from</span> <span style="color:#666;font-weight:bold;font-style:italic">sqlalchemy</span> <span style="font-weight:bold;text-decoration:underline">import</span> create_engine, text
 </span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">from</span> <span style="color:#666;font-weight:bold;font-style:italic">sqlalchemy.orm</span> <span style="font-weight:bold;text-decoration:underline">import</span> sessionmaker
@@ -278,25 +269,48 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
 </span></span><span style="display:flex;"><span>&lt;sqlalchemy.orm.session.Session <span style="font-weight:bold;font-style:italic">object</span> at 0x106472710&gt;
 </span></span><span style="display:flex;"><span>&gt;&gt;&gt; engine.pool.status()
 </span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">&#39;Pool size: 5  Connections in pool: 0 Current Overflow: -5 Current Checked out connections: 0&#39;</span>
-</span></span></code></pre></div><p><strong>session이 생겼다고 해서 connection을 가져오지(<code>connect</code>) 않은</strong> 것을 확인할 수 있다. <em>실제 DB 실행시에 connection 객체를 가져올 것</em>이다.</p>
-<h2 class="heading" id="쿼리-실행--객체-매핑">
-  쿼리 실행 &amp; 객체 매핑
-  <a class="anchor" href="#%ec%bf%bc%eb%a6%ac-%ec%8b%a4%ed%96%89--%ea%b0%9d%ec%b2%b4-%eb%a7%a4%ed%95%91">#</a>
-</h2>
-<p>execute</p>
-<p>query</p>
-<p>scalars/scalar</p>
-<p>위 3개의 차이점 설명 필요</p>
-<p>add</p>
-<p>flush</p>
-<p>refresh</p>
-<p>delete</p>
-<p>위 메서드들은 session과 연결된 ORM 객체들을 관리하기 위해 사용한다.</p>
+</span></span></code></pre></div><p><strong>session이 생겼다고 해서 connection을 가져오지(<code>engine.connect()</code>) 않은 것</strong>을 확인할 수 있다. <em>실제 DB 실행시에 connection 객체를 가져올 것</em>이다.</p>
 <h2 class="heading" id="트랜잭션-관리">
   트랜잭션 관리
   <a class="anchor" href="#%ed%8a%b8%eb%9e%9c%ec%9e%ad%ec%85%98-%ea%b4%80%eb%a6%ac">#</a>
 </h2>
-<p>with으로 열 수도 있고, begin() ~ close()로 할 수도 있다. Engine과 거의 유사하며, ORM을 사용하기 위해 Session이 필요하다고 봐도 무방하다.</p>
+<ul>
+<li><code>begin()</code> : engine과 마찬가지로, <strong>application 내 트랜잭션이 시작됨을 명시하지만, <code>BEGIN/START transaction;</code> 쿼리는 암묵적으로 수행된다.</strong></li>
+<li><code>commit()</code></li>
+<li><code>rollback()</code></li>
+</ul>
+<p>begin() 메서드가 <code>contextmanager</code>로도 활용될 수 있어서 다음과 같은 방법이 존재한다. <a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#framing-out-a-begin-commit-rollback-block">출처</a></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#888;font-style:italic"># 1</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">with</span> Session(engine) <span style="font-weight:bold;text-decoration:underline">as</span> session:
+</span></span><span style="display:flex;"><span>    session.begin()
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">try</span>:
+</span></span><span style="display:flex;"><span>        session.add(some_object)
+</span></span><span style="display:flex;"><span>        session.add(some_other_object)
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">except</span>:
+</span></span><span style="display:flex;"><span>        session.rollback()
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">raise</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">else</span>:
+</span></span><span style="display:flex;"><span>        session.commit()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"># 2</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">with</span> Session(engine) <span style="font-weight:bold;text-decoration:underline">as</span> session:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">with</span> session.begin():
+</span></span><span style="display:flex;"><span>        session.add(some_object)
+</span></span><span style="display:flex;"><span>        session.add(some_other_object)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"># 3</span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">with</span> Session(engine) <span style="font-weight:bold;text-decoration:underline">as</span> session, session.begin():
+</span></span><span style="display:flex;"><span>    session.add(some_object)
+</span></span><span style="display:flex;"><span>    session.add(some_other_object)
+</span></span></code></pre></div><ol>
+<li>
+<p>context manager</p>
+<p><a href="https://github.com/zzzeek/sqlalchemy/blob/main/lib/sqlalchemy/orm/session.py#L1798-L1802">https://github.com/zzzeek/sqlalchemy/blob/main/lib/sqlalchemy/orm/session.py#L1798-L1802</a> 에서 보면</p>
+</li>
+<li>
+<p>begin ~ commit</p>
+</li>
+</ol>
 <p>추가로, rollback과 commit 메서드도 존재한다.</p>
 <p>begin()시에는 트랜잭션이 열리며, close()시에 rollback()/commit()이 실행된다.</p>
 <p><strong>begin() 역시 engine과 마찬가지로 쿼리가 나감(+connection을 가져옴)을 보장하지 않는다!</strong></p>
@@ -304,54 +318,117 @@ sessionmaker는 Session을 생성하기 위한 factory이며 호출시 session�
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="">❯</span> python -i test.py
 </span></span><span style="display:flex;"><span>&gt;&gt;&gt; session.begin()
 </span></span><span style="display:flex;"><span>&lt;sqlalchemy.orm.session.SessionTransaction <span style="font-weight:bold;font-style:italic">object</span> at 0x1046085f0&gt;
+</span></span><span style="display:flex;"><span><span style="color:#888;font-style:italic"># transaction을 열었다고 해서 begin/start 쿼리가 나가지 않는다</span>
 </span></span><span style="display:flex;"><span>&gt;&gt;&gt; engine.pool.status()
 </span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">&#39;Pool size: 5  Connections in pool: 0 Current Overflow: -5 Current Checked out connections: 0&#39;</span>
-</span></span></code></pre></div><h2 class="heading" id="orm과-트랜잭션의-관계--expire_on_commit">
-  ORM과 트랜잭션의 관계 &amp; expire_on_commit
-  <a class="anchor" href="#orm%ea%b3%bc-%ed%8a%b8%eb%9e%9c%ec%9e%ad%ec%85%98%ec%9d%98-%ea%b4%80%ea%b3%84--expire_on_commit">#</a>
+</span></span></code></pre></div><h2 class="heading" id="orm-모델-정의">
+  ORM 모델 정의
+  <a class="anchor" href="#orm-%eb%aa%a8%eb%8d%b8-%ec%a0%95%ec%9d%98">#</a>
 </h2>
-<p>inspect(obj).expired를 통해 해당 orm 객체가 expire되었는지 확인할 수 있다.</p>
-<p>생성시에 줄 수 있는 옵션으로 expire_on_commit이 있는데, 이는 commit 시에 기존에 session에 묶여있던 ORM 객체들을</p>
-<h1 class="heading" id="engine-connection-session">
-  engine connection session
-  <a class="anchor" href="#engine-connection-session">#</a>
-</h1>
-<p>이제, engine, connection, session에 대해 알아봤는데, 차이점을 알 필요가 있다.</p>
-<p>connection은 DB API에 있는 connection을 래핑한 객체이다.</p>
-<p>engine은 connection들을 관리하기 위한 객체이다.</p>
-<p>session은 트랜잭션을 수행하고 ORM 객체와 매핑&amp;객체의 영속화를 수행하기 위한 객체이다. engine으로부터 만들어진다.</p>
-<h3 class="heading" id="정확한-관계-정리">
-  <strong>정확한 관계 정리</strong>:
-  <a class="anchor" href="#%ec%a0%95%ed%99%95%ed%95%9c-%ea%b4%80%ea%b3%84-%ec%a0%95%eb%a6%ac">#</a>
-</h3>
-<ol>
-<li>**<code>Connection</code>**과 **<code>Connection Pool</code>**은 SQLAlchemy가 사용하는 <strong>DBAPI 드라이버</strong>와 연관이 있습니다. <strong>DBAPI 드라이버</strong>는 데이터베이스와의 연결을 관리하며, 이는 <strong>PEP 249</strong>에 정의된 표준을 따릅니다.</li>
-<li>**<code>Session</code>**은 SQLAlchemy의 ORM 레이어에서 데이터베이스와 상호작용하는 객체로, 데이터베이스 연결을 직접 관리하지 않고 <strong>Connection Pool</strong>을 통해 필요할 때만 <strong>Connection</strong>을 가져와 사용합니다.</li>
-<li><strong>Connection</strong>은 데이터베이스와의 직접적인 연결을 나타내며, <strong>DBAPI 드라이버</strong>(예: <code>psycopg2</code>, <code>pymysql</code>)를 통해 데이터베이스와 연결됩니다.</li>
-<li><strong>Connection Pool</strong>은 SQLAlchemy가 여러 <strong>Connection</strong> 객체를 재사용하여 성능을 최적화하기 위한 연결 관리 메커니즘입니다.</li>
-</ol>
-<p>따라서 <strong>Connection과 Connection Pool은 DB 스펙</strong>이라고 보기보다는, <strong>DBAPI 드라이버와 SQLAlchemy의 연결 관리 메커니즘</strong>에 해당합니다. <strong>Session</strong>은 그 위에서 동작하는 <strong>SQLAlchemy ORM의 트랜잭션 관리 도구</strong>라고 할 수 있습니다.</p>
-<p><a href="https://cotak.tistory.com/310">https://cotak.tistory.com/310</a></p>
-<p>JPA의 OSIV : <a href="https://ykh6242.tistory.com/entry/JPA-OSIVOpen-Session-In-View%EC%99%80-%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94">https://ykh6242.tistory.com/entry/JPA-OSIVOpen-Session-In-View%EC%99%80-%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94</a></p>
-<h1 class="heading" id="암묵적-begin">
-  암묵적 begin
-  <a class="anchor" href="#%ec%95%94%eb%ac%b5%ec%a0%81-begin">#</a>
-</h1>
-<p>세션을 통한 쿼리 실행은 암묵적으로 트랜잭션을 열어준다.</p>
-<h1 class="heading" id="session은-스레드-세이프한가">
-  session은 스레드 세이프한가?
-  <a class="anchor" href="#session%ec%9d%80-%ec%8a%a4%eb%a0%88%eb%93%9c-%ec%84%b8%ec%9d%b4%ed%94%84%ed%95%9c%ea%b0%80">#</a>
-</h1>
-<p><a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#session-faq-threadsafe">https://docs.sqlalchemy.org/en/20/orm/session_basics.html#session-faq-threadsafe</a></p>
-<h2 class="heading" id="scoped-session-thread-safe">
-  Scoped Session (Thread safe?!)
-  <a class="anchor" href="#scoped-session-thread-safe">#</a>
+<p>세션 객체로 쿼리를 수행하기 위해 간단한 ORM entity를 정의해보자.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-mysql" data-lang="mysql"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">CREATE</span> <span style="font-weight:bold;text-decoration:underline">TABLE</span> <span style="color:#666;font-weight:bold;font-style:italic">item</span> (
+</span></span><span style="display:flex;"><span>    id <span style="font-weight:bold;text-decoration:underline">INT</span> <span style="font-weight:bold;text-decoration:underline">AUTO_INCREMENT</span> <span style="font-weight:bold;text-decoration:underline">PRIMARY</span> <span style="font-weight:bold;text-decoration:underline">KEY</span>,
+</span></span><span style="display:flex;"><span>    name <span style="font-weight:bold;text-decoration:underline">VARCHAR</span>(255) <span style="font-weight:bold;text-decoration:underline">NOT</span> <span style="color:#666;font-weight:bold;font-style:italic">NULL</span>,
+</span></span><span style="display:flex;"><span>    price <span style="font-weight:bold;text-decoration:underline">FLOAT</span> <span style="font-weight:bold;text-decoration:underline">NOT</span> <span style="color:#666;font-weight:bold;font-style:italic">NULL</span>,
+</span></span><span style="display:flex;"><span>    created_at <span style="font-weight:bold;text-decoration:underline">DATETIME</span> <span style="font-weight:bold;text-decoration:underline">NOT</span> <span style="color:#666;font-weight:bold;font-style:italic">NULL</span> <span style="font-weight:bold;text-decoration:underline">DEFAULT</span> <span style="font-weight:bold;text-decoration:underline">CURRENT_TIMESTAMP</span>
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">from</span> <span style="color:#666;font-weight:bold;font-style:italic">sqlalchemy</span> <span style="font-weight:bold;text-decoration:underline">import</span> Column, Integer, String, Float, DateTime, func
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">from</span> <span style="color:#666;font-weight:bold;font-style:italic">sqlalchemy.ext.declarative</span> <span style="font-weight:bold;text-decoration:underline">import</span> declarative_base
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Base = declarative_base()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">class</span> <span style="color:#666;font-weight:bold;font-style:italic">Item</span>(Base):
+</span></span><span style="display:flex;"><span>    __tablename__ = <span style="color:#666;font-style:italic">&#34;item&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;font-style:italic">id</span> = Column(Integer, primary_key=<span style="font-weight:bold;text-decoration:underline">True</span>, autoincrement=<span style="font-weight:bold;text-decoration:underline">True</span>)
+</span></span><span style="display:flex;"><span>    name = Column(String(255), nullable=<span style="font-weight:bold;text-decoration:underline">False</span>)
+</span></span><span style="display:flex;"><span>    price = Column(Float, nullable=<span style="font-weight:bold;text-decoration:underline">False</span>)
+</span></span><span style="display:flex;"><span>    created_at = Column(DateTime, nullable=<span style="font-weight:bold;text-decoration:underline">False</span>, server_default=func.now())
+</span></span></code></pre></div><p><a href="https://docs.sqlalchemy.org/en/20/orm/mapping_styles.html#orm-declarative-mapping">Declaritve definition</a>으로 모델을 정의하였다. 모델을 정의하는 방법에 대해서는 기회가 되면 다루도록 하겠다😅</p>
+<h2 class="heading" id="쿼리-실행-관련-메서드">
+  쿼리 실행 관련 메서드
+  <a class="anchor" href="#%ec%bf%bc%eb%a6%ac-%ec%8b%a4%ed%96%89-%ea%b4%80%eb%a0%a8-%eb%a9%94%ec%84%9c%eb%93%9c">#</a>
 </h2>
-<p>하지만 session은 threadlocal하지 않음. 즉 여러 스레드가 동시에 접근시 문제가 생길 수 있음 (도대체 어떤 문제?!)</p>
-<p>이에 scoped_session이 나옴. scoped_session은 여러 세션을 key ~ value로 저장할 수 있도록 해주는 함수이다. 따라서 요청마다 고유한 값을 key로 하면 요청마다 session이 공유되게 할 수 있는 것이다!</p>
-<p>만약, async session의 경우에는 싱글스레드에서 돌아가므로 여러 스레드가 접근하지 않으므로 문제가 생기지 않는 것인가? 오류 전파 등의 이슈가 없는 건지..</p>
-<p><a href="https://jay-ji.tistory.com/115">https://jay-ji.tistory.com/115</a></p>
-<p>참고 : <a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#">https://docs.sqlalchemy.org/en/20/orm/session_basics.html#</a></p>
+<ul>
+<li>
+<p><code>add(obj)</code></p>
+<p>ORM 객체는 세션을 통해 추가/변경/삭제 되어야하는데, 세션에 등록되지 않은 객체는 add 메서드를 통해 추가될 수 있다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="">❯</span> python -i test.py
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; session._new
+</span></span><span style="display:flex;"><span>{}
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; item1 = Item(name=<span style="color:#666;font-style:italic">&#39;item1&#39;</span>, price=10000)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; session.add(item1)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; session._new
+</span></span><span style="display:flex;"><span>{&lt;sqlalchemy.orm.state.InstanceState <span style="font-weight:bold;font-style:italic">object</span> at 0x102679970&gt;: &lt;__main__.Item <span style="font-weight:bold;font-style:italic">object</span> at 0x104a5b790&gt;}
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; session.add(item1) <span style="color:#888;font-style:italic"># 한번 더 추가</span>
+</span></span><span style="display:flex;"><span>{&lt;sqlalchemy.orm.state.InstanceState <span style="font-weight:bold;font-style:italic">object</span> at 0x102679970&gt;: &lt;__main__.Item <span style="font-weight:bold;font-style:italic">object</span> at 0x104a5b790&gt;} <span style="color:#888;font-style:italic"># 같은 결과</span>
+</span></span></code></pre></div><p>위의 예제에서, item1은 생성되었지만 session과 연결되지 않아 add로 추가해주었다. Session은 해당 트랜잭션 내에 추가될 것(new), 변경될 것(dirty), 삭제될 객체(deleted)들을 <code>IdentitySet</code>라고 하는 set 자료형 내에서 관리된다. 따라서 <code>id(obj)</code>가 같은 객체를 계속 add하더라도 session에는 추가되지 않음을 확인할 수 있다.</p>
+</li>
+<li>
+<p><code>flush()</code></p>
+<p>DBMS에 session을 영속화하는 메서드이다. <em>commit은 수행하지 않는다.</em></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>&gt;&gt;&gt; session.flush()
+</span></span><span style="display:flex;"><span>2025-04-15 22:37:01,312 INFO sqlalchemy.engine.Engine SELECT DATABASE()
+</span></span><span style="display:flex;"><span>2025-04-15 22:37:01,312 INFO sqlalchemy.engine.Engine [raw sql] {}
+</span></span><span style="display:flex;"><span>2025-04-15 22:37:01,314 INFO sqlalchemy.engine.Engine SELECT @@sql_mode
+</span></span><span style="display:flex;"><span>2025-04-15 22:37:01,314 INFO sqlalchemy.engine.Engine [raw sql] {}
+</span></span><span style="display:flex;"><span>2025-04-15 22:37:01,315 INFO sqlalchemy.engine.Engine SELECT @@lower_case_table_names
+</span></span><span style="display:flex;"><span>2025-04-15 22:37:01,315 INFO sqlalchemy.engine.Engine [raw sql] {}
+</span></span><span style="display:flex;"><span>2025-04-15 22:37:01,316 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+</span></span><span style="display:flex;"><span>2025-04-15 22:37:01,321 INFO sqlalchemy.engine.Engine INSERT INTO item (name, price) VALUES (%(name)s, %(price)s)
+</span></span><span style="display:flex;"><span>2025-04-15 22:37:01,321 INFO sqlalchemy.engine.Engine [generated <span style="font-weight:bold">in</span> 0.00017s] {<span style="color:#666;font-style:italic">&#39;name&#39;</span>: <span style="color:#666;font-style:italic">&#39;item1&#39;</span>, <span style="color:#666;font-style:italic">&#39;price&#39;</span>: 10000}
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; engine.pool.status()
+</span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">&#39;Pool size: 5  Connections in pool: 0 Current Overflow: -4 Current Checked out connections: 1&#39;</span>
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; session.in_transaction()
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">True</span>
+</span></span></code></pre></div><p>실행되는 query는 session의 상태에 따라 flush 시점에 결정되어 수행된다.</p>
+<p>또한 session 초기화 시점이 아닌 <strong>실제 connection이 필요한 시기에 lazy 하게 가져옴</strong>을 확인할 수 있다.</p>
+</li>
+<li>
+<p><code>refresh(obj)</code></p>
+<p>해당 객체를 최신화하는데 사용한다. 외부 요인으로 인해 객체가 변경됐을 수도 있는데, 이를 확인하기 위해 사용한다. select 쿼리가 나간다.</p>
+</li>
+<li>
+<p><code>delete(obj)</code></p>
+</li>
+</ul>
+<p>​	해당 ORM 객체를 지운다. <code>session._deleted</code> identity set에 추가되고 flush시에 delete 쿼리가 나갈 것이다.</p>
+<ul>
+<li>
+<p><code>execute(statement)</code></p>
+<p>쿼리를 만들고 이를 수행하기 위해 사용한다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>&gt;&gt;&gt; stmt = select(Item).where(Item.name==<span style="color:#666;font-style:italic">&#39;item1&#39;</span>)
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; session.execute(stmt)
+</span></span><span style="display:flex;"><span>2025-04-15 22:50:05,789 INFO sqlalchemy.engine.Engine SELECT DATABASE()
+</span></span><span style="display:flex;"><span>2025-04-15 22:50:05,789 INFO sqlalchemy.engine.Engine [raw sql] {}
+</span></span><span style="display:flex;"><span>2025-04-15 22:50:05,790 INFO sqlalchemy.engine.Engine SELECT @@sql_mode
+</span></span><span style="display:flex;"><span>2025-04-15 22:50:05,790 INFO sqlalchemy.engine.Engine [raw sql] {}
+</span></span><span style="display:flex;"><span>2025-04-15 22:50:05,791 INFO sqlalchemy.engine.Engine SELECT @@lower_case_table_names
+</span></span><span style="display:flex;"><span>2025-04-15 22:50:05,791 INFO sqlalchemy.engine.Engine [raw sql] {}
+</span></span><span style="display:flex;"><span>2025-04-15 22:50:05,792 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+</span></span><span style="display:flex;"><span>2025-04-15 22:50:05,793 INFO sqlalchemy.engine.Engine SELECT item.id, item.name, item.price, item.created_at 
+</span></span><span style="display:flex;"><span>FROM item 
+</span></span><span style="display:flex;"><span>WHERE item.name = %(name_1)s
+</span></span><span style="display:flex;"><span>2025-04-15 22:50:05,793 INFO sqlalchemy.engine.Engine [generated <span style="font-weight:bold">in</span> 0.00010s] {<span style="color:#666;font-style:italic">&#39;name_1&#39;</span>: <span style="color:#666;font-style:italic">&#39;item1&#39;</span>}
+</span></span><span style="display:flex;"><span>&lt;sqlalchemy.engine.result.ChunkedIteratorResult <span style="font-weight:bold;font-style:italic">object</span> at 0x105c83c50&gt;
+</span></span></code></pre></div><p>해당 시점에 쿼리가 수행되지만 <strong>결과가 메모리에 적재되지는 않는다</strong>고 한다. 따라서 <code>all(), first(), one(), one_or_none()</code> 등 메서드를 통해 이를 application memory로 가져온다. 이렇게 나눠진 이유는 execute는 <strong>사실 Python DB API에서 쿼리를 호출하고(execute), 데이터를 메모리로 가져오는(fetch) 시점이 나뉘어져있기 때문</strong>이다. <a href="https://choieastsea.github.io/posts/8/#cursor">참고</a></p>
+</li>
+<li>
+<p><code>scalars/scalar(statement)</code></p>
+<p>역시 쿼리를 실행하고, <code>ScalarResult</code> 타입을 반환한다.</p>
+</li>
+</ul>
+<p>ORM 객체들은 세션에 의해 DBMS로 영속화될 수 있는데, 이를 관리하기 위한 state가 존재한다. <a href="https://docs.sqlalchemy.org/en/20/orm/session_state_management.html">공식 문서</a>를 참고하여 간단한 컨셉을 이해하면 좋을 것이다.</p>
+<h1 class="heading" id="engine--connection--session">
+  engine ↔️ connection ↔️ session
+  <a class="anchor" href="#engine--connection--session">#</a>
+</h1>
+<p>이제, engine, connection, session에 대해 알아봤는데, 차이점을 정리해보자.</p>
+<p>engine은 connection들을 관리하기 위한 <strong>connection pool과 DBMS 마다 쿼리를 실행하기 위한 Dialect를 포함한 객체</strong>이다.</p>
+<p>connection은 <a href="https://peps.python.org/pep-0249/#connection-objects">DB API의 connection</a>을 래핑한 객체이다. <strong>DBMS와 application간의 TCP connection</strong>를 포함한다고 볼 수 있다.</p>
+<p>session은 <strong>하나의 트랜잭션을 수행하고 ORM 객체와 매핑과 영속화를 수행</strong>하기 위한 객체이다.</p>
+<p>이 정도로 SQLAlchemy의 컨셉 정도는 알아본 것 같다. 개인적으로는 engine, connection, session의 개념과 DBAPI와의 관계를 명확하게 이해하고, 알케미를 활용한다면 더욱 효율적이고 생산적인 코드를 만들 수 있을 것이라고 생각한다.</p>
+<p>화이팅 😎</p>
 
     
     
