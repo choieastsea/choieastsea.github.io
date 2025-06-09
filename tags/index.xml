@@ -6,8 +6,36 @@
     <description>Recent content in Tags on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 15 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Jun 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Db</title>
+      <link>https://choieastsea.github.io/tags/db/</link>
+      <pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/db/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Log</title>
+      <link>https://choieastsea.github.io/tags/log/</link>
+      <pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/log/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Transaction</title>
+      <link>https://choieastsea.github.io/tags/transaction/</link>
+      <pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/transaction/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wal</title>
+      <link>https://choieastsea.github.io/tags/wal/</link>
+      <pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/wal/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Orm</title>
       <link>https://choieastsea.github.io/tags/orm/</link>

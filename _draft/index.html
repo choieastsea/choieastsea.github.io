@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko-kr"
+  dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="https://choieastsea.github.io//favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://choieastsea.github.io//favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://choieastsea.github.io//favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://choieastsea.github.io//android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://choieastsea.github.io//apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
+
+<title>
+    
+    fastapi에서 SQLAlchemy Session을 다루는 방법 (Session, AsyncSession) | choieastsea.github.io
+    
+</title>
+
+<link rel="canonical" href="https://choieastsea.github.io/_draft/"/>
+
+<meta property="og:url" content="https://choieastsea.github.io/_draft/">
+  <meta property="og:site_name" content="choieastsea.github.io">
+  <meta property="og:title" content="fastapi에서 SQLAlchemy Session을 다루는 방법 (Session, AsyncSession)">
+  <meta property="og:description" content="overview / core / dialect / connection pooling">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2025-04-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-04-23T00:00:00+00:00">
+    <meta property="article:tag" content="Python">
+    <meta property="article:tag" content="Sqlalchemy">
+    <meta property="article:tag" content="Orm">
+    <meta property="article:tag" content="Fastapi">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.0f4f5c64ee7100cff28e7c7366d922b5499829f72c91a53b9b17f236d85ad7e7.css" media="all">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">
+        <a href="https://choieastsea.github.io/">choieastsea.github.io</a>
+    </h1>
+
+    <div class="flex">
+        
+
+        
+        
+      
+        <p class="small ">
+            <a href="/" >
+                /home
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/about" >
+                /about
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/posts" >
+                /posts
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/tags" >
+                /tags
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+
+    </header>
+
+    <main class="main">
+      
+
+
+
+
+<div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span>
+        <a href="/_draft/">fastapi에서 SQLAlchemy Session을 다루는 방법 (Session, AsyncSession)</a></div>
+
+
+<div >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">fastapi에서 SQLAlchemy Session을 다루는 방법 (Session, AsyncSession)</h1>
+    
+    <p class="single-summary">overview / core / dialect / connection pooling</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2025-04-23T00:00:00&#43;00:00">April 23, 2025</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      2 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/python/">#Python</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/sqlalchemy/">#Sqlalchemy</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/orm/">#Orm</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/fastapi/">#Fastapi</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#fastapi">fastapi</a>
+      <ul>
+        <li><a href="#router">router</a></li>
+        <li><a href="#depends">depends</a></li>
+      </ul>
+    </li>
+    <li><a href="#session">Session</a></li>
+    <li><a href="#unit-of-work-pattern">unit of work pattern</a>
+      <ul>
+        <li><a href="#session은-스레드-세이프한가">session은 스레드 세이프한가?</a></li>
+      </ul>
+    </li>
+    <li><a href="#1-매번-꺼내기">1. 매번 꺼내기</a></li>
+    <li><a href="#2-yield-session-per-request">2. yield session per request</a></li>
+    <li><a href="#3-scoped-session">3. Scoped Session</a></li>
+    <li><a href="#asyncsession">AsyncSession</a>
+      <ul>
+        <li><a href="#공식문서에서-제안하는-session을-관리하는-방법">공식문서에서 제안하는 session을 관리하는 방법</a></li>
+      </ul>
+    </li>
+    <li><a href="#정리">정리</a>
+      <ul>
+        <li><a href="#쿼리가-실행되는-과정">쿼리가 실행되는 과정</a></li>
+        <li><a href="#relationship-과-loading-strategy">relationship 과 loading strategy</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <p>Fastapi에서 SQLAlchemy를 다루면서 고민했던 점들에 대해 정리해보고, 사용할 수 있는 몇가지 패턴을 정리해보고자 한다.</p>
+<p>우선 fastapi에서 오늘 알아야 할 컨셉 정도만 짚고 넘어가자.</p>
+<h2 class="heading" id="fastapi">
+  fastapi
+  <a class="anchor" href="#fastapi">#</a>
+</h2>
+<h3 class="heading" id="router">
+  router
+  <a class="anchor" href="#router">#</a>
+</h3>
+<p>fastapi는 def router와 async def router의 동작 방식이 상이하다.</p>
+<p>참고 : 공식문서 링크</p>
+<p>worker thread, main thread에서 수행된다.</p>
+<h3 class="heading" id="depends">
+  depends
+  <a class="anchor" href="#depends">#</a>
+</h3>
+<p>lifecycle 한바름씨의 명작</p>
+<h2 class="heading" id="session">
+  Session
+  <a class="anchor" href="#session">#</a>
+</h2>
+<p>SQLAlchemy의 session에 대해서는 저번에 정리해놓은 글을 참고한다. 오늘은 그 중 몇가지 특성을 알고 넘어가자.</p>
+<h2 class="heading" id="unit-of-work-pattern">
+  unit of work pattern
+  <a class="anchor" href="#unit-of-work-pattern">#</a>
+</h2>
+<p>session 자체는 <code>unit of work pattern</code>을 따른다고 볼 수 있다. DBMS와의 통신을 최소화하고, 영속화할 객체들의 변경점들은 session의 identity map이라는 곳에 저장되어 있다가 flush 시점에 호출되고 commit 시점에 반영된다.</p>
+<p><a href="https://soogoonsoogoonpythonists.github.io/sqlalchemy-for-pythonist/tutorial/6.%20ORM%20">https://soogoonsoogoonpythonists.github.io/sqlalchemy-for-pythonist/tutorial/6.%20ORM%20</a>방식으로%20데이터%20조작하기.html#orm으로-행-삽입하기</p>
+<h3 class="heading" id="session은-스레드-세이프한가">
+  session은 스레드 세이프한가?
+  <a class="anchor" href="#session%ec%9d%80-%ec%8a%a4%eb%a0%88%eb%93%9c-%ec%84%b8%ec%9d%b4%ed%94%84%ed%95%9c%ea%b0%80">#</a>
+</h3>
+<p>만약 session을 여러 thread에서 사용하게 될 수 있다.</p>
+<p><a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#session-faq-threadsafe">https://docs.sqlalchemy.org/en/20/orm/session_basics.html#session-faq-threadsafe</a></p>
+<h2 class="heading" id="1-매번-꺼내기">
+  1. 매번 꺼내기
+  <a class="anchor" href="#1-%eb%a7%a4%eb%b2%88-%ea%ba%bc%eb%82%b4%ea%b8%b0">#</a>
+</h2>
+<p>sessionmaker를 두고, 계속 꺼낸다. sessionmaker는 threadsafe하지 않은가? 이건 별로 중요하지 않을 것 같다. 왜냐면 쟤는 그냥 팩토리니까..</p>
+<h2 class="heading" id="2-yield-session-per-request">
+  2. yield session per request
+  <a class="anchor" href="#2-yield-session-per-request">#</a>
+</h2>
+<p>세션을 매 요청마다 주입하는 방법이다. fastapi의 <code>Depends()</code>와의 조합으로 활용할 수 있다.</p>
+<p>공식문서에서도 제안하는 방법이다.</p>
+<h2 class="heading" id="3-scoped-session">
+  3. Scoped Session
+  <a class="anchor" href="#3-scoped-session">#</a>
+</h2>
+<p>하지만 session은 threadlocal하지 않음. 즉 여러 스레드가 동시에 접근시 문제가 생길 수 있음 (도대체 어떤 문제?! 세션을 만들어놓고 여러 곳에서 사용하게 된다면&hellip;)</p>
+<p>이에 scoped_session이 나옴. scoped_session은 여러 세션을 key ~ value로 저장할 수 있도록 해주는 함수이다. 따라서 요청마다 고유한 값을 key로 하면 요청마다 session이 공유되게 할 수 있는 것이다!</p>
+<p>middleware + scoped_session의 조합으로 활용할 수 있다. scoped_session 자체는 singleton으로 관리할 수 있어야 한다.</p>
+<p>하지만 나는 yield 보다 좋다고 생각하지 않는다.</p>
+<p><a href="https://jay-ji.tistory.com/115">https://jay-ji.tistory.com/115</a></p>
+<h2 class="heading" id="asyncsession">
+  AsyncSession
+  <a class="anchor" href="#asyncsession">#</a>
+</h2>
+<p>하지만, fastapi라면 일반적인 session보다는 async session을 사용하는 것이 동시성 성능에 도움이 될 것이다. 물론 worker thread의 수를 scale하면 된다.</p>
+<p>특히, 어디서 주어온 예제를 보고 async가 좋다라는 막연한 생각과 session yield를 조합한다면,,, IO시간동안 아무것도 못하고 기다리는 싱글스레드를 볼 수 있을 것이다.</p>
+<p>그럼에도 AsyncSession을 전면 도입하기에 어려운 점이 있으니, 그거슨 바로 Missing greenlet spawn 오류가 발생할 수 있다.</p>
+<p><a href="https://mentoring-gitlab.gabia.com/mentee/mentee_2024.01/individual/cloud-dev/bada-seminar-api/-/wikis/sqlalchemy-2.0-AsyncSession">https://mentoring-gitlab.gabia.com/mentee/mentee_2024.01/individual/cloud-dev/bada-seminar-api/-/wikis/sqlalchemy-2.0-AsyncSession</a></p>
+<p><a href="https://mentoring-gitlab.gabia.com/mentee/mentee_2024.01/individual/cloud-dev/bada-seminar-api/-/wikis/greenlet-error">https://mentoring-gitlab.gabia.com/mentee/mentee_2024.01/individual/cloud-dev/bada-seminar-api/-/wikis/greenlet-error</a></p>
+<h3 class="heading" id="공식문서에서-제안하는-session을-관리하는-방법">
+  공식문서에서 제안하는 session을 관리하는 방법
+  <a class="anchor" href="#%ea%b3%b5%ec%8b%9d%eb%ac%b8%ec%84%9c%ec%97%90%ec%84%9c-%ec%a0%9c%ec%95%88%ed%95%98%eb%8a%94-session%ec%9d%84-%ea%b4%80%eb%a6%ac%ed%95%98%eb%8a%94-%eb%b0%a9%eb%b2%95">#</a>
+</h3>
+<p><a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#when-do-i-construct-a-session-when-do-i-commit-it-and-when-do-i-close-it">https://docs.sqlalchemy.org/en/20/orm/session_basics.html#when-do-i-construct-a-session-when-do-i-commit-it-and-when-do-i-close-it</a></p>
+<h2 class="heading" id="정리">
+  정리
+  <a class="anchor" href="#%ec%a0%95%eb%a6%ac">#</a>
+</h2>
+<p>SQLAlchemy는 python application에서 빼놓을 수 없는 DB toolkit 라이브러리이다. 제공되는 기능이 많으니 만큼 이해하고 사용하는 것이 좋을 것이다 !</p>
+<p>개인적으로는 yield asyncsession의 방법이 가장 생산성이 좋다고 생각한다.</p>
+<h3 class="heading" id="쿼리가-실행되는-과정">
+  쿼리가 실행되는 과정
+  <a class="anchor" href="#%ec%bf%bc%eb%a6%ac%ea%b0%80-%ec%8b%a4%ed%96%89%eb%90%98%eb%8a%94-%ea%b3%bc%ec%a0%95">#</a>
+</h3>
+<p>query compile -&gt; cache &amp; execute</p>
+<h3 class="heading" id="relationship-과-loading-strategy">
+  relationship 과 loading strategy
+  <a class="anchor" href="#relationship-%ea%b3%bc-loading-strategy">#</a>
+</h3>
+<p>self join의 경우에는 eager loading이 동작하지 않을 수 있다. -&gt; 이건 따로 작성하는 것도</p>
+<p>참고 : <a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#">https://docs.sqlalchemy.org/en/20/orm/session_basics.html#</a></p>
+
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="choieastsea/choieastsea.github.io"
+        data-repo-id="R_kgDOMgbvhw"
+        data-category=""
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+    
+  </div>
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+    </main>
+  </div>
+
+  
+  
+
+
+
+
+
+    
+
+
+
+
+  <footer>
+    
+
+    
+    
+
+
+
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script src="/js/theme-switch.js"></script>
+<script defer src="/js/copy-code.js"></script>
+</html>

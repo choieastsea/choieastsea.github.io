@@ -32,7 +32,7 @@
 
 <title>
     
-    (python) SQLAlchemy 알아보기 (3) Session | choieastsea.github.io
+    SQLAlchemy (3) Session | choieastsea.github.io
     
 </title>
 
@@ -40,7 +40,7 @@
 
 <meta property="og:url" content="https://choieastsea.github.io/posts/11/">
   <meta property="og:site_name" content="choieastsea.github.io">
-  <meta property="og:title" content="(python) SQLAlchemy 알아보기 (3) Session">
+  <meta property="og:title" content="SQLAlchemy (3) Session">
   <meta property="og:description" content="session / 트랜잭션 관리 / orm 모델 정의 / 쿼리 실행 관련 메서드/ engine, connection, session 비교">
   <meta property="og:locale" content="ko_kr">
   <meta property="og:type" content="article">
@@ -155,7 +155,7 @@
 
 
 <div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/posts/">Posts</a><span class="breadcrumbs-separator">/</span>
-        <a href="/posts/11/">(python) SQLAlchemy 알아보기 (3) Session</a></div>
+        <a href="/posts/11/">SQLAlchemy (3) Session</a></div>
 
 
 <div >
@@ -164,7 +164,7 @@
 
     
 
-    <h1 class="single-title">(python) SQLAlchemy 알아보기 (3) Session</h1>
+    <h1 class="single-title">SQLAlchemy (3) Session</h1>
     
     <p class="single-summary">session / 트랜잭션 관리 / orm 모델 정의 / 쿼리 실행 관련 메서드/ engine, connection, session 비교</p>
     
@@ -276,10 +276,11 @@
 </h2>
 <ul>
 <li><code>begin()</code> : engine과 마찬가지로, <strong>application 내 트랜잭션이 시작됨을 명시하지만, <code>BEGIN/START transaction;</code> 쿼리는 암묵적으로 수행된다.</strong></li>
-<li><code>commit()</code></li>
-<li><code>rollback()</code></li>
+<li><code>close()</code> : 세션을 종료하는 메서드이다. context manager를 사용했다면 나가면서 호출되고, 그렇지 않다면 명시적으로 닫아주도록 한다. 그러면 해당 트랜잭션을 깔끔하게 정리할 것이다.</li>
+<li><code>commit()</code>  : 커밋 쿼리를 수행한다.</li>
+<li><code>rollback()</code> : 롤백 쿼리를 수행한다.</li>
 </ul>
-<p>begin() 메서드가 <code>contextmanager</code>로도 활용될 수 있어서 다음과 같은 방법이 존재한다. <a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#framing-out-a-begin-commit-rollback-block">출처</a></p>
+<p>begin() 메서드 역시, <code>contextmanager</code>로도 활용될 수 있어서 다음과 같은 방법이 존재한다. <a href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#framing-out-a-begin-commit-rollback-block">출처</a></p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#888;font-style:italic"># 1</span>
 </span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">with</span> Session(engine) <span style="font-weight:bold;text-decoration:underline">as</span> session:
 </span></span><span style="display:flex;"><span>    session.begin()
@@ -302,19 +303,9 @@
 </span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">with</span> Session(engine) <span style="font-weight:bold;text-decoration:underline">as</span> session, session.begin():
 </span></span><span style="display:flex;"><span>    session.add(some_object)
 </span></span><span style="display:flex;"><span>    session.add(some_other_object)
-</span></span></code></pre></div><ol>
-<li>
-<p>context manager</p>
-<p><a href="https://github.com/zzzeek/sqlalchemy/blob/main/lib/sqlalchemy/orm/session.py#L1798-L1802">https://github.com/zzzeek/sqlalchemy/blob/main/lib/sqlalchemy/orm/session.py#L1798-L1802</a> 에서 보면</p>
-</li>
-<li>
-<p>begin ~ commit</p>
-</li>
-</ol>
-<p>추가로, rollback과 commit 메서드도 존재한다.</p>
-<p>begin()시에는 트랜잭션이 열리며, close()시에 rollback()/commit()이 실행된다.</p>
+</span></span></code></pre></div><p>begin()시에는 트랜잭션이 열리며, <code>close()</code>시에 rollback()/commit()이 실행된다.</p>
 <p><strong>begin() 역시 engine과 마찬가지로 쿼리가 나감(+connection을 가져옴)을 보장하지 않는다!</strong></p>
-<p>역으로, close() 메서드도 connection이 할당되지 않았다면 굳이 쿼리가 나가지 않을 것이다.</p>
+<p>역으로, <code>close()</code> 메서드도 connection이 할당되지 않았다면 굳이 쿼리가 나가지 않을 것이다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="">❯</span> python -i test.py
 </span></span><span style="display:flex;"><span>&gt;&gt;&gt; session.begin()
 </span></span><span style="display:flex;"><span>&lt;sqlalchemy.orm.session.SessionTransaction <span style="font-weight:bold;font-style:italic">object</span> at 0x1046085f0&gt;
@@ -381,8 +372,8 @@
 </span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">&#39;Pool size: 5  Connections in pool: 0 Current Overflow: -4 Current Checked out connections: 1&#39;</span>
 </span></span><span style="display:flex;"><span>&gt;&gt;&gt; session.in_transaction()
 </span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">True</span>
-</span></span></code></pre></div><p>실행되는 query는 session의 상태에 따라 flush 시점에 결정되어 수행된다.</p>
-<p>또한 session 초기화 시점이 아닌 <strong>실제 connection이 필요한 시기에 lazy 하게 가져옴</strong>을 확인할 수 있다.</p>
+</span></span></code></pre></div><p>실행되는 query는 session의 상태에 따라 flush 시점에 결정되어 수행된다. session 초기화 시점이 아닌 <strong>실제 connection이 필요한 시기에 lazy 하게 가져옴</strong>을 확인할 수 있다.</p>
+<p>Session은 identity map 이라는 곳에 데이터를 저장(in memory)해놓고 <code>flush()</code> 시점에 변경 작업들을 한번에 반영하는데, 이러한 측면에서  <code>unit of work</code> 패턴을 나타낸다.</p>
 </li>
 <li>
 <p><code>refresh(obj)</code></p>
@@ -471,7 +462,7 @@
                 <div class="single-pagination-text">←</div>
                 <div class="single-pagination-text">
                     <a href="/posts/10/">
-                        (python) SQLAlchemy 알아보기 (2) Engine
+                        SQLAlchemy (2) Engine
                     </a>
                 </div>
             </div>
@@ -479,6 +470,15 @@
         </div>
 
         <div class="single-pagination-next">
+            
+            <div class="single-pagination-container-next">
+                <div class="single-pagination-text">
+                    <a href="/posts/12/">
+                        WAL(Write Ahead Log), 쓰기 전 로그
+                    </a>
+                </div>
+                <div class="single-pagination-text">→</div>
+            </div>
             
         </div>
 
