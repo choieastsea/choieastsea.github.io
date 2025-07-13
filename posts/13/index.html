@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ko-kr"
+  dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="https://choieastsea.github.io//favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://choieastsea.github.io//favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://choieastsea.github.io//favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://choieastsea.github.io//android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://choieastsea.github.io//apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
+
+<title>
+    
+    백엔드 개발자 입장에서 정리한 LLM부터 AI Agent까지 | choieastsea.github.io
+    
+</title>
+
+<link rel="canonical" href="https://choieastsea.github.io/posts/13/"/>
+
+<meta property="og:url" content="https://choieastsea.github.io/posts/13/">
+  <meta property="og:site_name" content="choieastsea.github.io">
+  <meta property="og:title" content="백엔드 개발자 입장에서 정리한 LLM부터 AI Agent까지">
+  <meta property="og:description" content="LLM과 chatgpt는 다르다 / AI Service(agent)가 제공하는 기능들">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-07-11T00:00:00+00:00">
+    <meta property="article:tag" content="Llm">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="Agent">
+    <meta property="article:tag" content="Mcp">
+    <meta property="article:tag" content="Rag">
+    <meta property="article:tag" content="Tool">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.0f4f5c64ee7100cff28e7c7366d922b5499829f72c91a53b9b17f236d85ad7e7.css" media="all">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">
+        <a href="https://choieastsea.github.io/">choieastsea.github.io</a>
+    </h1>
+
+    <div class="flex">
+        
+
+        
+        
+      
+        <p class="small ">
+            <a href="/" >
+                /home
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/about" >
+                /about
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/posts" >
+                /posts
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/tags" >
+                /tags
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+
+    </header>
+
+    <main class="main">
+      
+
+
+
+
+<div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/posts/">Posts</a><span class="breadcrumbs-separator">/</span>
+        <a href="/posts/13/">백엔드 개발자 입장에서 정리한 LLM부터 AI Agent까지</a></div>
+
+
+<div >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">백엔드 개발자 입장에서 정리한 LLM부터 AI Agent까지</h1>
+    
+    <p class="single-summary">LLM과 chatgpt는 다르다 / AI Service(agent)가 제공하는 기능들</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2025-07-11T00:00:00&#43;00:00">July 11, 2025</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      4 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/llm/">#Llm</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/ai/">#AI</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/agent/">#Agent</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/mcp/">#Mcp</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/rag/">#Rag</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/tool/">#Tool</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/langgraph/">#Langgraph</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#llm과-chatgpt는-다르다">LLM과 chatgpt는 다르다</a>
+      <ul>
+        <li><a href="#llm을-호출하는-방법">LLM을 호출하는 방법</a></li>
+        <li><a href="#llm의-단점">LLM의 단점</a></li>
+      </ul>
+    </li>
+    <li><a href="#ai-serviceagent가-제공하는-기능들">AI Service(agent)가 제공하는 기능들</a>
+      <ul>
+        <li><a href="#prompting">prompting</a></li>
+        <li><a href="#stateful한-응답">stateful한 응답</a></li>
+        <li><a href="#외부-tool-호출데이터-탐색">외부 tool 호출/데이터 탐색</a></li>
+        <li><a href="#반복">반복</a></li>
+        <li><a href="#참고-workflow와-agent의-구분">참고: workflow와 agent의 구분</a></li>
+        <li><a href="#관련-프레임워크">관련 프레임워크</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <p>2025년 현재 chatgpt, gemini같은 인공지능 채팅 서비스를 정말 많이 사용하는데, 어떻게 해당 서비스들이 구현되었을까에 대해 알아보고 정리해보았다.</p>
+<h2 class="heading" id="llm과-chatgpt는-다르다">
+  LLM과 chatgpt는 다르다
+  <a class="anchor" href="#llm%ea%b3%bc-chatgpt%eb%8a%94-%eb%8b%a4%eb%a5%b4%eb%8b%a4">#</a>
+</h2>
+<p>LLM(Large Language Model)은 자연어를 입력으로 받았을 때, 가장 적절한 자연어로 출력하도록 학습된 거대 언어 모델이다.</p>
+<p>여기서 <strong>학습되었다</strong>는 의미는 가장 자연스러운 문장들의 예시들과 같이 답변하도록 모델 내의 파라미터들이 업데이트되는 과정을 거쳤다고 이해하면 된다.</p>
+<p>하지만, LLM이 단순히 문장을 잇는다기엔 chatgpt는 인터넷에서 검색도 해주고, 내가 이전에 했던 말들을 기억했다가 도움을 주고는 한다. 따라서 LLM과 chatgpt(LLM 기반의 AI 서비스) 는 다르다!</p>
+
+<div class="table-outer">
+    <table>
+        <thead>
+            <tr>
+                <th style="text-align: left">구분</th>
+                <th style="text-align: left">LLM 기반의 AI service</th>
+                <th style="text-align: left">LLM</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: left">예시</td>
+                <td style="text-align: left">chatgpt, claude, gemini, cursor</td>
+                <td style="text-align: left">GPT 4.1, Gemini 2.5 Pro, Claude Sonnet 3.5</td>
+            </tr>
+        </tbody>
+    </table>
+</div><p>우리가 사용하는 채팅 서비스 (chatgpt, gemini, claude)들은 LLM의 능력을 활용하여 단순한 문장 완성을 넘어선 기능을 제공하는 것이다.</p>
+<h3 class="heading" id="llm을-호출하는-방법">
+  LLM을 호출하는 방법
+  <a class="anchor" href="#llm%ec%9d%84-%ed%98%b8%ec%b6%9c%ed%95%98%eb%8a%94-%eb%b0%a9%eb%b2%95">#</a>
+</h3>
+<p>직접 LLM을 구축하거나, <code>llama</code>와 같은 오픈소스 LLM을 운영할게 아니라면 일반적으로는 LLM에서 제공해주는 API를 통해 LLM과 소통할 수 있다.</p>
+<p>openai의 api <a href="https://platform.openai.com/docs/api-reference/responses/create">문서</a>를 보면 다음과 같이 response api를 호출할 수 있다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt; curl --location <span style="color:#666;font-style:italic">&#39;https://api.openai.com/v1/responses&#39;</span> <span style="color:#666;font-style:italic">\
+</span></span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic"></span>--header <span style="color:#666;font-style:italic">&#39;Content-Type: application/json&#39;</span> <span style="color:#666;font-style:italic">\
+</span></span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic"></span>--header <span style="color:#666;font-style:italic">&#39;Authorization: XXXX&#39;</span> <span style="color:#666;font-style:italic">\
+</span></span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic"></span>--data <span style="color:#666;font-style:italic">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">    &#34;model&#34;: &#34;gpt-4o&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">    &#34;input&#34;: &#34;안녕? 내 이름은 바다야&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;id&#34;</span>: <span style="color:#666;font-style:italic">&#34;resp_id&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;object&#34;</span>: <span style="color:#666;font-style:italic">&#34;response&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;created_at&#34;</span>: 1752412722,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;status&#34;</span>: <span style="color:#666;font-style:italic">&#34;completed&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;background&#34;</span>: false,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;error&#34;</span>: null,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;incomplete_details&#34;</span>: null,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;instructions&#34;</span>: null,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;max_output_tokens&#34;</span>: null,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;max_tool_calls&#34;</span>: null,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;model&#34;</span>: <span style="color:#666;font-style:italic">&#34;gpt-4o-2024-08-06&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;output&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;id&#34;</span>: <span style="color:#666;font-style:italic">&#34;msg_id&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;type&#34;</span>: <span style="color:#666;font-style:italic">&#34;message&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;status&#34;</span>: <span style="color:#666;font-style:italic">&#34;completed&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;content&#34;</span>: [
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;type&#34;</span>: <span style="color:#666;font-style:italic">&#34;output_text&#34;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;annotations&#34;</span>: [],
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;logprobs&#34;</span>: [],
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;text&#34;</span>: <span style="color:#666;font-style:italic">&#34;안녕, 바다! 만나서 반가워. 오늘 어떻게 지내고 있어?&#34;</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            ],
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;role&#34;</span>: <span style="color:#666;font-style:italic">&#34;assistant&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;parallel_tool_calls&#34;</span>: true,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;previous_response_id&#34;</span>: null,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;reasoning&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#666;font-style:italic">&#34;effort&#34;</span>: null,
+</span></span><span style="display:flex;"><span>        <span style="color:#666;font-style:italic">&#34;summary&#34;</span>: null
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;service_tier&#34;</span>: <span style="color:#666;font-style:italic">&#34;default&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;store&#34;</span>: true,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;temperature&#34;</span>: 1.0,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;text&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#666;font-style:italic">&#34;format&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;type&#34;</span>: <span style="color:#666;font-style:italic">&#34;text&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;tool_choice&#34;</span>: <span style="color:#666;font-style:italic">&#34;auto&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;tools&#34;</span>: [],
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;top_logprobs&#34;</span>: 0,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;top_p&#34;</span>: 1.0,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;truncation&#34;</span>: <span style="color:#666;font-style:italic">&#34;disabled&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;usage&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#666;font-style:italic">&#34;input_tokens&#34;</span>: 10,
+</span></span><span style="display:flex;"><span>        <span style="color:#666;font-style:italic">&#34;input_tokens_details&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;cached_tokens&#34;</span>: 0
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#666;font-style:italic">&#34;output_tokens&#34;</span>: 11,
+</span></span><span style="display:flex;"><span>        <span style="color:#666;font-style:italic">&#34;output_tokens_details&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;reasoning_tokens&#34;</span>: 0
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#666;font-style:italic">&#34;total_tokens&#34;</span>: 21
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;user&#34;</span>: null,
+</span></span><span style="display:flex;"><span>    <span style="color:#666;font-style:italic">&#34;metadata&#34;</span>: {}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>흥미로운 점이 몇가지가 있다.</p>
+<ul>
+<li>같은 요청을 보내도 다르게 응답이 올 수 있다.</li>
+<li>다음 요청을 body만 바꿔 &ldquo;내 이름이 뭐게?&rdquo; 에 &ldquo;이름을 알려주지 않았으니 추측할 수 없다&rdquo; 와 같이 답변한다. <strong>즉 context가 유지되지 않</strong>는다.</li>
+</ul>
+<p>context를 유지하기 위해서는 <code>previous_response_id</code>에 이전 결과의 id를 실어줘야 한다.</p>
+<p>body에 필드를 추가 제공하면 <code>너의 이름은 바다라고 했잖아! 맞지?</code> 라고 대답하는 것을 볼 수 있다. 하지만 이는 내부적으로 LLM에게 이전 대화의 맥락을 추가로 전달해주는 것이다. <code>usage</code>의 <code>input_tokens</code>를 보면 context 없이 보낸 질문에는 13개, context와 함께 보낸 질문에는 44개의 토큰이 소비됨으로 유추할 수 있다.</p>
+<p>즉, 이전 대화의 내용을 같이 알려주는 방법으로 LLM은 대화의 컨텍스트가 이어지는 것처럼 보이게 하는 것일 뿐, LLM은 <em>매우 단순화하면 똑똑한 문장 생성기</em>라고 보면 된다.</p>
+<h3 class="heading" id="llm의-단점">
+  LLM의 단점
+  <a class="anchor" href="#llm%ec%9d%98-%eb%8b%a8%ec%a0%90">#</a>
+</h3>
+<p>LLM의 알려진 한계/문제점들은 다음과 같다.</p>
+<ol>
+<li>
+<p>학습되지 않은 데이터를 알 수 없다. 최근 정보, 현황과 같은 데이터도 가져올 수 없다.</p>
+</li>
+<li>
+<p>정확하지 않은 답변을 제공할 수 있다. 현재는 LLM도 튜닝되고 개선되었지만, 이전 모델에는 다음과 같은 말도 안되는 질문에 가장 자연스러운 문장을 이어주는 답변을 해주곤 한다. 이러한 현상을 <code>hallucination</code>(환각)이라고 한다.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div class="img-container" style="--w: 1410; --h: 1156;">
+        <img loading="lazy" alt="halu" src="/posts/13/halucination.png" width="1410" height="1156">
+    </div>
+
+    
+</figure>
+</p>
+</li>
+<li>
+<p><strong>stateless</strong></p>
+<p>위의 response API 호출의 예시에서, <code>previous_response_id</code>를 제공하지 않으면 대화의 컨텍스트가 이어지지 않는다. 컨텍스트를 알려주려면 이전 내용을 추가로 제공해야한다.</p>
+</li>
+</ol>
+<h2 class="heading" id="ai-serviceagent가-제공하는-기능들">
+  AI Service(agent)가 제공하는 기능들
+  <a class="anchor" href="#ai-serviceagent%ea%b0%80-%ec%a0%9c%ea%b3%b5%ed%95%98%eb%8a%94-%ea%b8%b0%eb%8a%a5%eb%93%a4">#</a>
+</h2>
+<p>그렇다면 LLM을 사용한 AI service들은 어떤 식으로 대화가 이어지며, 구글 캘린더에서 내 데이터를 가져올 수 있는 것일까? 다음의 기능들이 포함되어 있기 때문이다.</p>
+<h3 class="heading" id="prompting">
+  prompting
+  <a class="anchor" href="#prompting">#</a>
+</h3>
+<p>사용자 요청은 그대로 LLM으로 들어가지 않는다. 입력으로부터 사용자의 의도를 파악하고, 이에 맞게 질문을 수정한다.</p>
+<h3 class="heading" id="stateful한-응답">
+  stateful한 응답
+  <a class="anchor" href="#stateful%ed%95%9c-%ec%9d%91%eb%8b%b5">#</a>
+</h3>
+<p>사용자의 context를 유지하기 위해 프롬프트에 기억된 정보들을 추가한다.</p>
+<h3 class="heading" id="외부-tool-호출데이터-탐색">
+  외부 tool 호출/데이터 탐색
+  <a class="anchor" href="#%ec%99%b8%eb%b6%80-tool-%ed%98%b8%ec%b6%9c%eb%8d%b0%ec%9d%b4%ed%84%b0-%ed%83%90%ec%83%89">#</a>
+</h3>
+<p>만약 tools이 있다면, tool을 호출할 수 있는 인터페이스를 제공한다. 정보를 외부로부터 가져올 수도 있다.</p>
+<p>또한 <code>MCP</code>(Model Context Protocol) 서버도 포함되어 있을 수 있다.</p>
+<h3 class="heading" id="반복">
+  반복
+  <a class="anchor" href="#%eb%b0%98%eb%b3%b5">#</a>
+</h3>
+<p><strong>위의 모든 과정에서 LLM을 호출할 수도 있다</strong>. 결국 LLM에 입력될 하나의 프롬프트를 만들고 답변을 평가한다. 답변의 평가 수준이 정해져 있다면 이를 만족할 때까지(혹은 loop count가 한도에 다다를 때 까지) prompt를 보완하는 등의 작업을 거쳐 답변한다.</p>
+<h3 class="heading" id="참고-workflow와-agent의-구분">
+  참고: workflow와 agent의 구분
+  <a class="anchor" href="#%ec%b0%b8%ea%b3%a0-workflow%ec%99%80-agent%ec%9d%98-%ea%b5%ac%eb%b6%84">#</a>
+</h3>
+<p>따라서 개발자는 LLM을 활용하여 자연어로 들어온 명령을 처리하기 위해 여러 컴포넌트들을 조합하고 또 그 과정에서 LLM을 사용할 수 있도록 구성/구현 하면 된다. 참고로, worflow와 agent는 구분되는데, langgraph라는 AI 오픈소스 프레임워크에서는 이를 이렇게 표현하고 있다.</p>
+<blockquote>
+<p>Workflows are systems where LLMs and tools are orchestrated through predefined code paths. Agents, on the other hand, are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks.</p>
+</blockquote>
+<p>즉, workflow는 정의한 흐름대로만 진행하고, agent는 동적으로 계획/판단하고 반복하여 목표를 달성하는 것이라고 한다. 이러한 agent는 발전되어 위의 정의한 agent의 모든 과정에서 LLM을 호출하여 행동을 결정하는 <code>ReAct(Reasoning + Acting) agent</code>로 나아간다.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+<figure class="">
+
+    <div class="img-container" >
+        <img loading="lazy" alt="ai agent" src="https://pbs.twimg.com/media/GgPNm9pbUAAoSdP?format=jpg&amp;name=large" >
+    </div>
+
+    
+</figure>
+</p>
+<p><a href="https://x.com/bindureddy/status/1874568118439461254">출처</a></p>
+<h3 class="heading" id="관련-프레임워크">
+  관련 프레임워크
+  <a class="anchor" href="#%ea%b4%80%eb%a0%a8-%ed%94%84%eb%a0%88%ec%9e%84%ec%9b%8c%ed%81%ac">#</a>
+</h3>
+<p>이러한 AI agent를 구현하기 위해서는 보통 잘 알려진 프레임워크를 사용하면 되는데, 다음과 같은 것들이 존재한다.</p>
+<ul>
+<li>LangChain - LangGraph</li>
+<li>HuggingFace - smolagents</li>
+<li>llama- llama-amgent</li>
+<li>OpenAI - swarm</li>
+<li>CrewAI</li>
+<li>Pydantic AI</li>
+</ul>
+<p>이러한 framework들에는 <em>LLM agnostic한 agent과 multi agent를 위한 인터페이스가</em> 정의되어있다. 아직까지는 표준화되었다기보다는 표준화의 리더가 되기 위한 춘추 전국 시대라고 봐도 좋을 것 같다. 나는 현재 가장 많은 사람들이 사용하고 있는 langgraph라는 프레임워크로 한번 에이전트를 구현해보려고 한다.</p>
+
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="choieastsea/choieastsea.github.io"
+        data-repo-id="R_kgDOMgbvhw"
+        data-category=""
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+    
+  </div>
+
+  
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flexnowrap">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/12/">
+                        WAL(Write Ahead Log), 쓰기 전 로그
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+    </main>
+  </div>
+
+  
+  
+
+
+
+
+
+    
+
+
+
+
+  <footer>
+    
+
+    
+    
+
+
+
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script src="/js/theme-switch.js"></script>
+<script defer src="/js/copy-code.js"></script>
+</html>

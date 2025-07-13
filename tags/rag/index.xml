@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rag on choieastsea.github.io</title>
+    <link>https://choieastsea.github.io/tags/rag/</link>
+    <description>Recent content in Rag on choieastsea.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Fri, 11 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://choieastsea.github.io/tags/rag/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>백엔드 개발자 입장에서 정리한 LLM부터 AI Agent까지</title>
+      <link>https://choieastsea.github.io/posts/13/</link>
+      <pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/13/</guid>
+      <description>LLM과 chatgpt는 다르다 / AI Service(agent)가 제공하는 기능들</description>
+    </item>
+  </channel>
+</rss>
