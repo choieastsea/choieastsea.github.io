@@ -6,8 +6,15 @@
     <description>Recent content in Home on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Fri, 11 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Sep 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ASGI - application</title>
+      <link>https://choieastsea.github.io/posts/14/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/14/</guid>
+      <description>개요 / Event / ASGI application / 정리</description>
+    </item>
     <item>
       <title>백엔드 개발자 입장에서 정리한 LLM부터 AI Agent까지</title>
       <link>https://choieastsea.github.io/posts/13/</link>

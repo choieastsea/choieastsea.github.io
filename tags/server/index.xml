@@ -6,8 +6,15 @@
     <description>Recent content in Server on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 25 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Sep 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/tags/server/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ASGI - application</title>
+      <link>https://choieastsea.github.io/posts/14/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/14/</guid>
+      <description>개요 / Event / ASGI application / 정리</description>
+    </item>
     <item>
       <title>python wsgi 웹 서버 만들어보기</title>
       <link>https://choieastsea.github.io/posts/5/</link>

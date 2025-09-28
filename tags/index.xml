@@ -6,8 +6,57 @@
     <description>Recent content in Tags on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Fri, 11 Jul 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Sep 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Asgi</title>
+      <link>https://choieastsea.github.io/tags/asgi/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/asgi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fastapi</title>
+      <link>https://choieastsea.github.io/tags/fastapi/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/fastapi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>https://choieastsea.github.io/tags/python/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Server</title>
+      <link>https://choieastsea.github.io/tags/server/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/server/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Starlette</title>
+      <link>https://choieastsea.github.io/tags/starlette/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/starlette/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web Server</title>
+      <link>https://choieastsea.github.io/tags/web-server/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/web-server/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wsgi</title>
+      <link>https://choieastsea.github.io/tags/wsgi/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/tags/wsgi/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Agent</title>
       <link>https://choieastsea.github.io/tags/agent/</link>
@@ -90,13 +139,6 @@
       <link>https://choieastsea.github.io/tags/orm/</link>
       <pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/tags/orm/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Python</title>
-      <link>https://choieastsea.github.io/tags/python/</link>
-      <pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/tags/python/</guid>
       <description></description>
     </item>
     <item>
@@ -226,31 +268,10 @@
       <description></description>
     </item>
     <item>
-      <title>Server</title>
-      <link>https://choieastsea.github.io/tags/server/</link>
-      <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/tags/server/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Uwsgi</title>
       <link>https://choieastsea.github.io/tags/uwsgi/</link>
       <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://choieastsea.github.io/tags/uwsgi/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Web Server</title>
-      <link>https://choieastsea.github.io/tags/web-server/</link>
-      <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/tags/web-server/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Wsgi</title>
-      <link>https://choieastsea.github.io/tags/wsgi/</link>
-      <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/tags/wsgi/</guid>
       <description></description>
     </item>
     <item>
