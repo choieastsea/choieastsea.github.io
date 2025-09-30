@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ko-kr"
+  dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="https://choieastsea.github.io//favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://choieastsea.github.io//favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://choieastsea.github.io//favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://choieastsea.github.io//android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://choieastsea.github.io//apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
+
+<title>
+    
+    ASGI - uvicorn 코드로 알아보는 ASGI server | choieastsea.github.io
+    
+</title>
+
+<link rel="canonical" href="https://choieastsea.github.io/posts/15/"/>
+
+<meta property="og:url" content="https://choieastsea.github.io/posts/15/">
+  <meta property="og:site_name" content="choieastsea.github.io">
+  <meta property="og:title" content="ASGI - uvicorn 코드로 알아보는 ASGI server">
+  <meta property="og:description" content="uvicorn / startup / protocol">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-01T00:00:00+00:00">
+    <meta property="article:tag" content="Web Server">
+    <meta property="article:tag" content="Server">
+    <meta property="article:tag" content="Python">
+    <meta property="article:tag" content="Asgi">
+    <meta property="article:tag" content="Fastapi">
+    <meta property="article:tag" content="Uvicorn">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.0f4f5c64ee7100cff28e7c7366d922b5499829f72c91a53b9b17f236d85ad7e7.css" media="all">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">
+        <a href="https://choieastsea.github.io/">choieastsea.github.io</a>
+    </h1>
+
+    <div class="flex">
+        
+
+        
+        
+      
+        <p class="small ">
+            <a href="/" >
+                /home
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/about" >
+                /about
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/posts" >
+                /posts
+            </a>
+        </p>
+        
+      
+        <p class="small ">
+            <a href="/tags" >
+                /tags
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+
+    </header>
+
+    <main class="main">
+      
+
+
+
+
+<div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/posts/">Posts</a><span class="breadcrumbs-separator">/</span>
+        <a href="/posts/15/">ASGI - uvicorn 코드로 알아보는 ASGI server</a></div>
+
+
+<div >
+
+  <div class="single-intro-container">
+
+    
+
+    <h1 class="single-title">ASGI - uvicorn 코드로 알아보는 ASGI server</h1>
+    
+    <p class="single-summary">uvicorn / startup / protocol</p>
+    
+
+    
+
+    <p class="single-readtime">
+      
+      
+      
+      <time datetime="2025-10-01T00:00:00&#43;00:00">October 1, 2025</time>
+      
+
+      
+      &nbsp; · &nbsp;
+      4 min read
+      
+    </p>
+
+  </div>
+
+  
+
+  
+  
+
+  <div class="single-tags">
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/web-server/">#Web Server</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/server/">#Server</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/python/">#Python</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/asgi/">#Asgi</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/fastapi/">#Fastapi</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/uvicorn/">#Uvicorn</a>
+    </span>
+    
+    
+    <span>
+      <a href="https://choieastsea.github.io/tags/debugging/">#Debugging</a>
+    </span>
+    
+    
+  </div>
+
+  
+  
+
+  
+
+  
+  <aside class="toc">
+    <p><strong>Table of contents</strong></p>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#uvicorn">uvicorn</a></li>
+    <li><a href="#환경-설정">환경 설정</a>
+      <ul>
+        <li><a href="#vscode-디버깅-환경-구성">vscode 디버깅 환경 구성</a></li>
+      </ul>
+    </li>
+    <li><a href="#startup">startup</a></li>
+    <li><a href="#protocol">Protocol</a>
+      <ul>
+        <li><a href="#cycle-uvicorn">Cycle (uvicorn)</a></li>
+      </ul>
+    </li>
+    <li><a href="#asgi-application-실행">ASGI Application 실행</a></li>
+    <li><a href="#정리">정리</a></li>
+  </ul>
+</nav>
+  </aside>
+  
+
+  
+
+  <div class="single-content">
+    <p>저번에 이어 ASGI server에 대해 알아보고, 간단한 웹 어플리케이션을 <code>uvicorn</code> 라이브러리를 통해 서빙하고 디버깅해보며 ASGI server에서 하는 일들을 알아보자.</p>
+<h2 class="heading" id="uvicorn">
+  uvicorn
+  <a class="anchor" href="#uvicorn">#</a>
+</h2>
+<p>uvicorn은 대표적인 ASGI server의 구현체이다. <a href="https://github.com/Kludex/uvicorn">github</a></p>
+<p><code>fastapi</code>와 같은 ASGI application을 서빙할 때 필요한 존재이며, 상단에 WSGI server인 <code>gunicorn</code>을 두어 스케일 아웃을 하기도 한다. (아니면 nginx와 같은 web server에 연결된다)</p>
+<h2 class="heading" id="환경-설정">
+  환경 설정
+  <a class="anchor" href="#%ed%99%98%ea%b2%bd-%ec%84%a4%ec%a0%95">#</a>
+</h2>
+<p>우선 간단한 개발환경을 설정한다. <code>uv</code>를 사용했다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>❯ uv init asgi
+</span></span><span style="display:flex;"><span>❯ <span style="font-weight:bold;font-style:italic">cd</span> asgi
+</span></span><span style="display:flex;"><span>❯ uv add uvicorn
+</span></span></code></pre></div><p><code>main.py</code>를 다음과 같이 수정한다. 간단한 HTTP 요청을 path와 함께 받아 hello world를 출력해주는 <strong>ASGI application</strong>이다. application spec은 <a href="https://choieastsea.github.io/posts/14/">이전 글을 참고</a>한다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">import</span> <span style="color:#666;font-weight:bold;font-style:italic">asyncio</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">async</span> <span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">app</span>(scope, receive, send):
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">if</span> scope.get(<span style="color:#666;font-style:italic">&#34;type&#34;</span>) != <span style="color:#666;font-style:italic">&#34;http&#34;</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">raise</span> NotImplementedError
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    path = scope.get(<span style="color:#666;font-style:italic">&#34;path&#34;</span>, <span style="color:#666;font-style:italic">&#34;/&#34;</span>)
+</span></span><span style="display:flex;"><span>    name = path.split(<span style="color:#666;font-style:italic">&#34;/&#34;</span>)[1] <span style="font-weight:bold">or</span> <span style="color:#666;font-style:italic">&#34;world&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">await</span> asyncio.sleep(1)
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">await</span> send(
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;type&#34;</span>: <span style="color:#666;font-style:italic">&#34;http.response.start&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;status&#34;</span>: 200,
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;headers&#34;</span>: [(<span style="color:#666;font-style:italic">b</span><span style="color:#666;font-style:italic">&#34;content-type&#34;</span>, <span style="color:#666;font-style:italic">b</span><span style="color:#666;font-style:italic">&#34;text/plain; charset=utf-8&#34;</span>)],
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">await</span> send(
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;type&#34;</span>: <span style="color:#666;font-style:italic">&#34;http.response.body&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#666;font-style:italic">&#34;body&#34;</span>: <span style="color:#666;font-style:italic">f</span><span style="color:#666;font-style:italic">&#34;hello </span><span style="color:#666;font-style:italic">{</span>name<span style="color:#666;font-style:italic">}</span><span style="color:#666;font-style:italic">\n</span><span style="color:#666;font-style:italic">&#34;</span>.encode(),
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">if</span> __name__ == <span style="color:#666;font-style:italic">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">import</span> <span style="color:#666;font-weight:bold;font-style:italic">uvicorn</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    uvicorn.run(<span style="color:#666;font-style:italic">&#34;main:app&#34;</span>, host=<span style="color:#666;font-style:italic">&#34;127.0.0.1&#34;</span>, port=8000)
+</span></span></code></pre></div><p><code>scope</code>에는 connection에 대한 정적인 메타데이터가 들어있고, <code>send</code> 파라미터는 awaitable callable이 주입되어 dictionary로 ASGI server가 client에게 응답하기를 기대한다.</p>
+<p>위 코드는 scope로부터 path parameter를 가져와 &ldquo;hello {name}&ldquo;의 꼴로 응답하고 종료하기를 기대된다.</p>
+<p>이제 디버깅을 해보자!</p>
+<h3 class="heading" id="vscode-디버깅-환경-구성">
+  vscode 디버깅 환경 구성
+  <a class="anchor" href="#vscode-%eb%94%94%eb%b2%84%ea%b9%85-%ed%99%98%ea%b2%bd-%ea%b5%ac%ec%84%b1">#</a>
+</h3>
+<p><code>vscode</code>의 <code>launch.json</code>을 다음과 같이 작성하고 디버깅을 수행하였다. 가상환경 python 위치와 justMyCode를 false로 두어 설치한 uvicorn 코드까지 보도록 하자.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    &#34;version&#34;: <span style="color:#666;font-style:italic">&#34;0.2.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    &#34;configurations&#34;: [
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            &#34;name&#34;: <span style="color:#666;font-style:italic">&#34;debug ASGI&#34;</span>,
+</span></span><span style="display:flex;"><span>            &#34;type&#34;: <span style="color:#666;font-style:italic">&#34;debugpy&#34;</span>,
+</span></span><span style="display:flex;"><span>            &#34;request&#34;: <span style="color:#666;font-style:italic">&#34;launch&#34;</span>,
+</span></span><span style="display:flex;"><span>            &#34;python&#34;: <span style="color:#666;font-style:italic">&#34;${command:python.interpreterPath}&#34;</span>,
+</span></span><span style="display:flex;"><span>            &#34;program&#34;: <span style="color:#666;font-style:italic">&#34;main.py&#34;</span>,
+</span></span><span style="display:flex;"><span>            &#34;console&#34;: <span style="color:#666;font-style:italic">&#34;integratedTerminal&#34;</span>,
+</span></span><span style="display:flex;"><span>            &#34;justMyCode&#34;: <span style="font-weight:bold;text-decoration:underline">false</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>주요 지점에 대해 브레이크 포인트를 찍고, ASGI 서버가 어떤 역할을 수행하는지를 위주로 살펴보고자 한다. event loop와 그 스펙은 간단하게만 짚고 넘어간다.</p>
+<p>(이하의 코드들은 중요 부분만 남기고, 일부는 생략 &amp; 주석을 수정하였으니 원본을 보고 싶으면 해당 코드를 직접 확인하자)</p>
+<h2 class="heading" id="startup">
+  startup
+  <a class="anchor" href="#startup">#</a>
+</h2>
+<p><code>uvicorn/server.py</code></p>
+<p>ASGI server가 최초 실행될 때(_serve 메서드) startup이 호출된다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">class</span> <span style="color:#666;font-weight:bold;font-style:italic">Server</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">async</span> <span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">startup</span>(<span style="font-weight:bold;font-style:italic">self</span>, sockets: <span style="font-weight:bold;font-style:italic">list</span>[socket.socket] | <span style="font-weight:bold;text-decoration:underline">None</span> = <span style="font-weight:bold;text-decoration:underline">None</span>) -&gt; <span style="font-weight:bold;text-decoration:underline">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">await</span> <span style="font-weight:bold;font-style:italic">self</span>.lifespan.startup()
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">create_protocol</span>(
+</span></span><span style="display:flex;"><span>            _loop: asyncio.AbstractEventLoop | <span style="font-weight:bold;text-decoration:underline">None</span> = <span style="font-weight:bold;text-decoration:underline">None</span>,
+</span></span><span style="display:flex;"><span>        ) -&gt; asyncio.Protocol:
+</span></span><span style="display:flex;"><span>            ...
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">try</span>:
+</span></span><span style="display:flex;"><span>            server = <span style="font-weight:bold;text-decoration:underline">await</span> loop.create_server(
+</span></span><span style="display:flex;"><span>                create_protocol,
+</span></span><span style="display:flex;"><span>                host=config.host,
+</span></span><span style="display:flex;"><span>                port=config.port,
+</span></span><span style="display:flex;"><span>                ssl=config.ssl,
+</span></span><span style="display:flex;"><span>                backlog=config.backlog,
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">except</span> OSError <span style="font-weight:bold;text-decoration:underline">as</span> exc:
+</span></span><span style="display:flex;"><span>            logger.error(exc)
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold;text-decoration:underline">await</span> <span style="font-weight:bold;font-style:italic">self</span>.lifespan.shutdown()
+</span></span><span style="display:flex;"><span>            sys.exit(1)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">assert</span> server.sockets <span style="font-weight:bold">is</span> <span style="font-weight:bold">not</span> <span style="font-weight:bold;text-decoration:underline">None</span>
+</span></span><span style="display:flex;"><span>        listeners = server.sockets
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;font-style:italic">self</span>.servers = [server]
+</span></span></code></pre></div><p><code>create_protocol</code> 메서드는 <strong>현재 이벤트 루프</strong>를 가져오고, ASGI 서버 실행시 설정한 ASGI application 정보를 통해 <code>Protocol</code> 객체를 생성한다.</p>
+<p><a href="https://docs.python.org/ko/3.13/library/asyncio-protocol.html#protocols">Protocol</a>은 저수준의 통신 채널의 추상화 객체인 <a href="https://docs.python.org/ko/3.13/library/asyncio-protocol.html#transports">Transport</a> 객체에 등록하는 콜백을 포함한 인스턴스이다.</p>
+<p>쉽게 설명하면 <strong>이벤트 루프가 이벤트를 감지하고, Transport가 약속된 Protocol의 행동(메서드)들을 수행</strong>하도록 되어 있는 것이다.</p>
+<p>코드를 보면, 이벤트루프의 <code>create_server</code> 메서드를 호출하고, <code>create_protocol</code>메서드를 등록한다. 이후 <strong>TCP connection이 생성되면 이벤트루프가 create_protocol을 호출</strong>하여 HTTP Protocol 객체를 생성하고, 요청시 protocol의 data_recieved가 호출한다. (<em>일반적으로 하나의 요청에 하나의 Protocol이 생성</em>된다)</p>
+<p><code>curl http://localhost:8000/bada</code> 를 실행했을 때의 흐름을 따라가보자.</p>
+<h2 class="heading" id="protocol">
+  Protocol
+  <a class="anchor" href="#protocol">#</a>
+</h2>
+<p><code>uvicorn/protocols/http/h11_impl.py</code></p>
+<p>http 요청의 경우, 옵션에 따라 다를 수 있는데(기본적으로는 httptools) 여기서는 h11_impl(순수 파이썬) 기준으로 보자.</p>
+<p>HTTP 요청시, 등록된 Protocol 인스턴스의 <code>data_received</code> 콜백이 수행된다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">class</span> <span style="color:#666;font-weight:bold;font-style:italic">H11Protocol</span>(asyncio.Protocol):
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">data_received</span>(<span style="font-weight:bold;font-style:italic">self</span>, data: <span style="font-weight:bold;font-style:italic">bytes</span>) -&gt; <span style="font-weight:bold;text-decoration:underline">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;font-style:italic">self</span>._unset_keepalive_if_required()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;font-style:italic">self</span>.conn.receive_data(data)
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;font-style:italic">self</span>.handle_events()
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">handle_events</span>(<span style="font-weight:bold;font-style:italic">self</span>) -&gt; <span style="font-weight:bold;text-decoration:underline">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">while</span> <span style="font-weight:bold;text-decoration:underline">True</span>:
+</span></span><span style="display:flex;"><span>            event = <span style="font-weight:bold;font-style:italic">self</span>.conn.next_event()
+</span></span><span style="display:flex;"><span>            <span style="color:#888;font-style:italic"># HTTP 요청 이벤트</span>
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold;text-decoration:underline">if</span> <span style="font-weight:bold;font-style:italic">isinstance</span>(event, h11.Request):
+</span></span><span style="display:flex;"><span>                <span style="color:#888;font-style:italic"># scope 초기화</span>
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold;font-style:italic">self</span>.scope = {
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;type&#34;</span>: <span style="color:#666;font-style:italic">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;asgi&#34;</span>: {<span style="color:#666;font-style:italic">&#34;version&#34;</span>: <span style="font-weight:bold;font-style:italic">self</span>.config.asgi_version, <span style="color:#666;font-style:italic">&#34;spec_version&#34;</span>: <span style="color:#666;font-style:italic">&#34;2.3&#34;</span>},
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;http_version&#34;</span>: event.http_version.decode(<span style="color:#666;font-style:italic">&#34;ascii&#34;</span>),
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;server&#34;</span>: <span style="font-weight:bold;font-style:italic">self</span>.server,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;client&#34;</span>: <span style="font-weight:bold;font-style:italic">self</span>.client,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;scheme&#34;</span>: <span style="font-weight:bold;font-style:italic">self</span>.scheme,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;method&#34;</span>: event.method.decode(<span style="color:#666;font-style:italic">&#34;ascii&#34;</span>),
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;root_path&#34;</span>: <span style="font-weight:bold;font-style:italic">self</span>.root_path,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;path&#34;</span>: full_path,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;raw_path&#34;</span>: full_raw_path,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;query_string&#34;</span>: query_string,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;headers&#34;</span>: <span style="font-weight:bold;font-style:italic">self</span>.headers,
+</span></span><span style="display:flex;"><span>                    <span style="color:#666;font-style:italic">&#34;state&#34;</span>: <span style="font-weight:bold;font-style:italic">self</span>.app_state.copy(),
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#888;font-style:italic"># WS upgrade</span>
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold;text-decoration:underline">if</span> <span style="font-weight:bold;font-style:italic">self</span>._should_upgrade():
+</span></span><span style="display:flex;"><span>                    <span style="font-weight:bold;font-style:italic">self</span>.handle_websocket_upgrade(event)
+</span></span><span style="display:flex;"><span>                    <span style="font-weight:bold;text-decoration:underline">return</span>
+</span></span><span style="display:flex;"><span>                app = <span style="font-weight:bold;font-style:italic">self</span>.app
+</span></span><span style="display:flex;"><span>                <span style="color:#888;font-style:italic"># Cycle 생성</span>
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold;font-style:italic">self</span>.cycle = RequestResponseCycle(
+</span></span><span style="display:flex;"><span>                    scope=<span style="font-weight:bold;font-style:italic">self</span>.scope,
+</span></span><span style="display:flex;"><span>                    conn=<span style="font-weight:bold;font-style:italic">self</span>.conn,
+</span></span><span style="display:flex;"><span>                    transport=<span style="font-weight:bold;font-style:italic">self</span>.transport,
+</span></span><span style="display:flex;"><span>                    flow=<span style="font-weight:bold;font-style:italic">self</span>.flow,
+</span></span><span style="display:flex;"><span>                    logger=<span style="font-weight:bold;font-style:italic">self</span>.logger,
+</span></span><span style="display:flex;"><span>                    access_logger=<span style="font-weight:bold;font-style:italic">self</span>.access_logger,
+</span></span><span style="display:flex;"><span>                    access_log=<span style="font-weight:bold;font-style:italic">self</span>.access_log,
+</span></span><span style="display:flex;"><span>                    default_headers=<span style="font-weight:bold;font-style:italic">self</span>.server_state.default_headers,
+</span></span><span style="display:flex;"><span>                    message_event=asyncio.Event(),
+</span></span><span style="display:flex;"><span>                    on_response=<span style="font-weight:bold;font-style:italic">self</span>.on_response_complete,
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>                <span style="color:#888;font-style:italic"># event loop에 task 등록</span>
+</span></span><span style="display:flex;"><span>                task = <span style="font-weight:bold;font-style:italic">self</span>.loop.create_task(<span style="font-weight:bold;font-style:italic">self</span>.cycle.run_asgi(app))
+</span></span><span style="display:flex;"><span>                task.add_done_callback(<span style="font-weight:bold;font-style:italic">self</span>.tasks.discard)
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold;font-style:italic">self</span>.tasks.add(task)
+</span></span></code></pre></div><p>이벤트 루프에 의해 transport가  <code>H11Protocol</code> 객체의 <code>data_received</code> 콜백을 호출하고, 이는 (uvicorn 기준) <code>handle_events</code>를 호출하여 ASGI application에 넘겨줄 인자들을 만들어주고 cycle에서 application을 실행하도록 task로 등록한다.</p>
+<h3 class="heading" id="cycle-uvicorn">
+  Cycle (uvicorn)
+  <a class="anchor" href="#cycle-uvicorn">#</a>
+</h3>
+<p><code>uvicorn/protocols/http/h11_impl.py</code></p>
+<p>cycle은 uvicorn에서 ASGI application을 실행하고 처리하는 주체이다. <code>run_asgi</code> 메서드로 우리가 만든 application이 호출될 것이다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">class</span> <span style="color:#666;font-weight:bold;font-style:italic">RequestResponseCycle</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold;text-decoration:underline">async</span> <span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">run_asgi</span>(<span style="font-weight:bold;font-style:italic">self</span>, app: ASGI3Application) -&gt; <span style="font-weight:bold;text-decoration:underline">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">try</span>:
+</span></span><span style="display:flex;"><span>            result = <span style="font-weight:bold;text-decoration:underline">await</span> app(  
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold;font-style:italic">self</span>.scope, <span style="font-weight:bold;font-style:italic">self</span>.receive, <span style="font-weight:bold;font-style:italic">self</span>.send
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold;text-decoration:underline">except</span> BaseException <span style="font-weight:bold;text-decoration:underline">as</span> exc:
+</span></span><span style="display:flex;"><span>            ...
+</span></span></code></pre></div><h2 class="heading" id="asgi-application-실행">
+  ASGI Application 실행
+  <a class="anchor" href="#asgi-application-%ec%8b%a4%ed%96%89">#</a>
+</h2>
+<p>아까 생성한 main.py가 실행되어 1초간 기다리고 응답이 온다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>❯ curl http://localhost:8000/bada
+</span></span><span style="display:flex;"><span>hello bada
+</span></span></code></pre></div><p>응답 이후 다시 ASGI 서버가 무한루프를 돌며 서버가 유지된다.</p>
+<p>만약 종료하게 되면 ASGI 서버에서 cleanup 동작을 수행하고, 반환하게 될 것이다.</p>
+<h2 class="heading" id="정리">
+  정리
+  <a class="anchor" href="#%ec%a0%95%eb%a6%ac">#</a>
+</h2>
+<ul>
+<li>ASGI 서버는 시작 시, asyncio 이벤트 루프에 Transport/Protocol에 대한 정보ㄹㄹ 등록한다.</li>
+<li>HTTP 요청/웹소켓등의 이벤트가 발생하면, 이벤트 루프가 해당 **Protocol 인스턴스의 콜백(data_received)**을 호출하고, Protocol은 이를 적절히 파싱해 인자를 만들고, ASGI application(코루틴)을 실행한다.</li>
+<li>ASGI application은 이벤트 루프에 의해 cooperative하게 동작하며, <code>receive</code>로 입력 이벤트를 받고 <code>send</code>로 응답 이벤트를 내보낸다.</li>
+</ul>
+<p>처음 정리하려던 것보다는 내용이 더 깊어졌는데, 언젠가 이벤트루프 관련한 스펙도 알아보면 좋을 것 같다는 생각이 든다.</p>
+<p>그럼 모두 화이팅👏</p>
+
+    
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="choieastsea/choieastsea.github.io"
+        data-repo-id="R_kgDOMgbvhw"
+        data-category=""
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+    
+    
+  </div>
+
+  
+
+  
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flexnowrap">
+
+        <div class="single-pagination-prev">
+            
+            <div class="single-pagination-container-prev">
+                <div class="single-pagination-text">←</div>
+                <div class="single-pagination-text">
+                    <a href="/posts/14/">
+                        ASGI - application
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+    </main>
+  </div>
+
+  
+  
+
+
+
+
+
+    
+
+
+
+
+  <footer>
+    
+
+    
+    
+
+
+
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script src="/js/theme-switch.js"></script>
+<script defer src="/js/copy-code.js"></script>
+</html>

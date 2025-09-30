@@ -278,7 +278,8 @@
   <a class="anchor" href="#event">#</a>
 </h2>
 <p>우선, ASGI의 <code>event</code>라는 개념을 알고 가면 좋을 것 같다.</p>
-<p>ASGI는 application이 수신하고 작업, 응답까지의 과정을 각각의 event로 표현한다. event는 dictionary로 제공되며 &ldquo;type&quot;이라는 키(ex. <code>http.request</code>, <code>http.disconnect</code>)를 포함한다.</p>
+<p>ASGI는 application이 수신하고 작업, 응답까지의 일들을 각각의 event로 표현한다. event는 dictionary로 제공되며 &ldquo;type&quot;이라는 키(ex. <code>http.request</code>, <code>http.disconnect</code>)를 포함한다.</p>
+<p><code>server-client</code> 구조에서, 맺은 연결을 connection이라고 하고, 해당 connection에서 발생하는 메시지를 event라고 알고 있으면 좋다.</p>
 <h2 class="heading" id="asgi-application">
   ASGI application
   <a class="anchor" href="#asgi-application">#</a>
@@ -316,7 +317,7 @@
 <p>WSGI application의 인터페이스는 다음과 같았다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">def</span> <span style="color:#666;font-weight:bold;font-style:italic">app</span>(environ, start_response):
 </span></span></code></pre></div><p>이는 요청-응답의 동기 구조로 되어있어, 비동기 이벤트에 대한 처리가 불가능한 구조이다. streaming, WebSocket과 같은 구조는 WSGI 스펙에서 정의된 것은 아니다.</p>
-<p>ASGI는 WSGI에서의 <strong>단일 요청~응답을 connection(채널)과 여러 개의 event(메시지)로 세분화</strong>하였다고 볼 수 있다.</p>
+<p>ASGI는 WSGI에서의 <strong>단일 요청~응답을 한 connection(채널)과 여러 개의 event(메시지)로 세분화</strong>하였다고 볼 수 있다.</p>
 <p>보통 ASGI server들은 WSGI application을 이벤트 루프에서 실행할 수 있는 wrapper middleware가 제공되어, <em>하나의 ASGI 서버는 ASGI, WSGI app 모두를 실행할 수 있다</em>.</p>
 <h3 class="heading" id="fastapi--starlette">
   fastapi / starlette
@@ -432,6 +433,15 @@
         </div>
 
         <div class="single-pagination-next">
+            
+            <div class="single-pagination-container-next">
+                <div class="single-pagination-text">
+                    <a href="/posts/15/">
+                        ASGI - uvicorn 코드로 알아보는 ASGI server
+                    </a>
+                </div>
+                <div class="single-pagination-text">→</div>
+            </div>
             
         </div>
 

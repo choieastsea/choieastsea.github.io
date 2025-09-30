@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Uvicorn on choieastsea.github.io</title>
+    <link>https://choieastsea.github.io/tags/uvicorn/</link>
+    <description>Recent content in Uvicorn on choieastsea.github.io</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://choieastsea.github.io/tags/uvicorn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ASGI - uvicorn 코드로 알아보는 ASGI server</title>
+      <link>https://choieastsea.github.io/posts/15/</link>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/15/</guid>
+      <description>uvicorn / startup / protocol</description>
+    </item>
+  </channel>
+</rss>
