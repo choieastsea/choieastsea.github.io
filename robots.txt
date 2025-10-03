@@ -1,1 +1,3 @@
 User-agent: *
+Allow: /
+Sitemap: https://choieastsea.github.io/sitemap.xml
