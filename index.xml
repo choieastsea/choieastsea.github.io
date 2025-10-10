@@ -6,8 +6,15 @@
     <description>Recent content in Home on choieastsea.github.io</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 10 Oct 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://choieastsea.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MCP는 어떻게 동작할까? MCP specification 알아보고 HTTP 호출해보기</title>
+      <link>https://choieastsea.github.io/posts/16/</link>
+      <pubDate>Fri, 10 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>https://choieastsea.github.io/posts/16/</guid>
+      <description>개요 / 아키텍쳐 / 프로토콜 / postman으로 streamable-http mcp 통신 테스트</description>
+    </item>
     <item>
       <title>ASGI - uvicorn 코드로 알아보는 ASGI server</title>
       <link>https://choieastsea.github.io/posts/15/</link>

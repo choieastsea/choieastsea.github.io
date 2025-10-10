@@ -236,7 +236,7 @@
   
 
   <div class="single-content">
-    <p>지금까지 sqlalchemy의 core layer에 대해 공부했고, 이제는 orm layer에 대해 알아보자. SQLAlchemy를 이용한 application을 다루게 된다면 가장 많이 접할 것이다.</p>
+    <p>지금까지 sqlalchemy의 <code>core layer</code>에 대해 공부했고, 이제는 <code>orm layer</code>에 대해 알아보자. SQLAlchemy를 이용한 application을 다루게 된다면 가장 많이 접할 것이다.</p>
 <h1 class="heading" id="session">
   Session
   <a class="anchor" href="#session">#</a>
@@ -269,7 +269,7 @@
 </span></span><span style="display:flex;"><span>&lt;sqlalchemy.orm.session.Session <span style="font-weight:bold;font-style:italic">object</span> at 0x106472710&gt;
 </span></span><span style="display:flex;"><span>&gt;&gt;&gt; engine.pool.status()
 </span></span><span style="display:flex;"><span><span style="color:#666;font-style:italic">&#39;Pool size: 5  Connections in pool: 0 Current Overflow: -5 Current Checked out connections: 0&#39;</span>
-</span></span></code></pre></div><p><strong>session이 생겼다고 해서 connection을 가져오지(<code>engine.connect()</code>) 않은 것</strong>을 확인할 수 있다. <em>실제 DB 실행시에 connection 객체를 가져올 것</em>이다.</p>
+</span></span></code></pre></div><p><strong>session이 생겼다고 해서 connection을 가져오지(<code>engine.connect()</code>) 않은 것</strong>을 확인할 수 있다. <em>실제 DB 실행시에 connection 객체를 lazy하게 가져온다.</em></p>
 <h2 class="heading" id="트랜잭션-관리">
   트랜잭션 관리
   <a class="anchor" href="#%ed%8a%b8%eb%9e%9c%ec%9e%ad%ec%85%98-%ea%b4%80%eb%a6%ac">#</a>
@@ -415,8 +415,8 @@
   <a class="anchor" href="#engine--connection--session">#</a>
 </h1>
 <p>이제, engine, connection, session에 대해 알아봤는데, 차이점을 정리해보자.</p>
-<p>engine은 connection들을 관리하기 위한 <strong>connection pool과 DBMS 마다 쿼리를 실행하기 위한 Dialect를 포함한 객체</strong>이다.</p>
-<p>connection은 <a href="https://peps.python.org/pep-0249/#connection-objects">DB API의 connection</a>을 래핑한 객체이다. <strong>DBMS와 application간의 TCP connection</strong>를 포함한다고 볼 수 있다.</p>
+<p>engine은 <strong>connection들을 관리하기 위한 connection pool과 DBMS 마다 쿼리를 실행하기 위한 Dialect를 포함한 객체</strong>이다.</p>
+<p>connection은 <a href="https://peps.python.org/pep-0249/#connection-objects">DB API의 connection</a>을 래핑한 객체이다. <strong>DBMS의 TCP connection을 application간의 connection</strong>객체로 갖고 있는다.</p>
 <p>session은 <strong>하나의 트랜잭션을 수행하고 ORM 객체와 매핑과 영속화를 수행</strong>하기 위한 객체이다.</p>
 <p>이 정도로 SQLAlchemy의 컨셉 정도는 알아본 것 같다. 개인적으로는 engine, connection, session의 개념과 DBAPI와의 관계를 명확하게 이해하고, 알케미를 활용한다면 더욱 효율적이고 생산적인 코드를 만들 수 있을 것이라고 생각한다.</p>
 <p>화이팅 😎</p>

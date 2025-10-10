@@ -287,7 +287,7 @@
   생성 != 커넥션 생성
   <a class="anchor" href="#%ec%83%9d%ec%84%b1--%ec%bb%a4%eb%84%a5%ec%85%98-%ec%83%9d%ec%84%b1">#</a>
 </h3>
-<p>engine을 생성했다고 DB 커넥션이 생성되는 것은 아니다. engine은 커넥션 풀을 관리하는 클래스이지, <strong>커넥션 그 자체는 아니다</strong>. SQLAlchemy는 connection에 대한 클래스(<code>connection</code>)이 존재하는데, <code>engine.connect()</code>를 호출하면 커넥션 객체가 커넥션 풀에 전략에 맞게 생성된다.</p>
+<p>engine을 생성했다고 DB 커넥션이 생성되는 것은 아니다. engine은 커넥션 풀을 관리하는 클래스이지, <strong>커넥션 그 자체는 아니다</strong>. SQLAlchemy는 connection에 대한 클래스(<code>connection</code>)이 존재하는데, <code>engine.connect()</code>를 호출하면 커넥션 객체가 커넥션 풀에 전략에 맞게 생성되거나 가져와진다.</p>
 <p>우선, engine을 생성하는 예시를 interactive mode로 실행해보자. (echo 옵션으로 DB query에 대한 로그를 확인할 수 있다)</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#888;font-style:italic"># test.py</span>
 </span></span><span style="display:flex;"><span>engine = create_engine(<span style="color:#666;font-style:italic">&#34;mysql+pymysql://root:password@localhost/test_db&#34;</span>, echo=<span style="font-weight:bold;text-decoration:underline">True</span>)
@@ -307,7 +307,7 @@
 </span></span><span style="display:flex;"><span>203	root	192.168.65.1:31371	test_db	Sleep	1		<span style="font-weight:bold;text-decoration:underline">NULL</span>
 </span></span><span style="display:flex;"><span>204	root	192.168.65.1:44481	test_db	Sleep	1		<span style="font-weight:bold;text-decoration:underline">NULL</span>
 </span></span><span style="display:flex;"><span>205	root	192.168.65.1:51309	test_db	Sleep	1		<span style="font-weight:bold;text-decoration:underline">NULL</span>
-</span></span></code></pre></div><p>물론 <code>engine.connect()</code>를 여러번 수행한다고 해서 항상 connection이 생성되는 것은 아니고, <em>connection pool 정책에 의해 생성될 것</em>이다.</p>
+</span></span></code></pre></div><p>다시 한번 말하지만, <code>engine.connect()</code>를 여러번 수행한다고 해서 항상 connection이 생성되는 것은 아니고, <em>connection pool 정책에 의해 생성될 것</em>이다.</p>
 <h3 class="heading" id="enginepoolstatus">
   engine.pool.status()
   <a class="anchor" href="#enginepoolstatus">#</a>
@@ -340,7 +340,7 @@
   Pool 관련 파라미터
   <a class="anchor" href="#pool-%ea%b4%80%eb%a0%a8-%ed%8c%8c%eb%9d%bc%eb%af%b8%ed%84%b0">#</a>
 </h3>
-<p><code>pool_</code> prefix인 설정들은 기본적으로 <a href="https://choieastsea.github.io/posts/9/">저번 포스트</a>에서 다뤘던 Pool 클래스의 인자와 같다.</p>
+<p>engine의 <code>pool_</code> prefix인 설정들은 기본적으로 <a href="https://choieastsea.github.io/posts/9/">저번 포스트</a>에서 다뤘던 Pool 클래스의 인자와 같다.</p>
 <ul>
 <li><strong>max_overflow</strong>: 기본 풀 크기를 초과하여 얼마나 더 커넥션을 추가할 수 있는지를 설정한다.</li>
 <li><strong>pool</strong>: 사용할 커넥션 풀의 유형을 지정한다. 기본값은 <code>QueuePool</code>이다.</li>
@@ -360,7 +360,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#888;font-style:italic"># 데이터베이스 작업</span>
 </span></span><span style="display:flex;"><span><span style="font-weight:bold;text-decoration:underline">finally</span>:
 </span></span><span style="display:flex;"><span>    connection.close()
-</span></span></code></pre></div><p>sqlalchemy의 connection 객체는 DB API의 connection을 감싼 객체이다. 만약 후자의 커넥션 객체의 접근하고 싶다면 <code>connection.connection</code>으로 가능하다.</p>
+</span></span></code></pre></div><p>sqlalchemy의 connection 객체는 DB API의 connection을 감싼 객체이다. 만약 후자의 커넥션 객체에 접근하고 싶다면 <code>connection.connection</code>으로 가능하다.</p>
 <h2 class="heading" id="enginebegin">
   Engine.begin()
   <a class="anchor" href="#enginebegin">#</a>
@@ -396,7 +396,7 @@
   정리
   <a class="anchor" href="#%ec%a0%95%eb%a6%ac">#</a>
 </h2>
-<p>SQLAlchemy engine은 커넥션 풀과 dialect를 다루기 위한 모듈이다. 따라서 보통 engine은 <strong>application 내에 DB 당 하나만 존재</strong>하는 것이 일반적이다. connection pooling을 담당하고(1), connection 객체를 통해 트랜잭션을 열고 쿼리를 실행(2)할 수 있지만, (2)에 대한 부분은 <em>ORM을 지원하는 Session 객체를 통해 다루는 것이 일반적</em>이다.</p>
+<p>SQLAlchemy engine은 커넥션 풀과 dialect를 다루기 위한 모듈이다. 따라서 보통 engine은 <strong>application 내에 DB 당 하나만 존재</strong>하는 것이 일반적이다. connection pooling을 담당하고(1), connection 객체를 통해 트랜잭션을 열고 쿼리를 실행(2)할 수도 있지만, (2)에 대한 부분은 <em>ORM을 지원하는 Session 객체를 통해 다루는 것이 일반적</em>이다.</p>
 <p>이번 글까지 sqlalchemy의 core module에 대해 알아보았다. 다음에는 SQLAlchemy에서 자주 접하게 될, 어찌보면 진짜 본체인 <code>Session</code> 객체에 대해 알아보도록 하겠다.</p>
 <p>화이팅 😊</p>
 
