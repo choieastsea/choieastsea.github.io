@@ -10,30 +10,30 @@
     <atom:link href="https://choieastsea.github.io/tags/web-server/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ASGI - uvicorn 코드로 알아보는 ASGI server</title>
-      <link>https://choieastsea.github.io/posts/15/</link>
+      <link>https://choieastsea.github.io/posts/asgi-uvicorn-%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EB%8A%94-asgi-server/</link>
       <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/15/</guid>
+      <guid>https://choieastsea.github.io/posts/asgi-uvicorn-%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EB%8A%94-asgi-server/</guid>
       <description>uvicorn / startup / protocol</description>
     </item>
     <item>
       <title>ASGI - application</title>
-      <link>https://choieastsea.github.io/posts/14/</link>
+      <link>https://choieastsea.github.io/posts/asgi-application/</link>
       <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/14/</guid>
+      <guid>https://choieastsea.github.io/posts/asgi-application/</guid>
       <description>개요 / Event / ASGI application / 정리</description>
     </item>
     <item>
       <title>python wsgi 웹 서버 만들어보기</title>
-      <link>https://choieastsea.github.io/posts/5/</link>
+      <link>https://choieastsea.github.io/posts/python-wsgi-%EC%9B%B9-%EC%84%9C%EB%B2%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0/</link>
       <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/5/</guid>
+      <guid>https://choieastsea.github.io/posts/python-wsgi-%EC%9B%B9-%EC%84%9C%EB%B2%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0/</guid>
       <description>CGI를 pythonic하게 해석한 wsgi 인터페이스를 알아보고 wsgi 기반의 웹 어플리케이션과 서버를 구현해보자.</description>
     </item>
     <item>
       <title>어플리케이션이 웹 어플리케이션이 되는 방법(feat. cgi, wsgi, servlet)</title>
-      <link>https://choieastsea.github.io/posts/4/</link>
+      <link>https://choieastsea.github.io/posts/%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EB%90%98%EB%8A%94-%EB%B0%A9%EB%B2%95feat.-cgi-wsgi-servlet/</link>
       <pubDate>Sun, 18 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/4/</guid>
+      <guid>https://choieastsea.github.io/posts/%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EB%90%98%EB%8A%94-%EB%B0%A9%EB%B2%95feat.-cgi-wsgi-servlet/</guid>
       <description>우리가 작성한 어플리케이션(혹은 code/script)은 어떻게 HTTP 요청에 응답할 수 있을까?</description>
     </item>
   </channel>

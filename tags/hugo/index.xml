@@ -10,9 +10,9 @@
     <atom:link href="https://choieastsea.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>hugo와 git submodule을 이용한 깃허브 블로그 구축기</title>
-      <link>https://choieastsea.github.io/posts/1/</link>
+      <link>https://choieastsea.github.io/posts/hugo%EC%99%80-git-submodule%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EA%B9%83%ED%97%88%EB%B8%8C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EA%B5%AC%EC%B6%95%EA%B8%B0/</link>
       <pubDate>Sun, 11 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/1/</guid>
+      <guid>https://choieastsea.github.io/posts/hugo%EC%99%80-git-submodule%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EA%B9%83%ED%97%88%EB%B8%8C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EA%B5%AC%EC%B6%95%EA%B8%B0/</guid>
       <description>hugo? / github pages / 블로그 초기화 과정</description>
     </item>
   </channel>

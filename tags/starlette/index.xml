@@ -10,9 +10,9 @@
     <atom:link href="https://choieastsea.github.io/tags/starlette/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ASGI - application</title>
-      <link>https://choieastsea.github.io/posts/14/</link>
+      <link>https://choieastsea.github.io/posts/asgi-application/</link>
       <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/14/</guid>
+      <guid>https://choieastsea.github.io/posts/asgi-application/</guid>
       <description>개요 / Event / ASGI application / 정리</description>
     </item>
   </channel>

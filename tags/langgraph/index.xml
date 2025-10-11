@@ -10,9 +10,9 @@
     <atom:link href="https://choieastsea.github.io/tags/langgraph/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>백엔드 개발자 입장에서 정리한 LLM부터 AI Agent까지</title>
-      <link>https://choieastsea.github.io/posts/13/</link>
+      <link>https://choieastsea.github.io/posts/%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%9E%85%EC%9E%A5%EC%97%90%EC%84%9C-%EC%A0%95%EB%A6%AC%ED%95%9C-llm%EB%B6%80%ED%84%B0-ai-agent%EA%B9%8C%EC%A7%80/</link>
       <pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/13/</guid>
+      <guid>https://choieastsea.github.io/posts/%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%9E%85%EC%9E%A5%EC%97%90%EC%84%9C-%EC%A0%95%EB%A6%AC%ED%95%9C-llm%EB%B6%80%ED%84%B0-ai-agent%EA%B9%8C%EC%A7%80/</guid>
       <description>LLM과 chatgpt는 다르다 / AI Service(agent)가 제공하는 기능들</description>
     </item>
   </channel>

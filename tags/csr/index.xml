@@ -10,9 +10,9 @@
     <atom:link href="https://choieastsea.github.io/tags/csr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SPA에 대하여 (장단점, routing, 개선방법)</title>
-      <link>https://choieastsea.github.io/posts/6/</link>
+      <link>https://choieastsea.github.io/posts/spa%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC-%EC%9E%A5%EB%8B%A8%EC%A0%90-routing-%EA%B0%9C%EC%84%A0%EB%B0%A9%EB%B2%95/</link>
       <pubDate>Sun, 01 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/6/</guid>
+      <guid>https://choieastsea.github.io/posts/spa%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC-%EC%9E%A5%EB%8B%A8%EC%A0%90-routing-%EA%B0%9C%EC%84%A0%EB%B0%A9%EB%B2%95/</guid>
       <description>SPA란 / SPA의 단점을 개선하는 방법 / 정리</description>
     </item>
   </channel>

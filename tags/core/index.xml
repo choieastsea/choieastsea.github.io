@@ -10,16 +10,16 @@
     <atom:link href="https://choieastsea.github.io/tags/core/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SQLAlchemy (2) Engine</title>
-      <link>https://choieastsea.github.io/posts/10/</link>
+      <link>https://choieastsea.github.io/posts/sqlalchemy-2-engine/</link>
       <pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/10/</guid>
+      <guid>https://choieastsea.github.io/posts/sqlalchemy-2-engine/</guid>
       <description>engine / 생성(create_engine) / 주요 파라미터 / connect() / begin() / dispose()</description>
     </item>
     <item>
       <title>SQLAlchemy (1) Dialect &amp; Pool (connection pooling)</title>
-      <link>https://choieastsea.github.io/posts/9/</link>
+      <link>https://choieastsea.github.io/posts/sqlalchemy-1-dialect-pool-connection-pooling/</link>
       <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/9/</guid>
+      <guid>https://choieastsea.github.io/posts/sqlalchemy-1-dialect-pool-connection-pooling/</guid>
       <description>overview / core / dialect / connection pooling</description>
     </item>
   </channel>

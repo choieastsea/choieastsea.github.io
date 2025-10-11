@@ -10,114 +10,114 @@
     <atom:link href="https://choieastsea.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MCP는 어떻게 동작할까? MCP specification 알아보고 HTTP 호출해보기</title>
-      <link>https://choieastsea.github.io/posts/16/</link>
+      <link>https://choieastsea.github.io/posts/mcp%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%A0%EA%B9%8C-mcp-specification-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B3%A0-http-%ED%98%B8%EC%B6%9C%ED%95%B4%EB%B3%B4%EA%B8%B0/</link>
       <pubDate>Fri, 10 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/16/</guid>
+      <guid>https://choieastsea.github.io/posts/mcp%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%A0%EA%B9%8C-mcp-specification-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B3%A0-http-%ED%98%B8%EC%B6%9C%ED%95%B4%EB%B3%B4%EA%B8%B0/</guid>
       <description>개요 / 아키텍쳐 / 프로토콜 / postman으로 streamable-http mcp 통신 테스트</description>
     </item>
     <item>
       <title>ASGI - uvicorn 코드로 알아보는 ASGI server</title>
-      <link>https://choieastsea.github.io/posts/15/</link>
+      <link>https://choieastsea.github.io/posts/asgi-uvicorn-%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EB%8A%94-asgi-server/</link>
       <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/15/</guid>
+      <guid>https://choieastsea.github.io/posts/asgi-uvicorn-%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EB%8A%94-asgi-server/</guid>
       <description>uvicorn / startup / protocol</description>
     </item>
     <item>
       <title>ASGI - application</title>
-      <link>https://choieastsea.github.io/posts/14/</link>
+      <link>https://choieastsea.github.io/posts/asgi-application/</link>
       <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/14/</guid>
+      <guid>https://choieastsea.github.io/posts/asgi-application/</guid>
       <description>개요 / Event / ASGI application / 정리</description>
     </item>
     <item>
       <title>백엔드 개발자 입장에서 정리한 LLM부터 AI Agent까지</title>
-      <link>https://choieastsea.github.io/posts/13/</link>
+      <link>https://choieastsea.github.io/posts/%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%9E%85%EC%9E%A5%EC%97%90%EC%84%9C-%EC%A0%95%EB%A6%AC%ED%95%9C-llm%EB%B6%80%ED%84%B0-ai-agent%EA%B9%8C%EC%A7%80/</link>
       <pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/13/</guid>
+      <guid>https://choieastsea.github.io/posts/%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%9E%85%EC%9E%A5%EC%97%90%EC%84%9C-%EC%A0%95%EB%A6%AC%ED%95%9C-llm%EB%B6%80%ED%84%B0-ai-agent%EA%B9%8C%EC%A7%80/</guid>
       <description>LLM과 chatgpt는 다르다 / AI Service(agent)가 제공하는 기능들</description>
     </item>
     <item>
       <title>WAL(Write Ahead Log), 쓰기 전 로그</title>
-      <link>https://choieastsea.github.io/posts/12/</link>
+      <link>https://choieastsea.github.io/posts/walwrite-ahead-log-%EC%93%B0%EA%B8%B0-%EC%A0%84-%EB%A1%9C%EA%B7%B8/</link>
       <pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/12/</guid>
+      <guid>https://choieastsea.github.io/posts/walwrite-ahead-log-%EC%93%B0%EA%B8%B0-%EC%A0%84-%EB%A1%9C%EA%B7%B8/</guid>
       <description>개요 / 효용 / 문제점&amp;amp;고려사항 / 사례- db transaction</description>
     </item>
     <item>
       <title>SQLAlchemy (3) Session</title>
-      <link>https://choieastsea.github.io/posts/11/</link>
+      <link>https://choieastsea.github.io/posts/sqlalchemy-3-session/</link>
       <pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/11/</guid>
+      <guid>https://choieastsea.github.io/posts/sqlalchemy-3-session/</guid>
       <description>session / 트랜잭션 관리 / orm 모델 정의 / 쿼리 실행 관련 메서드/ engine, connection, session 비교</description>
     </item>
     <item>
       <title>SQLAlchemy (2) Engine</title>
-      <link>https://choieastsea.github.io/posts/10/</link>
+      <link>https://choieastsea.github.io/posts/sqlalchemy-2-engine/</link>
       <pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/10/</guid>
+      <guid>https://choieastsea.github.io/posts/sqlalchemy-2-engine/</guid>
       <description>engine / 생성(create_engine) / 주요 파라미터 / connect() / begin() / dispose()</description>
     </item>
     <item>
       <title>SQLAlchemy (1) Dialect &amp; Pool (connection pooling)</title>
-      <link>https://choieastsea.github.io/posts/9/</link>
+      <link>https://choieastsea.github.io/posts/sqlalchemy-1-dialect-pool-connection-pooling/</link>
       <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/9/</guid>
+      <guid>https://choieastsea.github.io/posts/sqlalchemy-1-dialect-pool-connection-pooling/</guid>
       <description>overview / core / dialect / connection pooling</description>
     </item>
     <item>
       <title>python DB API (PEP249)와 구현체들 (sqlite3, pymysql, mysqlclient)</title>
-      <link>https://choieastsea.github.io/posts/8/</link>
+      <link>https://choieastsea.github.io/posts/python-db-api-pep249%EC%99%80-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4-sqlite3-pymysql-mysqlclient/</link>
       <pubDate>Tue, 10 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/8/</guid>
+      <guid>https://choieastsea.github.io/posts/python-db-api-pep249%EC%99%80-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4-sqlite3-pymysql-mysqlclient/</guid>
       <description>DB API (PEP 249) / 주요 구현체 (Drivers)</description>
     </item>
     <item>
       <title>맥북 초기 설정 기록하기 (homebrew, zsh, powerlevel10k, python)</title>
-      <link>https://choieastsea.github.io/posts/7/</link>
+      <link>https://choieastsea.github.io/posts/%EB%A7%A5%EB%B6%81-%EC%B4%88%EA%B8%B0-%EC%84%A4%EC%A0%95-%EA%B8%B0%EB%A1%9D%ED%95%98%EA%B8%B0-homebrew-zsh-powerlevel10k-python/</link>
       <pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/7/</guid>
+      <guid>https://choieastsea.github.io/posts/%EB%A7%A5%EB%B6%81-%EC%B4%88%EA%B8%B0-%EC%84%A4%EC%A0%95-%EA%B8%B0%EB%A1%9D%ED%95%98%EA%B8%B0-homebrew-zsh-powerlevel10k-python/</guid>
       <description>homebrew / 터미널 관련 / 간단한 개발환경 세팅 /기타 맥북 설정</description>
     </item>
     <item>
       <title>SPA에 대하여 (장단점, routing, 개선방법)</title>
-      <link>https://choieastsea.github.io/posts/6/</link>
+      <link>https://choieastsea.github.io/posts/spa%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC-%EC%9E%A5%EB%8B%A8%EC%A0%90-routing-%EA%B0%9C%EC%84%A0%EB%B0%A9%EB%B2%95/</link>
       <pubDate>Sun, 01 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/6/</guid>
+      <guid>https://choieastsea.github.io/posts/spa%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC-%EC%9E%A5%EB%8B%A8%EC%A0%90-routing-%EA%B0%9C%EC%84%A0%EB%B0%A9%EB%B2%95/</guid>
       <description>SPA란 / SPA의 단점을 개선하는 방법 / 정리</description>
     </item>
     <item>
       <title>python wsgi 웹 서버 만들어보기</title>
-      <link>https://choieastsea.github.io/posts/5/</link>
+      <link>https://choieastsea.github.io/posts/python-wsgi-%EC%9B%B9-%EC%84%9C%EB%B2%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0/</link>
       <pubDate>Sun, 25 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/5/</guid>
+      <guid>https://choieastsea.github.io/posts/python-wsgi-%EC%9B%B9-%EC%84%9C%EB%B2%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0/</guid>
       <description>CGI를 pythonic하게 해석한 wsgi 인터페이스를 알아보고 wsgi 기반의 웹 어플리케이션과 서버를 구현해보자.</description>
     </item>
     <item>
       <title>어플리케이션이 웹 어플리케이션이 되는 방법(feat. cgi, wsgi, servlet)</title>
-      <link>https://choieastsea.github.io/posts/4/</link>
+      <link>https://choieastsea.github.io/posts/%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EB%90%98%EB%8A%94-%EB%B0%A9%EB%B2%95feat.-cgi-wsgi-servlet/</link>
       <pubDate>Sun, 18 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/4/</guid>
+      <guid>https://choieastsea.github.io/posts/%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EB%90%98%EB%8A%94-%EB%B0%A9%EB%B2%95feat.-cgi-wsgi-servlet/</guid>
       <description>우리가 작성한 어플리케이션(혹은 code/script)은 어떻게 HTTP 요청에 응답할 수 있을까?</description>
     </item>
     <item>
       <title>poetry 입문과 사용법 (2)</title>
-      <link>https://choieastsea.github.io/posts/3/</link>
+      <link>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-2/</link>
       <pubDate>Tue, 13 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/3/</guid>
+      <guid>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-2/</guid>
       <description>pyenv와 조합 /poetry 기반 프로젝트 개발하기 / dependency-group</description>
     </item>
     <item>
       <title>poetry 입문과 사용법 (1)</title>
-      <link>https://choieastsea.github.io/posts/2/</link>
+      <link>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-1/</link>
       <pubDate>Mon, 12 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/2/</guid>
+      <guid>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-1/</guid>
       <description>종속성 관리의 필요성 / poetry의 등장 / 주요 명령어 정리 / lock 파일</description>
     </item>
     <item>
       <title>hugo와 git submodule을 이용한 깃허브 블로그 구축기</title>
-      <link>https://choieastsea.github.io/posts/1/</link>
+      <link>https://choieastsea.github.io/posts/hugo%EC%99%80-git-submodule%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EA%B9%83%ED%97%88%EB%B8%8C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EA%B5%AC%EC%B6%95%EA%B8%B0/</link>
       <pubDate>Sun, 11 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/1/</guid>
+      <guid>https://choieastsea.github.io/posts/hugo%EC%99%80-git-submodule%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EA%B9%83%ED%97%88%EB%B8%8C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EA%B5%AC%EC%B6%95%EA%B8%B0/</guid>
       <description>hugo? / github pages / 블로그 초기화 과정</description>
     </item>
   </channel>

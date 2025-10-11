@@ -10,16 +10,16 @@
     <atom:link href="https://choieastsea.github.io/tags/asgi/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ASGI - uvicorn 코드로 알아보는 ASGI server</title>
-      <link>https://choieastsea.github.io/posts/15/</link>
+      <link>https://choieastsea.github.io/posts/asgi-uvicorn-%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EB%8A%94-asgi-server/</link>
       <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/15/</guid>
+      <guid>https://choieastsea.github.io/posts/asgi-uvicorn-%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EB%8A%94-asgi-server/</guid>
       <description>uvicorn / startup / protocol</description>
     </item>
     <item>
       <title>ASGI - application</title>
-      <link>https://choieastsea.github.io/posts/14/</link>
+      <link>https://choieastsea.github.io/posts/asgi-application/</link>
       <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/14/</guid>
+      <guid>https://choieastsea.github.io/posts/asgi-application/</guid>
       <description>개요 / Event / ASGI application / 정리</description>
     </item>
   </channel>

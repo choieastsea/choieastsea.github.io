@@ -8,7 +8,7 @@
     <loc>https://choieastsea.github.io/tags/mcp/</loc>
     <lastmod>2025-10-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/16/</loc>
+    <loc>https://choieastsea.github.io/posts/mcp%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%A0%EA%B9%8C-mcp-specification-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B3%A0-http-%ED%98%B8%EC%B6%9C%ED%95%B4%EB%B3%B4%EA%B8%B0/</loc>
     <lastmod>2025-10-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/modelcontextprotocol/</loc>
@@ -26,7 +26,7 @@
     <loc>https://choieastsea.github.io/tags/asgi/</loc>
     <lastmod>2025-10-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/15/</loc>
+    <loc>https://choieastsea.github.io/posts/asgi-uvicorn-%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EB%8A%94-asgi-server/</loc>
     <lastmod>2025-10-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/debugging/</loc>
@@ -47,7 +47,7 @@
     <loc>https://choieastsea.github.io/tags/web-server/</loc>
     <lastmod>2025-10-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/14/</loc>
+    <loc>https://choieastsea.github.io/posts/asgi-application/</loc>
     <lastmod>2025-09-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/starlette/</loc>
@@ -74,7 +74,7 @@
     <loc>https://choieastsea.github.io/tags/tool/</loc>
     <lastmod>2025-07-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/13/</loc>
+    <loc>https://choieastsea.github.io/posts/%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%9E%85%EC%9E%A5%EC%97%90%EC%84%9C-%EC%A0%95%EB%A6%AC%ED%95%9C-llm%EB%B6%80%ED%84%B0-ai-agent%EA%B9%8C%EC%A7%80/</loc>
     <lastmod>2025-07-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/db/</loc>
@@ -89,7 +89,7 @@
     <loc>https://choieastsea.github.io/tags/wal/</loc>
     <lastmod>2025-06-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/12/</loc>
+    <loc>https://choieastsea.github.io/posts/walwrite-ahead-log-%EC%93%B0%EA%B8%B0-%EC%A0%84-%EB%A1%9C%EA%B7%B8/</loc>
     <lastmod>2025-06-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/orm/</loc>
@@ -101,16 +101,16 @@
     <loc>https://choieastsea.github.io/tags/sqlalchemy/</loc>
     <lastmod>2025-04-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/11/</loc>
+    <loc>https://choieastsea.github.io/posts/sqlalchemy-3-session/</loc>
     <lastmod>2025-04-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/core/</loc>
     <lastmod>2025-04-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/10/</loc>
+    <loc>https://choieastsea.github.io/posts/sqlalchemy-2-engine/</loc>
     <lastmod>2025-04-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/9/</loc>
+    <loc>https://choieastsea.github.io/posts/sqlalchemy-1-dialect-pool-connection-pooling/</loc>
     <lastmod>2025-03-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/dbapi/</loc>
@@ -122,7 +122,7 @@
     <loc>https://choieastsea.github.io/tags/pymysql/</loc>
     <lastmod>2024-12-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/8/</loc>
+    <loc>https://choieastsea.github.io/posts/python-db-api-pep249%EC%99%80-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4-sqlite3-pymysql-mysqlclient/</loc>
     <lastmod>2024-12-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/sqlite3/</loc>
@@ -143,7 +143,7 @@
     <loc>https://choieastsea.github.io/tags/zsh/</loc>
     <lastmod>2024-09-19T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/7/</loc>
+    <loc>https://choieastsea.github.io/posts/%EB%A7%A5%EB%B6%81-%EC%B4%88%EA%B8%B0-%EC%84%A4%EC%A0%95-%EA%B8%B0%EB%A1%9D%ED%95%98%EA%B8%B0-homebrew-zsh-powerlevel10k-python/</loc>
     <lastmod>2024-09-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/csr/</loc>
@@ -152,7 +152,7 @@
     <loc>https://choieastsea.github.io/tags/spa/</loc>
     <lastmod>2024-09-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/6/</loc>
+    <loc>https://choieastsea.github.io/posts/spa%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC-%EC%9E%A5%EB%8B%A8%EC%A0%90-routing-%EA%B0%9C%EC%84%A0%EB%B0%A9%EB%B2%95/</loc>
     <lastmod>2024-09-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/ssr/</loc>
@@ -167,7 +167,7 @@
     <loc>https://choieastsea.github.io/tags/gunicorn/</loc>
     <lastmod>2024-08-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/5/</loc>
+    <loc>https://choieastsea.github.io/posts/python-wsgi-%EC%9B%B9-%EC%84%9C%EB%B2%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B0/</loc>
     <lastmod>2024-08-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/uwsgi/</loc>
@@ -176,7 +176,7 @@
     <loc>https://choieastsea.github.io/tags/servlet/</loc>
     <lastmod>2024-08-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/4/</loc>
+    <loc>https://choieastsea.github.io/posts/%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EC%9B%B9-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%B4-%EB%90%98%EB%8A%94-%EB%B0%A9%EB%B2%95feat.-cgi-wsgi-servlet/</loc>
     <lastmod>2024-08-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/package-manager/</loc>
@@ -185,7 +185,7 @@
     <loc>https://choieastsea.github.io/tags/poetry/</loc>
     <lastmod>2024-08-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/3/</loc>
+    <loc>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-2/</loc>
     <lastmod>2024-08-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/pyproject/</loc>
@@ -197,7 +197,7 @@
     <loc>https://choieastsea.github.io/tags/venv/</loc>
     <lastmod>2024-08-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/2/</loc>
+    <loc>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-1/</loc>
     <lastmod>2024-08-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/blog/</loc>
@@ -206,7 +206,7 @@
     <loc>https://choieastsea.github.io/tags/hugo/</loc>
     <lastmod>2024-08-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://choieastsea.github.io/posts/1/</loc>
+    <loc>https://choieastsea.github.io/posts/hugo%EC%99%80-git-submodule%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EA%B9%83%ED%97%88%EB%B8%8C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EA%B5%AC%EC%B6%95%EA%B8%B0/</loc>
     <lastmod>2024-08-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://choieastsea.github.io/tags/submodule/</loc>

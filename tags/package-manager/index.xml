@@ -10,16 +10,16 @@
     <atom:link href="https://choieastsea.github.io/tags/package-manager/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>poetry 입문과 사용법 (2)</title>
-      <link>https://choieastsea.github.io/posts/3/</link>
+      <link>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-2/</link>
       <pubDate>Tue, 13 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/3/</guid>
+      <guid>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-2/</guid>
       <description>pyenv와 조합 /poetry 기반 프로젝트 개발하기 / dependency-group</description>
     </item>
     <item>
       <title>poetry 입문과 사용법 (1)</title>
-      <link>https://choieastsea.github.io/posts/2/</link>
+      <link>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-1/</link>
       <pubDate>Mon, 12 Aug 2024 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/2/</guid>
+      <guid>https://choieastsea.github.io/posts/poetry-%EC%9E%85%EB%AC%B8%EA%B3%BC-%EC%82%AC%EC%9A%A9%EB%B2%95-1/</guid>
       <description>종속성 관리의 필요성 / poetry의 등장 / 주요 명령어 정리 / lock 파일</description>
     </item>
   </channel>

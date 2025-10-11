@@ -10,9 +10,9 @@
     <atom:link href="https://choieastsea.github.io/tags/modelcontextprotocol/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MCP는 어떻게 동작할까? MCP specification 알아보고 HTTP 호출해보기</title>
-      <link>https://choieastsea.github.io/posts/16/</link>
+      <link>https://choieastsea.github.io/posts/mcp%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%A0%EA%B9%8C-mcp-specification-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B3%A0-http-%ED%98%B8%EC%B6%9C%ED%95%B4%EB%B3%B4%EA%B8%B0/</link>
       <pubDate>Fri, 10 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://choieastsea.github.io/posts/16/</guid>
+      <guid>https://choieastsea.github.io/posts/mcp%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%A0%EA%B9%8C-mcp-specification-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B3%A0-http-%ED%98%B8%EC%B6%9C%ED%95%B4%EB%B3%B4%EA%B8%B0/</guid>
       <description>개요 / 아키텍쳐 / 프로토콜 / postman으로 streamable-http mcp 통신 테스트</description>
     </item>
   </channel>
