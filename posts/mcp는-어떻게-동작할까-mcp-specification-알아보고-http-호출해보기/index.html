@@ -313,25 +313,25 @@
 <p>요청-응답의 구조는 client와 server가 <strong>동기적인 상호작용</strong>을 수행할 때 필요한 메커니즘이다. 일반적인 tool 호출등이 이에 해당한다.</p>
 <p>request는 다음의 형식으로 전달되어야 한다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="">jsonrpc:</span> &#34;2.0&#34;<span style="">;</span>
-</span></span><span style="display:flex;"><span><span style="">id</span>: <span style="">string</span> <span style="">|</span> <span style="">number;</span>
-</span></span><span style="display:flex;"><span><span style="">method</span>: <span style="">string;</span>
-</span></span><span style="display:flex;"><span><span style="">params?</span>: {
-</span></span><span style="display:flex;"><span>    <span style="">[key:</span> <span style="">string]:</span> <span style="">unknown;</span>
-</span></span><span style="display:flex;"><span>}<span style="">;</span>
+</span></span><span style="display:flex;"><span>    <span style="">jsonrpc:</span> &#34;2.0&#34;<span style="">;</span>
+</span></span><span style="display:flex;"><span>    <span style="">id</span>: <span style="">string</span> <span style="">|</span> <span style="">number;</span>
+</span></span><span style="display:flex;"><span>    <span style="">method</span>: <span style="">string;</span>
+</span></span><span style="display:flex;"><span>    <span style="">params?</span>: {
+</span></span><span style="display:flex;"><span>        <span style="">[key:</span> <span style="">string]:</span> <span style="">unknown;</span>
+</span></span><span style="display:flex;"><span>    }<span style="">;</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>response는 다음과 같이 제공되어야 한다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="">jsonrpc:</span> &#34;2.0&#34;<span style="">;</span>
-</span></span><span style="display:flex;"><span><span style="">id</span>: <span style="">string</span> <span style="">|</span> <span style="">number;</span>
-</span></span><span style="display:flex;"><span><span style="">result?</span>: {
-</span></span><span style="display:flex;"><span>    <span style="">[key:</span> <span style="">string]:</span> <span style="">unknown;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="">error?</span>: {
-</span></span><span style="display:flex;"><span>    <span style="">code:</span> <span style="">number;</span>
-</span></span><span style="display:flex;"><span>    <span style="">message:</span> <span style="">string;</span>
-</span></span><span style="display:flex;"><span>    <span style="">data?:</span> <span style="">unknown;</span>
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>    <span style="">jsonrpc:</span> &#34;2.0&#34;<span style="">;</span>
+</span></span><span style="display:flex;"><span>    <span style="">id</span>: <span style="">string</span> <span style="">|</span> <span style="">number;</span>
+</span></span><span style="display:flex;"><span>    <span style="">result?</span>: {
+</span></span><span style="display:flex;"><span>        <span style="">[key:</span> <span style="">string]:</span> <span style="">unknown;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="">error?</span>: {
+</span></span><span style="display:flex;"><span>        <span style="">code:</span> <span style="">number;</span>
+</span></span><span style="display:flex;"><span>        <span style="">message:</span> <span style="">string;</span>
+</span></span><span style="display:flex;"><span>        <span style="">data?:</span> <span style="">unknown;</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div></li>
 <li>
@@ -339,11 +339,11 @@
 notifications는 receiver가 응답하지 않는 <strong>비동기적인 상호작용</strong>을 수행할 때 사용된다. 컴포넌트에서 발생한 여러 이벤트들을 전달할 때 사용한다.</p>
 <p>다음과 같이 전달되어야 한다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="">jsonrpc:</span> &#34;2.0&#34;<span style="">;</span>
-</span></span><span style="display:flex;"><span><span style="">method</span>: <span style="">string;</span>
-</span></span><span style="display:flex;"><span><span style="">params?</span>: {
-</span></span><span style="display:flex;"><span>    <span style="">[key:</span> <span style="">string]:</span> <span style="">unknown;</span>
-</span></span><span style="display:flex;"><span>}<span style="">;</span>
+</span></span><span style="display:flex;"><span>    <span style="">jsonrpc:</span> &#34;2.0&#34;<span style="">;</span>
+</span></span><span style="display:flex;"><span>    <span style="">method</span>: <span style="">string;</span>
+</span></span><span style="display:flex;"><span>    <span style="">params?</span>: {
+</span></span><span style="display:flex;"><span>        <span style="">[key:</span> <span style="">string]:</span> <span style="">unknown;</span>
+</span></span><span style="display:flex;"><span>    }<span style="">;</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><strong>id가 포함되면 안된다</strong>는 것을 유의하자.</p>
 </li>
@@ -500,12 +500,12 @@ client는 <code>Accept</code> 헤더에 text/event-stream, application/json를 �
 <li>
 <p>operation: <code>tool/calls</code></p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>&#34;jsonrpc&#34;: <span style="color:#666;font-style:italic">&#34;2.0&#34;</span>,
-</span></span><span style="display:flex;"><span>&#34;id&#34;: 0,
-</span></span><span style="display:flex;"><span>&#34;method&#34;: <span style="color:#666;font-style:italic">&#34;tools/call&#34;</span>,
-</span></span><span style="display:flex;"><span>&#34;params&#34;: {
-</span></span><span style="display:flex;"><span>    &#34;name&#34; : <span style="color:#666;font-style:italic">&#34;hello&#34;</span>
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>    &#34;jsonrpc&#34;: <span style="color:#666;font-style:italic">&#34;2.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    &#34;id&#34;: 0,
+</span></span><span style="display:flex;"><span>    &#34;method&#34;: <span style="color:#666;font-style:italic">&#34;tools/call&#34;</span>,
+</span></span><span style="display:flex;"><span>    &#34;params&#34;: {
+</span></span><span style="display:flex;"><span>        &#34;name&#34; : <span style="color:#666;font-style:italic">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>이를 body에 포함하여 요청을 보내면 아래와 같은 응답이 온다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
