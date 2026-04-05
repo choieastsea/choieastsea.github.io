@@ -141,6 +141,13 @@
             </a>
         </p>
         
+      
+        <p class="small ">
+            <a href="/playgrounds" >
+                /playgrounds
+            </a>
+        </p>
+        
         
     </div>
 
@@ -322,7 +329,7 @@
 <ol>
 <li>
 <p><code>nginx</code>웹서버가 HTTP요청을 받아, <strong>WSGI 서버(gunicorn)를 HTTP 호출</strong>한다.</p>
-<p>WSGI web server는 독립적인 HTTP 서버로 동작할 수 있다. 하지만, 일반적으로 정적파일 혹은 대용량 요청에 대한 처리 능력보다는 <strong>python 스크립트 실행에 초점</strong>이 맞춰져있기에 보통은 앞에 nginx나 apache같은 <!-- raw HTML omitted -->범용 웹서버가 wsgi web server를 호출하는 방식으로 구성<!-- raw HTML omitted -->되어 있다.</p>
+<p>WSGI web server는 독립적인 HTTP 서버로 동작할 수 있다. 하지만, 일반적으로 정적파일 혹은 대용량 요청에 대한 처리 능력보다는 <strong>python 스크립트 실행에 초점</strong>이 맞춰져있기에 보통은 앞에 nginx나 apache같은 <u>범용 웹서버가 wsgi web server를 호출하는 방식으로 구성</u>되어 있다.</p>
 </li>
 <li>
 <p>WSGI 서버는 app을 포함한 middleware를 호출한다.</p>

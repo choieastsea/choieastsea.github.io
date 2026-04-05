@@ -138,6 +138,13 @@
             </a>
         </p>
         
+      
+        <p class="small ">
+            <a href="/playgrounds" >
+                /playgrounds
+            </a>
+        </p>
+        
         
     </div>
 
@@ -532,7 +539,7 @@ client는 <code>Accept</code> 헤더에 text/event-stream, application/json를 �
   정리
   <a class="anchor" href="#%ec%a0%95%eb%a6%ac">#</a>
 </h3>
-<p>mcp spec을 보며, 직접 <code>streamable-http</code> 통신에서 어떻게 server와 client가 상호작용하는지를 확인해보았다. mcp를 이용하면 <!-- raw HTML omitted -->llm을 통합한 host가 client를 이용하여 server를 호출하여 llm의 context에 도움을 줄 것<!-- raw HTML omitted -->이다.</p>
+<p>mcp spec을 보며, 직접 <code>streamable-http</code> 통신에서 어떻게 server와 client가 상호작용하는지를 확인해보았다. mcp를 이용하면 <u>llm을 통합한 host가 client를 이용하여 server를 호출하여 llm의 context에 도움을 줄 것</u>이다.</p>
 <p>이러한 mcp client는 <code>fastmcp</code>와 같은 mcp toolkit으로 간단하게 작성이 가능하며, <code>claude desktop</code>과 같은 application들에는 mcp client가 포함되어 configuration 수준으로 간단하게 연결이 가능하다.</p>
 <p>오늘은 server와 client가 어떻게 상호작용하여 도구들을 제공하고 실행하는지에 대해 간단하게 알아보았다. 실제 remote mcp server를 운영할 계획이라면 multi client에 따른 보안 처리 등도 적용할 수 있어야 하니, 사용하는 sdk의 기능들을 활용하도록 하자.</p>
 <p>끝!</p>

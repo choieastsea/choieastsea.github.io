@@ -26,23 +26,23 @@
 <link rel="icon" type="image/png" sizes="192x192" href="https://choieastsea.github.io//android-chrome-192x192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://choieastsea.github.io//apple-touch-icon.png">
 
-<link rel="alternate" type="application/rss+xml" href="https://choieastsea.github.io/tags/sqlalchemy/index.xml" title="choieastsea.github.io">
-<meta name="description" content=""/>
+<link rel="alternate" type="application/rss+xml" href="https://choieastsea.github.io/playgrounds/index.xml" title="choieastsea.github.io">
+<meta name="description" content="실험적인 웹 도구 모음"/>
 
 
 
 <title>
     
-    Sqlalchemy | choieastsea.github.io
+    Playgrounds | choieastsea.github.io
     
 </title>
 
-<link rel="canonical" href="https://choieastsea.github.io/tags/sqlalchemy/"/>
+<link rel="canonical" href="https://choieastsea.github.io/playgrounds/"/>
 
-<meta property="og:url" content="https://choieastsea.github.io/tags/sqlalchemy/">
+<meta property="og:url" content="https://choieastsea.github.io/playgrounds/">
   <meta property="og:site_name" content="choieastsea.github.io">
-  <meta property="og:title" content="Sqlalchemy">
-  <meta property="og:description" content="choieastsea">
+  <meta property="og:title" content="Playgrounds">
+  <meta property="og:description" content="실험적인 웹 도구 모음">
   <meta property="og:locale" content="ko_kr">
   <meta property="og:type" content="website">
 
@@ -134,7 +134,7 @@
         </p>
         
       
-        <p class="small ">
+        <p class="small  bold ">
             <a href="/playgrounds" >
                 /playgrounds
             </a>
@@ -154,104 +154,64 @@
 
 <div class="list-container">
 
-    <div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/tags/">Tags</a><span class="breadcrumbs-separator">/</span>
-        <a href="/tags/sqlalchemy/">Sqlalchemy</a></div>
+  <div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span>
+        <a href="/playgrounds/">Playgrounds</a></div>
 
-    <h1>Sqlalchemy</h1>
-    
+  <h1>Playgrounds</h1>
 
-    
+  
+  <p style="color: var(--color-contrast-medium); margin-bottom: 2rem; font-size: 0.95rem;">실험적인 웹 도구 모음</p>
+  
 
+  <div class="playground-list">
     
+    <a href="https://choieastsea.github.io/playgrounds/base64/" class="playground-card">
+      <div class="playground-card-title">Base64 Encoder / Decoder</div>
+      
+      <div class="playground-card-desc">텍스트를 Base64로 인코딩하거나, Base64를 텍스트로 디코딩합니다. 한국어(UTF-8)를 지원합니다.</div>
+      
+    </a>
     
-    
-    
-
-    
-
-    
-
-    
-    <div class="post-line">
-
-    
-    
-    
-    
-
-    <p class="line-date">15 Apr 2025 </p>
-
-    <div>
-        <p class="line-title">
-            <a href="/posts/sqlalchemy-3-session/">
-                SQLAlchemy (3) Session
-            </a>
-        </p>
-
-        
-        <p class="line-summary"> session / 트랜잭션 관리 / orm 모델 정의 / 쿼리 실행 관련 메서드/ engine, connection, session 비교 </p>
-        
-    </div>
-</div>
-    
-
-    
-
-    
-    <div class="post-line">
-
-    
-    
-    
-    
-
-    <p class="line-date">3 Apr 2025 </p>
-
-    <div>
-        <p class="line-title">
-            <a href="/posts/sqlalchemy-2-engine/">
-                SQLAlchemy (2) Engine
-            </a>
-        </p>
-
-        
-        <p class="line-summary"> engine / 생성(create_engine) / 주요 파라미터 / connect() / begin() / dispose() </p>
-        
-    </div>
-</div>
-    
-
-    
-
-    
-    <div class="post-line">
-
-    
-    
-    
-    
-
-    <p class="line-date">18 Mar 2025 </p>
-
-    <div>
-        <p class="line-title">
-            <a href="/posts/sqlalchemy-1-dialect-pool-connection-pooling/">
-                SQLAlchemy (1) Dialect &amp; Pool (connection pooling)
-            </a>
-        </p>
-
-        
-        <p class="line-summary"> overview / core / dialect / connection pooling </p>
-        
-    </div>
-</div>
-    
-
-    
-
-    
+  </div>
 
 </div>
+
+<style>
+  .playground-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .playground-card {
+    display: block;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--color-contrast-low);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .playground-card:hover {
+    border-color: var(--color-contrast-medium);
+    background: var(--color-bg-secondary, rgba(0,0,0,0.03));
+  }
+
+  .playground-card-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .playground-card-desc {
+    font-size: 0.875rem;
+    color: var(--color-contrast-medium);
+    line-height: 1.5;
+  }
+</style>
+
 
     </main>
   </div>

@@ -139,6 +139,13 @@
             </a>
         </p>
         
+      
+        <p class="small ">
+            <a href="/playgrounds" >
+                /playgrounds
+            </a>
+        </p>
+        
         
     </div>
 
@@ -249,7 +256,7 @@
 </li>
 <li>
 <p><code>sessionmaker(bind=Engine)</code>를 통한 생성</p>
-<p>sessionmaker는 <!-- raw HTML omitted -->Session을 생성하기 위한 factory<!-- raw HTML omitted -->이며 호출시 session을 생성해준다. sessionmaker 역시 Engine처럼 보통 DB당 하나씩만 있으면 된다.</p>
+<p>sessionmaker는 <u>Session을 생성하기 위한 factory</u>이며 호출시 session을 생성해준다. sessionmaker 역시 Engine처럼 보통 DB당 하나씩만 있으면 된다.</p>
 </li>
 </ol>
 <p>Session 객체는 context manager로도 가능하다. <a href="https://github.com/zzzeek/sqlalchemy/blob/main/lib/sqlalchemy/orm/session.py#L1798-L1802">https://github.com/zzzeek/sqlalchemy/blob/main/lib/sqlalchemy/orm/session.py#L1798-L1802</a> 해당 코드를 보면, context manager가 닫힐 때(<code>__exit__</code>), connection이 존재한다면 반환하는 <code>close()</code>메서드가 실행됨을 알 수 있다.</p>

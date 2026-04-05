@@ -141,6 +141,13 @@
             </a>
         </p>
         
+      
+        <p class="small ">
+            <a href="/playgrounds" >
+                /playgrounds
+            </a>
+        </p>
+        
         
     </div>
 
@@ -264,7 +271,7 @@
   pyenv 훑어보기
   <a class="anchor" href="#pyenv-%ed%9b%91%ec%96%b4%eb%b3%b4%ea%b8%b0">#</a>
 </h3>
-<p>pyenv는 python을 실행할 때 환경변수 <code>PATH</code>에 <!-- raw HTML omitted -->python 실행 파일이 아닌 shim 파일<!-- raw HTML omitted -->(일종의 스크립트 파일인듯 함)위치를 기록하고, shim파일은 <!-- raw HTML omitted -->특정 버전의 python으로 연결<!-- raw HTML omitted --> 하여 다양한 버전을 사용할 수 있게 해준다고 한다.</p>
+<p>pyenv는 python을 실행할 때 환경변수 <code>PATH</code>에 <u>python 실행 파일이 아닌 shim 파일</u>(일종의 스크립트 파일인듯 함)위치를 기록하고, shim파일은 <u>특정 버전의 python으로 연결</u> 하여 다양한 버전을 사용할 수 있게 해준다고 한다.</p>
 <p>아래와 같이 나온다면 정상 설치&amp;설정된 것이다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt; which python
 </span></span><span style="display:flex;"><span>/~~/.pyenv/shims/python
@@ -305,7 +312,7 @@
 <p>poetry 프로젝트를 git 등을 통해 가져왔다고 가정하자. 실행하기 위해 프로젝트에 알맞는 버전의 파이썬 가상환경까지 만들었다면, 이제 종속성 라이브러리를 설치할 차례이다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&gt; poetry install
 </span></span></code></pre></div><p>간단한 명령어로 <code>pyproject.toml</code> 혹은 <code>poetry.lock</code>에 있는 종속성 라이브러리들을 설치해줄 거이다.</p>
-<p>만약 <!-- raw HTML omitted -->lock 파일이 없다면<!-- raw HTML omitted --> toml파일을 기반으로 라이브러리 버전들을 resolve하여 <!-- raw HTML omitted -->lock 파일을 만들고 가상환경에 설치<!-- raw HTML omitted -->해줄 것이다. (다만 이는 프로젝트 배포자와 다른 환경으로 구축될 확률이 있다) toml파일로부터 lock파일만 만들고 싶다면 <code>poetry lock</code> 명령어를 수행하자.</p>
+<p>만약 <u>lock 파일이 없다면</u> toml파일을 기반으로 라이브러리 버전들을 resolve하여 <u>lock 파일을 만들고 가상환경에 설치</u>해줄 것이다. (다만 이는 프로젝트 배포자와 다른 환경으로 구축될 확률이 있다) toml파일로부터 lock파일만 만들고 싶다면 <code>poetry lock</code> 명령어를 수행하자.</p>
 <h2 class="heading" id="dependency-group">
   dependency group
   <a class="anchor" href="#dependency-group">#</a>

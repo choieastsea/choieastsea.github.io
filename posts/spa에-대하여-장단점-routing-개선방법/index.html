@@ -139,6 +139,13 @@
             </a>
         </p>
         
+      
+        <p class="small ">
+            <a href="/playgrounds" >
+                /playgrounds
+            </a>
+        </p>
+        
         
     </div>
 
@@ -328,9 +335,9 @@
   CSR(Client Side Rendering)
   <a class="anchor" href="#csrclient-side-rendering">#</a>
 </h2>
-<p>SPA는 기본적으로 <code>Client Side Rendering</code>으로 페이지가 보여지게 된다. 보통 index.html, css, js가 모든 페이지에 대한 처리를 담당하고, <!-- raw HTML omitted -->비어있거나 내용이 없는 index.html에서 javascript가 로직에 따라 페이지를 렌더링<!-- raw HTML omitted -->하게 된다.</p>
+<p>SPA는 기본적으로 <code>Client Side Rendering</code>으로 페이지가 보여지게 된다. 보통 index.html, css, js가 모든 페이지에 대한 처리를 담당하고, <u>비어있거나 내용이 없는 index.html에서 javascript가 로직에 따라 페이지를 렌더링</u>하게 된다.</p>
 <p>CSR은 보통 Client Side Routing을 포함하므로, <strong>서버에 대한 부하를 줄이고, (서버의 개입 없이) 페이지 간 이동을 즉각 처리할 수 있다는 장점</strong>이 있다. 그리고, 브라우저 캐시를 활용한다면 추가로 layout등에 대한 정보를 받을 필요가 없으므로 offline 환경에 대한 대응이 가능하다. 이는 PWA를 이용한 웹앱을 구축하는데에 도움이 된다.</p>
-<p><!-- raw HTML omitted -->하지만, 몇가지 단점이 존재한다.<!-- raw HTML omitted --></p>
+<p><u>하지만, 몇가지 단점이 존재한다.</u></p>
 <p>CSR을 이용한 페이지는 <strong>처음에 js가 로드되어 렌더링될때까지 시간이 걸릴 수 있다</strong>. 사용자의 컴퓨터가 매우 느리거나(js 속도 느림) 네트워크 환경이 좋지 않다면(번들링된 큰 js파일을 받아오는 시간) 빈 화면을 오래 볼 가능성이 높아진다.</p>
 <p>또한, 페이지의 정보가 javascript에 의하여 동적으로 렌더링되므로 검색엔진에서 해당 페이지가 갖고 있는 컨텐츠에 대하여 파악하기 어려워진다. 이러한 문제는 <code>SEO</code>(Search Engine Optimization, 검색 엔진 최적화)를 수행하는데 치명적이다.</p>
 <p>정리하자면, 컨텐츠를 하나의 큰 JS파일로만 렌더링하므로 컨텐츠를 미리 알기 어렵고, 첫 화면을 마주치기 까지의 시간이 <code>MPA</code>에 비하여 오래 걸린다고 볼 수 있다.</p>
@@ -366,7 +373,7 @@
   code splitting
   <a class="anchor" href="#code-splitting">#</a>
 </h2>
-<p><!-- raw HTML omitted -->로딩 시간 지연<!-- raw HTML omitted -->을 해결하기 위한 가장 간단한 방법이다. 이는 첫 진입 시점에 모든 코드를 받아오는 것이 아니라, 필요 시점에 lazy하게 코드를 받아오는 것이라고 생각하면 된다. 이를 위한 몇가지 방법에 대하여 간단하게 알아보자.</p>
+<p><u>로딩 시간 지연</u>을 해결하기 위한 가장 간단한 방법이다. 이는 첫 진입 시점에 모든 코드를 받아오는 것이 아니라, 필요 시점에 lazy하게 코드를 받아오는 것이라고 생각하면 된다. 이를 위한 몇가지 방법에 대하여 간단하게 알아보자.</p>
 <ol>
 <li>
 <p>dynamic import</p>
@@ -417,7 +424,7 @@
 </span></span><span style="display:flex;"><span>  }).then(() =&gt; promise);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>MarkdownPreview 컴포넌트는 고의적으로 2초이후에 import 될 것이다. 그동안, <code>fallback</code>으로 지정된 Loading 컴포넌트가 보여진다. (Suspense는 로딩 UI를 분리하여 관심있는 데이터만 관리할 수 있다는 장점이 있음)</p>
-<p>여기서, MarkdownPreview 컴포넌트는 <strong>lazy 로딩 되므로 최초의 필요 시점에 따로 번들링되어 로드될 것</strong>이다. 이를 통해 routing이 일어나는 시점 이외에도 용량이 큰 코드 데이터를 불러오는 시점을 지정할 수 있을 것이다.! 이는 <!-- raw HTML omitted -->라우팅 컴포넌트에서 사용되면 매우 좋을 것이다<!-- raw HTML omitted -->. 물론 약간의 로딩은 걸리겠지만, 기존 CSR방식처럼 처음의 빈 화면이 나오는 시간을 줄일 수 있을 것이다.</p>
+<p>여기서, MarkdownPreview 컴포넌트는 <strong>lazy 로딩 되므로 최초의 필요 시점에 따로 번들링되어 로드될 것</strong>이다. 이를 통해 routing이 일어나는 시점 이외에도 용량이 큰 코드 데이터를 불러오는 시점을 지정할 수 있을 것이다.! 이는 <u>라우팅 컴포넌트에서 사용되면 매우 좋을 것이다</u>. 물론 약간의 로딩은 걸리겠지만, 기존 CSR방식처럼 처음의 빈 화면이 나오는 시간을 줄일 수 있을 것이다.</p>
 <p>Suspense와 lazy를 이용하면 <code>HTTP stream</code>을 이용하여 데이터를 동적으로 유연하게 가져온다고 하는데, 이에 대하여는 더 공부해볼 필요가 있을 것 같다.</p>
 <p><a href="https://react.dev/reference/react/lazy">공식문서-lazy</a></p>
 </li>
@@ -428,7 +435,7 @@
 <p><a href="https://webpack.js.org/guides/code-splitting/">공식문서</a></p>
 </li>
 </ol>
-<p>하지만 모든 파일을 split하여 전송한다면 그것 역시 좋지는 않을 것이, <strong>번들러의 이유가 사라진다</strong>. 따라서, <!-- raw HTML omitted -->라우팅 컴포넌트에만 우선 적용을 하고, 상황에 맞게 도입하는 것이 권장<!-- raw HTML omitted -->된다.</p>
+<p>하지만 모든 파일을 split하여 전송한다면 그것 역시 좋지는 않을 것이, <strong>번들러의 이유가 사라진다</strong>. 따라서, <u>라우팅 컴포넌트에만 우선 적용을 하고, 상황에 맞게 도입하는 것이 권장</u>된다.</p>
 <h2 class="heading" id="pre-renderingssr--ssg">
   Pre-Rendering(SSR + SSG)
   <a class="anchor" href="#pre-renderingssr--ssg">#</a>
@@ -440,7 +447,7 @@
 <p>다음에는 Client Side Rendering과 대척점인 Server Side Rendering에 대하여 알아보자. 이는 클라이언트에서 렌더링하지 않고, <strong>서버에서 미리 렌더링하여 완성된 html파일을 클라이언트에게 보내는 것</strong>이다. 서버속도와 네트워크 속도가 빠르다면, 컴퓨팅 성능이 좋지 않아도 바로 페이지의 컨텐츠를 확인할 수 있으며, 검색엔진 최적화에도 좋다.</p>
 <p>이러한 pre rendering logic은 <a href="https://react.dev/reference/react-dom/server">server-side react api</a>를 참고한다.</p>
 <p><code>react-dom</code> 패키지의 <code>renderToString()</code>을 통하여 리액트 코드를 완성된 html 문자열로 만들 수 있다. 만약 wait해야할 데이터가 있어 Suspense 컴포넌트가 존재한다면, <code>renderToPipeableStream()</code> 함수를 이용하여 필요한 시점에 HTTP stream을 통하여 코드를 나눠 보낼 수 있다고 한다. 이를 통하여 서버에서 요청 시점에 html파일을 만들어 처리하면 <code>SEO</code>문제를 해결할 수 있고, 네트워크 속도만 빠르다면 즉시 화면을 볼 수 있다는 장점 또한 있을 것이다.</p>
-<p>하지만, 이는 서버가 매 요청 시점마다 html파일을 만들어줘야 하므로 서버의 부하가 커질 수 있다. 또한, <!-- raw HTML omitted -->모든 페이지 이동에 대하여 SSR을 수행하도록 하면 결국 MPA랑 같아지므로 이의 단점을 모두 수용하게 된다<!-- raw HTML omitted -->. 이에 개선안이 제안된다.</p>
+<p>하지만, 이는 서버가 매 요청 시점마다 html파일을 만들어줘야 하므로 서버의 부하가 커질 수 있다. 또한, <u>모든 페이지 이동에 대하여 SSR을 수행하도록 하면 결국 MPA랑 같아지므로 이의 단점을 모두 수용하게 된다</u>. 이에 개선안이 제안된다.</p>
 <h3 class="heading" id="hydration">
   Hydration!
   <a class="anchor" href="#hydration">#</a>
